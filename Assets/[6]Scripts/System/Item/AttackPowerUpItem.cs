@@ -4,6 +4,7 @@ using UnityEngine;
 public class AttackPowerUpItem : MonoBehaviour
 {
     //refactor need.
+    //한글 되는지 확인하는 주석
     [SerializeField]
     private int attackPowerUp = 1;
 
