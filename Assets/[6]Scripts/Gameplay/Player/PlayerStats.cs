@@ -9,14 +9,14 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float currentMana;
     [SerializeField] private int attackPower = 1;
     
-    // ¿ÜºÎ¿¡¼­ ÂüÁ¶¿ë ÇÁ·ÎÆÛÆ¼ º¯¼ö (Ã¹ ±ÛÀÚ ´ë¹®ÀÚ)
+    // ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ (Ã¹ ï¿½ï¿½ï¿½ï¿½ ï¿½ë¹®ï¿½ï¿½)
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
     public float MaxMana => maxMana;
     public float CurrentMana => currentMana;
     public int AttackPower => attackPower;
 
-    // ¹«Àû ½ºÅ³ ÇÃ·¡±×¿ë º¯¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½Ã·ï¿½ï¿½×¿ï¿½ ï¿½ï¿½ï¿½ï¿½
     private bool isInvincible = false;
 
     public void Initialize()
@@ -41,11 +41,11 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        // ¹«Àû »óÅÂ¶ó¸é µ¥¹ÌÁö¸¦ ÀÔÁö ¾ÊÀ½
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (isInvincible) return;
 
         currentHealth -= damage;
-        Debug.Log($"¾Æ¾ß! Ã¼·Â ³²À½: {currentHealth}");
+        Debug.Log($"ï¿½Æ¾ï¿½! Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {currentHealth}");
 
         if (currentHealth <= 0)
         {
@@ -55,7 +55,10 @@ public class PlayerStats : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("ÇÃ·¹ÀÌ¾î »ç¸Á...");
-        // °ÔÀÓ ¿À¹ö Ã³¸® ·ÎÁ÷
+        Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½...");
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
+
+    // please make player heal up method
+    // please make player attackPower up method 
 }
