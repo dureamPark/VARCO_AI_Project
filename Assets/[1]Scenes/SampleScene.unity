@@ -586,7 +586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54aea0b05740e6a4f89722fea5af9413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHealth: 7500
+  maxHealth: 100
   currentHealth: 0
 --- !u!114 &1656745190
 MonoBehaviour:
@@ -602,6 +602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkills
   skillCoolDown: 2
   invincibilityDuration: 5
+  pentagonBulletPrefab: {fileID: 8905747821600661084, guid: 67da2d74dd0968e4aaff9d15cefb0273, type: 3}
   triangleBulletPrefab: {fileID: 8905747821600661084, guid: 67da2d74dd0968e4aaff9d15cefb0273, type: 3}
   squareBulletPrefab: {fileID: 8392578418527894788, guid: 5a08779562a75d2449cc564f0bdba383, type: 3}
   circleBulletPrefab: {fileID: 2145355797482534292, guid: 796ac89997836b441961189ab0d3bf78, type: 3}

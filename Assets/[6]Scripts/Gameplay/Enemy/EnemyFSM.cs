@@ -25,6 +25,8 @@ public class EnemyFSM : MonoBehaviour
     private EnemySkills skill;
     private Rigidbody2D rb;
 
+    public int CurrentPhase => stats.CurrentHealth <= stats.MaxHealth * 0.3f ? 2 : 1;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -76,7 +78,7 @@ public class EnemyFSM : MonoBehaviour
             case EnemyState.Attack:
                 Debug.Log("상태: 공격 시작");
                 movement.StopMove(); // 공격 중엔 보통 멈춤
-                skill.CastRandomSkill(OnSkillFinished); // 스킬 사용 (콜백 전달)
+                skill.CastSkillByPhase(CurrentPhase, OnSkillFinished);
                 break;
             case EnemyState.Die:
                 // 사망 처리
