@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System;
 public class PlayerStats : MonoBehaviour
 {
     [Header("Stats")]
@@ -8,8 +8,11 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float maxMana = 100f;
     [SerializeField] private float currentMana;
     [SerializeField] private int attackPower = 1;
-    
-    
+
+
+    public event Action OnHealthChanged;
+    public event Action OnStatsChanged;
+
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
     public float MaxMana => maxMana;
@@ -43,8 +46,8 @@ public class PlayerStats : MonoBehaviour
     {
         
         if (isInvincible) return;
-
         currentHealth -= damage;
+        OnHealthChanged?.Invoke(); //체력 반영
         Debug.Log($"�ƾ�! ü�� ����: {currentHealth}");
 
         if (currentHealth <= 0)
@@ -67,6 +70,7 @@ public class PlayerStats : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+        OnHealthChanged?.Invoke(); //체력 반영
         Debug.Log($"현재 체력: {currentHealth}");
     }
 
@@ -74,6 +78,7 @@ public class PlayerStats : MonoBehaviour
     public void AttackPowerUp(int amount)
     {
         attackPower += amount;
+        OnStatsChanged?.Invoke();
         Debug.Log($"현재 공격력: {attackPower}");
     }
 }
