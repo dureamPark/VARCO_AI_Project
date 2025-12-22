@@ -57,6 +57,15 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("�÷��̾� ���...");
         // ���� ���� ó�� ����
+
+        // if (GameManager.Instance != null)
+        // {
+        //     GameManager.Instance.GameOver();
+        // }
+        // else
+        // {
+        //     Debug.LogError("GameManager가 씬에 없습니다!");
+        // }
     }
 
     // please make player heal up method
