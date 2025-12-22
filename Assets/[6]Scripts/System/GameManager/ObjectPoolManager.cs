@@ -28,7 +28,6 @@ public class ObjectPoolManager : MonoBehaviour
         {
             GameObject newObj = Instantiate(prefab);
             EnemyPojectile p = newObj.GetComponent<EnemyPojectile>();
-            // 중요: 총알에게 "너의 원본 프리팹은 이거야"라고 알려줌 (나중에 반납할 때 필요)
             if (p != null) p.SetOriginPrefab(prefab);
 
             newObj.SetActive(false);
