@@ -9,16 +9,27 @@ public class PlayerShooter : MonoBehaviour
     private float lastFireTime;
     private PlayerStats stats;
 
+    private bool isFiring = false;
+
     private void Awake()
     {
         stats = GetComponent<PlayerStats>();
     }
-    public void HandleShooting()
+    public void HandleShooting(bool isAttackDown)
     {
-        if (Time.time >= lastFireTime + fireRate)
+        if (isAttackDown)
         {
-            Fire();
-            lastFireTime = Time.time;
+            isFiring = !isFiring;
+            Debug.Log($"자동 공격 상태: {isFiring}");
+        }
+
+        if (isFiring)
+        {
+            if (Time.time >= lastFireTime + fireRate)
+            {
+                Fire();
+                lastFireTime = Time.time;
+            }
         }
     }
 

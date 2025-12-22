@@ -102,7 +102,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Bomb"",
+                    ""name"": ""FlowStyle"",
                     ""type"": ""Button"",
                     ""id"": ""b34e3928-fb5b-4eaa-b27b-535c598c36ba"",
                     ""expectedControlType"": """",
@@ -111,7 +111,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Speed"",
+                    ""name"": ""Barrier"",
                     ""type"": ""Button"",
                     ""id"": ""ec4bca4f-2c21-4cda-9f87-be58962640fe"",
                     ""expectedControlType"": """",
@@ -120,7 +120,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Shield"",
+                    ""name"": ""OverWrite"",
                     ""type"": ""Button"",
                     ""id"": ""3efa63f4-792c-485f-8202-e44dc7868f38"",
                     ""expectedControlType"": """",
@@ -132,6 +132,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""977fa598-431a-4466-8d1e-7c78e938dda6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""30c51108-06cb-488e-be0f-a6a5e6502af6"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -197,33 +206,33 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fee86618-8d2a-4bf2-9000-2d6e29770c70"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Bomb"",
+                    ""action"": ""FlowStyle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""6fc459e2-6ff2-489a-8804-40c56f1e71a9"",
-                    ""path"": ""<Keyboard>/k"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Speed"",
+                    ""action"": ""Barrier"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""eacf21c9-f435-4ba8-8775-9b26ad7c47fa"",
-                    ""path"": ""<Keyboard>/l"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shield"",
+                    ""action"": ""OverWrite"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -237,6 +246,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f3ef92f-e4b8-4bd2-a847-98266c312478"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -246,10 +266,11 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Bomb = m_Player.FindAction("Bomb", throwIfNotFound: true);
-        m_Player_Speed = m_Player.FindAction("Speed", throwIfNotFound: true);
-        m_Player_Shield = m_Player.FindAction("Shield", throwIfNotFound: true);
+        m_Player_FlowStyle = m_Player.FindAction("FlowStyle", throwIfNotFound: true);
+        m_Player_Barrier = m_Player.FindAction("Barrier", throwIfNotFound: true);
+        m_Player_OverWrite = m_Player.FindAction("OverWrite", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
     }
 
     ~@GameControls()
@@ -331,10 +352,11 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Bomb;
-    private readonly InputAction m_Player_Speed;
-    private readonly InputAction m_Player_Shield;
+    private readonly InputAction m_Player_FlowStyle;
+    private readonly InputAction m_Player_Barrier;
+    private readonly InputAction m_Player_OverWrite;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Attack;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -351,21 +373,25 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Move => m_Wrapper.m_Player_Move;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Bomb".
+        /// Provides access to the underlying input action "Player/FlowStyle".
         /// </summary>
-        public InputAction @Bomb => m_Wrapper.m_Player_Bomb;
+        public InputAction @FlowStyle => m_Wrapper.m_Player_FlowStyle;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Speed".
+        /// Provides access to the underlying input action "Player/Barrier".
         /// </summary>
-        public InputAction @Speed => m_Wrapper.m_Player_Speed;
+        public InputAction @Barrier => m_Wrapper.m_Player_Barrier;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Shield".
+        /// Provides access to the underlying input action "Player/OverWrite".
         /// </summary>
-        public InputAction @Shield => m_Wrapper.m_Player_Shield;
+        public InputAction @OverWrite => m_Wrapper.m_Player_OverWrite;
         /// <summary>
         /// Provides access to the underlying input action "Player/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Attack".
+        /// </summary>
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -395,18 +421,21 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Bomb.started += instance.OnBomb;
-            @Bomb.performed += instance.OnBomb;
-            @Bomb.canceled += instance.OnBomb;
-            @Speed.started += instance.OnSpeed;
-            @Speed.performed += instance.OnSpeed;
-            @Speed.canceled += instance.OnSpeed;
-            @Shield.started += instance.OnShield;
-            @Shield.performed += instance.OnShield;
-            @Shield.canceled += instance.OnShield;
+            @FlowStyle.started += instance.OnFlowStyle;
+            @FlowStyle.performed += instance.OnFlowStyle;
+            @FlowStyle.canceled += instance.OnFlowStyle;
+            @Barrier.started += instance.OnBarrier;
+            @Barrier.performed += instance.OnBarrier;
+            @Barrier.canceled += instance.OnBarrier;
+            @OverWrite.started += instance.OnOverWrite;
+            @OverWrite.performed += instance.OnOverWrite;
+            @OverWrite.canceled += instance.OnOverWrite;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         /// <summary>
@@ -421,18 +450,21 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Bomb.started -= instance.OnBomb;
-            @Bomb.performed -= instance.OnBomb;
-            @Bomb.canceled -= instance.OnBomb;
-            @Speed.started -= instance.OnSpeed;
-            @Speed.performed -= instance.OnSpeed;
-            @Speed.canceled -= instance.OnSpeed;
-            @Shield.started -= instance.OnShield;
-            @Shield.performed -= instance.OnShield;
-            @Shield.canceled -= instance.OnShield;
+            @FlowStyle.started -= instance.OnFlowStyle;
+            @FlowStyle.performed -= instance.OnFlowStyle;
+            @FlowStyle.canceled -= instance.OnFlowStyle;
+            @Barrier.started -= instance.OnBarrier;
+            @Barrier.performed -= instance.OnBarrier;
+            @Barrier.canceled -= instance.OnBarrier;
+            @OverWrite.started -= instance.OnOverWrite;
+            @OverWrite.performed -= instance.OnOverWrite;
+            @OverWrite.canceled -= instance.OnOverWrite;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         /// <summary>
@@ -481,26 +513,26 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Bomb" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "FlowStyle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnBomb(InputAction.CallbackContext context);
+        void OnFlowStyle(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Speed" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Barrier" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSpeed(InputAction.CallbackContext context);
+        void OnBarrier(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Shield" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "OverWrite" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnShield(InputAction.CallbackContext context);
+        void OnOverWrite(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -508,5 +540,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

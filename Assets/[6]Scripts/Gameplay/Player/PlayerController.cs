@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // ºÎÇ°µé ÂüÁ¶
+    // ë¶€í’ˆë“¤ ì°¸ì¡°
     private IInputManager inputManager;
     private PlayerMovement movement;
     private PlayerStats stats;
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
         shooter = GetComponent<PlayerShooter>(); 
         skill = GetComponent<PlayerSkill>();     
 
-        // ÀÇÁ¸¼º ÁÖÀÔ 
+        // ì˜ì¡´ì„± ì£¼ì… 
         inputManager = new KeyboardInputManager();
     }
 
@@ -32,38 +32,22 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleInput();
-
-        if (shooter != null)
-        {
-            shooter.HandleShooting();
-        }
     }
 
     private void HandleInput()
     {
-        Vector2 inputDir = inputManager.GetMovementInput();
-        movement.Move(inputDir);
+        // 1. ì´ë™
+        movement.Move(inputManager.GetMovementInput());
 
-        // 2. ½ºÅ³ ÀÔ·Â Ã³¸®
-        if (skill != null)
+        // 2. ê³µê²©
+        if (shooter != null)
         {
-            // K: °¡¼Ó ½ºÅ³
-            if (inputManager.GetSpeedSkillDown())
-            {
-                skill.UseSpeedSkill();
-            }
-
-            // L: ¹æ¾î ½ºÅ³
-            if (inputManager.GetShieldSkillDown())
-            {
-                skill.UseShieldSkill();
-            }
-
-            // J: Æø°İ ½ºÅ³ (ÃßÈÄ Åº¸· ¸¸µé¾îÁö¸é ±¸Çö)
-            if (inputManager.GetBombSkillDown())
-            {
-                Debug.Log("Æø°İ ½ºÅ³ »ç¿ë (¾ÆÁ÷ ¹Ì±¸Çö)");
-            }
+            shooter.HandleShooting(inputManager.GetAttackDown());
         }
+
+        // 3. ìŠ¤í‚¬ (ì•„ì§ êµ¬í˜„ ì•ˆë¨)
+        if (inputManager.GetFlowStyleDown()) Debug.Log("ìœ ë„íƒ„ ëª¨ë“œ(X) ì…ë ¥ë¨");
+        if (inputManager.GetBarrierKey()) Debug.Log("ë°©ë²½(C) ëˆ„ë¥´ëŠ” ì¤‘");
+        if (inputManager.GetOverWriteDown()) Debug.Log("í•„ì‚´ê¸°(Ctrl) ì…ë ¥ë¨");
     }
 }

@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
     public event Action OnHealthChanged;
     public event Action OnStatsChanged;
 
+    // 외부에서 스탯 참조할때 아래 변수명으로 참조하면 됨 (첫글자를 대문자로)
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
     public float MaxMana => maxMana;

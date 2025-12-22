@@ -7,41 +7,40 @@ public class KeyboardInputManager : IInputManager
     public KeyboardInputManager()
     {
         controls = new GameControls();
-        controls.Player.Enable(); 
+        controls.Player.Enable(); // ì…ë ¥ í™œì„±í™”
     }
 
-    // ÀÎÅÍÆäÀÌ½º ±¸ÇöºÎ
 
     public Vector2 GetMovementInput()
     {
         return controls.Player.Move.ReadValue<Vector2>();
     }
 
-    // ±âº» °ø°İ ÀÚµ¿
-    public bool GetAttackKeyDown()
+    // ê³µê²© (Zí‚¤)
+    public bool GetAttackDown()
     {
-        return true;
+        return controls.Player.Attack.WasPressedThisFrame();
     }
 
-    // ½ºÅ³ J (Æø°İ)
-    public bool GetBombSkillDown()
+    // ìŠ¤í‚¬ 1: ìœ ë„ (Xí‚¤)
+    public bool GetFlowStyleDown()
     {
-        return controls.Player.Bomb.WasPressedThisFrame();
+        return controls.Player.FlowStyle.WasPressedThisFrame();
     }
 
-    // ½ºÅ³ K (°¡¼Ó)
-    public bool GetSpeedSkillDown()
+    // ìŠ¤í‚¬ 2: ë°©ë²½ (Cí‚¤)
+    public bool GetBarrierKey()
     {
-        return controls.Player.Speed.WasPressedThisFrame();
+        return controls.Player.Barrier.IsPressed();
     }
 
-    // ½ºÅ³ L (¹æ¾î)
-    public bool GetShieldSkillDown()
+    // ìŠ¤í‚¬ 3: í•„ì‚´ê¸° (Ctrlí‚¤)
+    public bool GetOverWriteDown()
     {
-        return controls.Player.Shield.WasPressedThisFrame();
+        return controls.Player.OverWrite.WasPressedThisFrame();
     }
 
-    // ´ëÈ­ Space
+    // ëŒ€í™” (Space)
     public bool GetInteractDown()
     {
         return controls.Player.Interact.WasPressedThisFrame();
