@@ -60,5 +60,20 @@ public class PlayerStats : MonoBehaviour
     }
 
     // please make player heal up method
+    public void Heal(int healAmount)
+    {
+        currentHealth += healAmount;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        Debug.Log($"현재 체력: {currentHealth}");
+    }
+
     // please make player attackPower up method 
+    public void AttackPowerUp(int amount)
+    {
+        attackPower += amount;
+        Debug.Log($"현재 공격력: {attackPower}");
+    }
 }

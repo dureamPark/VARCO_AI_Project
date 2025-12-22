@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   maxHealth: 10
-  currentHealth: 0
+  currentHealth: 5
   maxMana: 100
   currentMana: 0
   attackPower: 1
