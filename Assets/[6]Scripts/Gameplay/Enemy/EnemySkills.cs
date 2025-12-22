@@ -5,12 +5,11 @@ public class EnemySkills : MonoBehaviour
 {
     [Header("Skill Settings")]
     [SerializeField] private float skillCoolDown = 2.0f;
-    [SerializeField] private float invincibilityDuration = 5.0f;
 
     [Header("Phase 2 Prefabs (Pentagon)")]
     [SerializeField] private GameObject pentagonBulletPrefab;
 
-    private Color prevColor;
+    private Color originColor;
 
     private EnemyStats stats;
     private SpriteRenderer sr;
@@ -27,7 +26,7 @@ public class EnemySkills : MonoBehaviour
     {
         stats = GetComponent<EnemyStats>();
         sr = GetComponent<SpriteRenderer>();
-        prevColor = sr.color;
+        originColor = sr.color;
     }
     void Start()
     {
@@ -272,7 +271,8 @@ public class EnemySkills : MonoBehaviour
     private IEnumerator Skill_CoveredFuture()
     {
         Debug.Log("2페이즈: 덮인 미래");
-
+        sr.color = Color.red;
+        stats.SetInvincible(true);
         // 8초 동안 무작위 탄막 뿌리는 코루틴 별도 실행
         Coroutine randomSpray = StartCoroutine(Routine_RandomSpray(8.0f));
 
@@ -295,6 +295,8 @@ public class EnemySkills : MonoBehaviour
             yield return new WaitForSeconds(0.8f); // 8번을 8초동안 하려면 대략 1초 간격
         }
 
+        sr.color = originColor;
+        stats.SetInvincible(false);
         yield return randomSpray; // 끝날 때까지 대기
         onSkillEndCallback?.Invoke();
     }
