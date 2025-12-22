@@ -10,11 +10,11 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] private int currentHealth;
     private EnemyFSM fsm;
 
-    // ¿ÜºÎ¿¡¼­ ÂüÁ¶¿ë ÇÁ·ÎÆÛÆ¼ º¯¼ö (Ã¹ ±ÛÀÚ ´ë¹®ÀÚ)
+    // ì™¸ë¶€ì—ì„œ ì°¸ì¡°ìš© í”„ë¡œí¼í‹° ë³€ìˆ˜ (ì²« ê¸€ì ëŒ€ë¬¸ì)
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
 
-    //¹öÆ¼±â µ¿¾È ¹«Àû
+    //ë²„í‹°ê¸° ë™ì•ˆ ë¬´ì 
     private bool isInvincible = false;
 
     Coroutine blinkCo;
@@ -44,16 +44,16 @@ public class EnemyStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        // ¹«Àû »óÅÂ¶ó¸é µ¥¹ÌÁö¸¦ ÀÔÁö ¾ÊÀ½
+        // ë¬´ì  ìƒíƒœë¼ë©´ ë°ë¯¸ì§€ë¥¼ ì…ì§€ ì•ŠìŒ
         if (isInvincible) return;
 
         currentHealth -= damage;
-        Debug.Log($"º¸½º ³²Àº Ã¼·Â: {currentHealth}");
+        Debug.Log($"ë³´ìŠ¤ ë‚¨ì€ ì²´ë ¥: {currentHealth}");
         if (blinkCo != null) StopCoroutine(blinkCo);
         blinkCo = StartCoroutine(BlinkByToggle());
         if(currentHealth <= maxHealth * 3 / 10)
         {
-            Debug.Log($"2ÆäÀÌÁî");
+            Debug.Log($"2í˜ì´ì¦ˆ");
         }
 
         if (currentHealth <= 0)
@@ -66,7 +66,7 @@ public class EnemyStats : MonoBehaviour
     {
         if (fsm != null) fsm.OnEnemyDie();
         Destroy(gameObject);
-        Debug.Log("Àû »ç¸Á");
+        Debug.Log("ì  ì‚¬ë§");
     }
 
     IEnumerator BlinkByToggle()

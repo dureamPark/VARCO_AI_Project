@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
     private Vector2 moveDir;
     private bool isMoving = false;
 
-    //ÀÌµ¿¹üÀ§ Á¦ÇÑ¿ë
+    //ì´ë™ë²”ìœ„ ì œí•œìš©
     [SerializeField] private float paddingX = 0.8f;
     [SerializeField] private float paddingY = 0.8f;
 
@@ -21,7 +21,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void StartRandomMove()
     {
-        // È­¸é ¾È ·£´ıÇÑ ¹æÇâ ¼³Á¤ (´Ü¼ø ¿¹½Ã)
+        // í™”ë©´ ì•ˆ ëœë¤í•œ ë°©í–¥ ì„¤ì • (ë‹¨ìˆœ ì˜ˆì‹œ)
         float x = Random.Range(-1f, 1f);
         float y = Random.Range(-1f, 1f);
         moveDir = new Vector2(x, y).normalized;
@@ -31,7 +31,7 @@ public class EnemyMovement : MonoBehaviour
     public void StopMove()
     {
         isMoving = false;
-        rb.linearVelocity = Vector2.zero; // ¸ØÃã
+        rb.linearVelocity = Vector2.zero; // ë©ˆì¶¤
     }
 
     void FixedUpdate()
@@ -39,25 +39,25 @@ public class EnemyMovement : MonoBehaviour
         if (isMoving)
         {
             rb.linearVelocity = moveDir * moveSpeed;
-            // È­¸é ¹ÛÀ¸·Î ³ª°¡Áö ¾Ê°Ô ÇÏ´Â ·ÎÁ÷ Ãß°¡ ÇÊ¿ä
+            // í™”ë©´ ë°–ìœ¼ë¡œ ë‚˜ê°€ì§€ ì•Šê²Œ í•˜ëŠ” ë¡œì§ ì¶”ê°€ í•„ìš”
         }
     }
     void LateUpdate()
     {
-        // ÇöÀç À§Ä¡ °¡Á®¿À±â
+        // í˜„ì¬ ìœ„ì¹˜ ê°€ì ¸ì˜¤ê¸°
         Vector3 viewPos = transform.position;
 
-        // X, Y ÁÂÇ¥¸¦ È­¸é °æ°è ¾ÈÀ¸·Î °¡µÎ±â (Clamp)
-        // min + padding ~ max - padding »çÀÌ·Î Á¦ÇÑ
+        // X, Y ì¢Œí‘œë¥¼ í™”ë©´ ê²½ê³„ ì•ˆìœ¼ë¡œ ê°€ë‘ê¸° (Clamp)
+        // min + padding ~ max - padding ì‚¬ì´ë¡œ ì œí•œ
         viewPos.x = Mathf.Clamp(viewPos.x, minBounds.x + paddingX, maxBounds.x - paddingX);
         viewPos.y = Mathf.Clamp(viewPos.y, minBounds.y + paddingY, maxBounds.y - paddingY);
 
-        // º¸Á¤µÈ À§Ä¡ Àû¿ë
+        // ë³´ì •ëœ ìœ„ì¹˜ ì ìš©
         transform.position = viewPos;
     }
     void CalculateScreenBounds()
     {
-        // Ä«¸Ş¶óÀÇ ÁÂÃø ÇÏ´Ü(0,0)°ú ¿ìÃø »ó´Ü(1,1)À» ¿ùµå ÁÂÇ¥·Î º¯È¯
+        // ì¹´ë©”ë¼ì˜ ì¢Œì¸¡ í•˜ë‹¨(0,0)ê³¼ ìš°ì¸¡ ìƒë‹¨(1,1)ì„ ì›”ë“œ ì¢Œí‘œë¡œ ë³€í™˜
         minBounds = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
         maxBounds = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
     }
