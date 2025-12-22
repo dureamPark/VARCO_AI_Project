@@ -11,7 +11,7 @@ public class PlayerProjectile : MonoBehaviour
 
         GetComponent<Rigidbody2D>().linearVelocity = direction * moveSpeed;
 
-        // 3ÃÊ µÚ ÀÚµ¿ »èÁ¦ (È­¸é ¹Û Ã³¸® ´ë¿ë, Å×½ºÆ® ÇØº¸°í ÇÁ·¹ÀÓ ¶³¾îÁö¸é ¿ÀºêÁ§Æ® Ç®¸µÀ¸·Î ¼öÁ¤)
+        // 3ì´ˆ ë’¤ ìë™ ì‚­ì œ (í™”ë©´ ë°– ì²˜ë¦¬ ëŒ€ìš©, í…ŒìŠ¤íŠ¸ í•´ë³´ê³  í”„ë ˆì„ ë–¨ì–´ì§€ë©´ ì˜¤ë¸Œì íŠ¸ í’€ë§ìœ¼ë¡œ ìˆ˜ì •)
         Destroy(gameObject, 3f);
     }
 
@@ -19,8 +19,8 @@ public class PlayerProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            // collision.GetComponent<Enemy>().TakeDamage(damage); // ÃßÈÄ º¸½º ¸¸µé¾îÁö¸é ±¸Çö
-            Destroy(gameObject); // ÃÑ¾Ë »èÁ¦
+            collision.GetComponent<EnemyStats>().TakeDamage(damage); // ì¶”í›„ ë³´ìŠ¤ ë§Œë“¤ì–´ì§€ë©´ êµ¬í˜„
+            Destroy(gameObject); // ì´ì•Œ ì‚­ì œ
         }
     }
 }
