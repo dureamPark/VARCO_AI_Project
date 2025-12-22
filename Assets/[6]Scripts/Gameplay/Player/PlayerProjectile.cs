@@ -19,7 +19,7 @@ public class PlayerProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyStats>().TakeDamage(damage); // 추후 보스 만들어지면 구현
+            collision.GetComponent<EnemyStats>().TakeDamage(damage);
             Destroy(gameObject); // 총알 삭제
         }
     }

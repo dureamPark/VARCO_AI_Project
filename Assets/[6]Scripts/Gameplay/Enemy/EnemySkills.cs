@@ -18,9 +18,9 @@ public class EnemySkills : MonoBehaviour
     private System.Action onSkillEndCallback;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject triangleBulletPrefab; // »ï°¢Çü Åº¸· (°ÅÄ£ ¹Ì·¡)
-    [SerializeField] private GameObject squareBulletPrefab;   // »ç°¢Çü Åº¸· (¹ÏÀ½ÀÇ ½Å·Ú)
-    [SerializeField] private GameObject circleBulletPrefab;   // ¿øÇü Åº¸· (ÀÚÀ¯ÀÇ °¨¿Á)
+    [SerializeField] private GameObject triangleBulletPrefab; // ì‚¼ê°í˜• íƒ„ë§‰ (ê±°ì¹œ ë¯¸ë˜)
+    [SerializeField] private GameObject squareBulletPrefab;   // ì‚¬ê°í˜• íƒ„ë§‰ (ë¯¿ìŒì˜ ì‹ ë¢°)
+    [SerializeField] private GameObject circleBulletPrefab;   // ì›í˜• íƒ„ë§‰ (ììœ ì˜ ê°ì˜¥)
 
     private Transform playerTransform;
     private void Awake()
@@ -52,7 +52,7 @@ public class EnemySkills : MonoBehaviour
 
         if (phase == 1)
         {
-            // 1ÆäÀÌÁî: 0~2¹ø ½ºÅ³
+            // 1í˜ì´ì¦ˆ: 0~2ë²ˆ ìŠ¤í‚¬
             int rnd = Random.Range(0, 3);
             switch (rnd)
             {
@@ -63,15 +63,15 @@ public class EnemySkills : MonoBehaviour
         }
         else
         {
-            // 2ÆäÀÌÁî: ½Å±Ô ½ºÅ³ (ÀÎµ¦½º 3~7¿¡ ÇØ´ç)
+            // 2í˜ì´ì¦ˆ: ì‹ ê·œ ìŠ¤í‚¬ (ì¸ë±ìŠ¤ 3~7ì— í•´ë‹¹)
             int rnd = Random.Range(0, 5);
             switch (rnd)
             {
-                case 0: StartCoroutine(Skill_GraceOfGod()); break;    // ½ÅÀÇ ÀºÃÑ
-                case 1: StartCoroutine(Skill_DistortedShape()); break; // ¿Ö°îµÈ µµÇü
-                case 2: StartCoroutine(Skill_ChaosPolygon()); break;   // Ä«¿À½º Æú¸®°ï
-                case 3: StartCoroutine(Skill_ErodingWave()); break;    // Ä§½ÄÇÏ´Â ÆÄµ¿
-                case 4: StartCoroutine(Skill_CoveredFuture()); break;  // µ¤ÀÎ ¹Ì·¡
+                case 0: StartCoroutine(Skill_GraceOfGod()); break;    // ì‹ ì˜ ì€ì´
+                case 1: StartCoroutine(Skill_DistortedShape()); break; // ì™œê³¡ëœ ë„í˜•
+                case 2: StartCoroutine(Skill_ChaosPolygon()); break;   // ì¹´ì˜¤ìŠ¤ í´ë¦¬ê³¤
+                case 3: StartCoroutine(Skill_ErodingWave()); break;    // ì¹¨ì‹í•˜ëŠ” íŒŒë™
+                case 4: StartCoroutine(Skill_CoveredFuture()); break;  // ë®ì¸ ë¯¸ë˜
             }
         }
     }
@@ -80,19 +80,19 @@ public class EnemySkills : MonoBehaviour
     // Phase 1 Skills
     // ========================================================================
 
-    // 1. °ÅÄ£ ¹Ì·¡ (±âº»)
+    // 1. ê±°ì¹œ ë¯¸ë˜ (ê¸°ë³¸)
     private IEnumerator Skill_RoughFuture()
     {
-        Debug.Log("1ÆäÀÌÁî: °ÅÄ£ ¹Ì·¡");
-        yield return StartCoroutine(Routine_RoughFuture()); // ·ÎÁ÷ Àç»ç¿ëÀ» À§ÇØ ºĞ¸®ÇÔ
+        Debug.Log("1í˜ì´ì¦ˆ: ê±°ì¹œ ë¯¸ë˜");
+        yield return StartCoroutine(Routine_RoughFuture()); // ë¡œì§ ì¬ì‚¬ìš©ì„ ìœ„í•´ ë¶„ë¦¬í•¨
         yield return new WaitForSeconds(skillCoolDown);
         onSkillEndCallback?.Invoke();
     }
 
-    // 2. ¹ÏÀ½ÀÇ ½Å·Ú
+    // 2. ë¯¿ìŒì˜ ì‹ ë¢°
     private IEnumerator Skill_TrustOfBelief()
     {
-        Debug.Log("1ÆäÀÌÁî: ¹ÏÀ½ÀÇ ½Å·Ú");
+        Debug.Log("1í˜ì´ì¦ˆ: ë¯¿ìŒì˜ ì‹ ë¢°");
         int explosionCount = 4;
         for (int i = 0; i < explosionCount; i++)
         {
@@ -104,16 +104,16 @@ public class EnemySkills : MonoBehaviour
         onSkillEndCallback?.Invoke();
     }
 
-    // 3. ÀÚÀ¯ÀÇ °¨¿Á
+    // 3. ììœ ì˜ ê°ì˜¥
     private IEnumerator Skill_PrisonOfFreedom()
     {
-        Debug.Log("1ÆäÀÌÁî: ÀÚÀ¯ÀÇ °¨¿Á");
+        Debug.Log("1í˜ì´ì¦ˆ: ììœ ì˜ ê°ì˜¥");
         for (int k = 0; k < 4; k++)
         {
             if (playerTransform == null) break;
             Vector2 targetPos = playerTransform.position;
 
-            // ÇÃ·¹ÀÌ¾î¸¦ µÑ·¯½Î´Â ¿øÇü ¹èÄ¡
+            // í”Œë ˆì´ì–´ë¥¼ ë‘˜ëŸ¬ì‹¸ëŠ” ì›í˜• ë°°ì¹˜
             int count = 16;
             float step = 360f / count;
             for (int i = 0; i < count; i++)
@@ -133,12 +133,12 @@ public class EnemySkills : MonoBehaviour
     // Phase 2 Skills (Pentagon Theme)
     // ========================================================================
 
-    // 4. ½ÅÀÇ ÀºÃÑ: <°ÅÄ£ ¹Ì·¡> + ¿À°¢Çü¿¡¼­ ÇÃ·¹ÀÌ¾î Á¶ÁØ »ç°İ (3ÃÊ)
+    // 4. ì‹ ì˜ ì€ì´: <ê±°ì¹œ ë¯¸ë˜> + ì˜¤ê°í˜•ì—ì„œ í”Œë ˆì´ì–´ ì¡°ì¤€ ì‚¬ê²© (3ì´ˆ)
     private IEnumerator Skill_GraceOfGod()
     {
-        Debug.Log("2ÆäÀÌÁî: ½ÅÀÇ ÀºÃÑ");
+        Debug.Log("2í˜ì´ì¦ˆ: ì‹ ì˜ ì€ì´");
 
-        // º´·Ä ½ÇÇà: °ÅÄ£ ¹Ì·¡ ÆĞÅÏÀ» ½ÃÀÛÇÏ°í, µ¿½Ã¿¡ Ãß°¡ °ø°İÀ» ¼öÇà
+        // ë³‘ë ¬ ì‹¤í–‰: ê±°ì¹œ ë¯¸ë˜ íŒ¨í„´ì„ ì‹œì‘í•˜ê³ , ë™ì‹œì— ì¶”ê°€ ê³µê²©ì„ ìˆ˜í–‰
         StartCoroutine(Routine_RoughFuture());
 
         float duration = 3.0f;
@@ -149,15 +149,15 @@ public class EnemySkills : MonoBehaviour
         {
             if (playerTransform != null)
             {
-                // º¸½º À§Ä¡ ±âÁØ ¿À°¢Çü 5¹ß ¹ß»ç -> ÇÃ·¹ÀÌ¾î ÂÊÀ¸·Î
+                // ë³´ìŠ¤ ìœ„ì¹˜ ê¸°ì¤€ ì˜¤ê°í˜• 5ë°œ ë°œì‚¬ -> í”Œë ˆì´ì–´ ìª½ìœ¼ë¡œ
                 for (int i = 0; i < 5; i++)
                 {
-                    // ¿À°¢Çü ²ÀÁöÁ¡ À§Ä¡ °è»ê (º¸½º ÁÖº¯ 1.5 °Å¸®)
-                    float angle = i * 72f; // 360 / 5 = 72µµ
+                    // ì˜¤ê°í˜• ê¼­ì§€ì  ìœ„ì¹˜ ê³„ì‚° (ë³´ìŠ¤ ì£¼ë³€ 1.5 ê±°ë¦¬)
+                    float angle = i * 72f; // 360 / 5 = 72ë„
                     Vector2 spawnOffset = Quaternion.Euler(0, 0, angle) * Vector2.up * 1.5f;
                     Vector2 spawnPos = (Vector2)transform.position + spawnOffset;
 
-                    // ÇÃ·¹ÀÌ¾î ¹æÇâ °è»ê
+                    // í”Œë ˆì´ì–´ ë°©í–¥ ê³„ì‚°
                     Vector2 targetDir = (playerTransform.position - (Vector3)spawnPos).normalized;
                     CreateBullet(pentagonBulletPrefab, spawnPos, targetDir, 8f);
                 }
@@ -166,51 +166,51 @@ public class EnemySkills : MonoBehaviour
             timer += fireRate;
         }
 
-        // °ÅÄ£ ¹Ì·¡°¡ ³¡³¯ ¶§Âë °°ÀÌ Á¾·á (´ë·«ÀûÀÎ ½Ã°£ ¸ÂÃã)
+        // ê±°ì¹œ ë¯¸ë˜ê°€ ëë‚  ë•Œì¯¤ ê°™ì´ ì¢…ë£Œ (ëŒ€ëµì ì¸ ì‹œê°„ ë§ì¶¤)
         yield return new WaitForSeconds(1.0f);
         onSkillEndCallback?.Invoke();
     }
 
-    // 5. ¿Ö°îµÈ µµÇü: ÇÃ·¹ÀÌ¾î ÁÖÀ§¿¡ ´À¸° ¿À°¢Çü Åº¸· ·£´ı »ı¼º
+    // 5. ì™œê³¡ëœ ë„í˜•: í”Œë ˆì´ì–´ ì£¼ìœ„ì— ëŠë¦° ì˜¤ê°í˜• íƒ„ë§‰ ëœë¤ ìƒì„±
     private IEnumerator Skill_DistortedShape()
     {
-        Debug.Log("2ÆäÀÌÁî: ¿Ö°îµÈ µµÇü");
+        Debug.Log("2í˜ì´ì¦ˆ: ì™œê³¡ëœ ë„í˜•");
 
-        float duration = 3.0f; // Áö¼Ó½Ã°£ ÀÓÀÇ ¼³Á¤
+        float duration = 3.0f; // ì§€ì†ì‹œê°„ ì„ì˜ ì„¤ì •
         float endTime = Time.time + duration;
 
         while (Time.time < endTime)
         {
             if (playerTransform != null)
             {
-                // ÇÃ·¹ÀÌ¾î ÁÖº¯ ·£´ı À§Ä¡ (¹İ°æ 2~5 »çÀÌ)
+                // í”Œë ˆì´ì–´ ì£¼ë³€ ëœë¤ ìœ„ì¹˜ (ë°˜ê²½ 2~5 ì‚¬ì´)
                 Vector2 randomOffset = Random.insideUnitCircle.normalized * Random.Range(2f, 5f);
                 Vector2 spawnPos = (Vector2)playerTransform.position + randomOffset;
 
-                // ÇÃ·¹ÀÌ¾î¸¦ ÇâÇØ ¾ÆÁÖ ´À¸®°Ô ´Ù°¡¿È
+                // í”Œë ˆì´ì–´ë¥¼ í–¥í•´ ì•„ì£¼ ëŠë¦¬ê²Œ ë‹¤ê°€ì˜´
                 Vector2 dir = (playerTransform.position - (Vector3)spawnPos).normalized;
-                CreateBullet(pentagonBulletPrefab, spawnPos, dir, 2f); // ¼Óµµ 2 (´À¸²)
+                CreateBullet(pentagonBulletPrefab, spawnPos, dir, 2f); // ì†ë„ 2 (ëŠë¦¼)
             }
-            yield return new WaitForSeconds(0.2f); // 0.2ÃÊ¸¶´Ù »ı¼º
+            yield return new WaitForSeconds(0.2f); // 0.2ì´ˆë§ˆë‹¤ ìƒì„±
         }
 
         yield return new WaitForSeconds(skillCoolDown);
         onSkillEndCallback?.Invoke();
     }
 
-    // 6. Ä«¿À½º Æú¸®°ï: ÁÖÀ§¿¡ ¿À°¢Çü ÇüÅÂ·Î »ı¼º ÈÄ ¹æ»çÇü ÅÍÁü
+    // 6. ì¹´ì˜¤ìŠ¤ í´ë¦¬ê³¤: ì£¼ìœ„ì— ì˜¤ê°í˜• í˜•íƒœë¡œ ìƒì„± í›„ ë°©ì‚¬í˜• í„°ì§
     private IEnumerator Skill_ChaosPolygon()
     {
-        Debug.Log("2ÆäÀÌÁî: Ä«¿À½º Æú¸®°ï");
+        Debug.Log("2í˜ì´ì¦ˆ: ì¹´ì˜¤ìŠ¤ í´ë¦¬ê³¤");
 
-        // 3¹ø ¹İº¹
+        // 3ë²ˆ ë°˜ë³µ
         for (int k = 0; k < 3; k++)
         {
             Vector2 center = GetRandomScreenPos();
             float radius = 2.0f;
-            int bulletsPerSide = 5; // º¯´ç ÃÑ¾Ë ¼ö
+            int bulletsPerSide = 5; // ë³€ë‹¹ ì´ì•Œ ìˆ˜
 
-            // ¿À°¢Çü ±×¸®±â (5°³ÀÇ º¯)
+            // ì˜¤ê°í˜• ê·¸ë¦¬ê¸° (5ê°œì˜ ë³€)
             for (int i = 0; i < 5; i++)
             {
                 float angleCurrent = i * 72f * Mathf.Deg2Rad;
@@ -219,18 +219,18 @@ public class EnemySkills : MonoBehaviour
                 Vector2 p1 = center + new Vector2(Mathf.Cos(angleCurrent), Mathf.Sin(angleCurrent)) * radius;
                 Vector2 p2 = center + new Vector2(Mathf.Cos(angleNext), Mathf.Sin(angleNext)) * radius;
 
-                // µÎ ²ÀÁöÁ¡ »çÀÌ¸¦ Ã¤¿ò (¼± ±ß±â)
+                // ë‘ ê¼­ì§€ì  ì‚¬ì´ë¥¼ ì±„ì›€ (ì„  ê¸‹ê¸°)
                 for (int j = 0; j < bulletsPerSide; j++)
                 {
                     float t = (float)j / bulletsPerSide;
                     Vector2 spawnPos = Vector2.Lerp(p1, p2, t);
 
-                    // ÀÏ´Ü ¸ØÃçÀÖ´Â »óÅÂ·Î »ı¼º (¼Óµµ 0) -> ³ªÁß¿¡ ¿òÁ÷ÀÌ°Ô ÇÏ·Á¸é Åõ»çÃ¼ ½ºÅ©¸³Æ® ¼öÁ¤ ÇÊ¿ä
-                    // ¿©±â¼­´Â »ı¼º Áï½Ã ¹Ù±ùÀ¸·Î ÆÛÁö°Ô ±¸Çö
+                    // ì¼ë‹¨ ë©ˆì¶°ìˆëŠ” ìƒíƒœë¡œ ìƒì„± (ì†ë„ 0) -> ë‚˜ì¤‘ì— ì›€ì§ì´ê²Œ í•˜ë ¤ë©´ íˆ¬ì‚¬ì²´ ìŠ¤í¬ë¦½íŠ¸ ìˆ˜ì • í•„ìš”
+                    // ì—¬ê¸°ì„œëŠ” ìƒì„± ì¦‰ì‹œ ë°”ê¹¥ìœ¼ë¡œ í¼ì§€ê²Œ êµ¬í˜„
                     Vector2 dir = (spawnPos - center).normalized;
                     CreateBullet(pentagonBulletPrefab, spawnPos, dir, 5f);
                 }
-                yield return new WaitForSeconds(0.05f); // ±×·ÁÁö´Â ¿¬Ãâ
+                yield return new WaitForSeconds(0.05f); // ê·¸ë ¤ì§€ëŠ” ì—°ì¶œ
             }
             yield return new WaitForSeconds(0.5f);
         }
@@ -239,24 +239,24 @@ public class EnemySkills : MonoBehaviour
         onSkillEndCallback?.Invoke();
     }
 
-    // 7. Ä§½ÄÇÏ´Â ÆÄµ¿: º¸½º Áß½ÉÀ¸·Î ¿À°¢Çü ÆÄµ¿ 5¹ø
+    // 7. ì¹¨ì‹í•˜ëŠ” íŒŒë™: ë³´ìŠ¤ ì¤‘ì‹¬ìœ¼ë¡œ ì˜¤ê°í˜• íŒŒë™ 5ë²ˆ
     private IEnumerator Skill_ErodingWave()
     {
-        Debug.Log("2ÆäÀÌÁî: Ä§½ÄÇÏ´Â ÆÄµ¿");
+        Debug.Log("2í˜ì´ì¦ˆ: ì¹¨ì‹í•˜ëŠ” íŒŒë™");
 
         for (int wave = 0; wave < 5; wave++)
         {
-            // ¿À°¢Çü ÇüÅÂ·Î Àü¹æÀ§ ¹ß»ç (N-WayÀÎµ¥ °¢µµ¸¦ Á¶ÀıÇØ¼­ ¿À°¢Çü ¸ğ¾ç À¯Áö)
-            // °£´ÜÇÑ ¹æ¹ı: 5¹æÇâÀ¸·Î ½îµÇ, °¢ ¹æÇâ¸¶´Ù ºÎÃ¤²Ã·Î 3¹ß¾¿ ½÷¼­ ¹¶ÅöÇÑ ¿À°¢Çü ´À³¦ ³»±â
-            float startAngle = wave * 15f; // ÆÄµ¿¸¶´Ù ¾à°£ È¸Àü
+            // ì˜¤ê°í˜• í˜•íƒœë¡œ ì „ë°©ìœ„ ë°œì‚¬ (N-Wayì¸ë° ê°ë„ë¥¼ ì¡°ì ˆí•´ì„œ ì˜¤ê°í˜• ëª¨ì–‘ ìœ ì§€)
+            // ê°„ë‹¨í•œ ë°©ë²•: 5ë°©í–¥ìœ¼ë¡œ ì˜ë˜, ê° ë°©í–¥ë§ˆë‹¤ ë¶€ì±„ê¼´ë¡œ 3ë°œì”© ì´ì„œ ë­‰íˆ­í•œ ì˜¤ê°í˜• ëŠë‚Œ ë‚´ê¸°
+            float startAngle = wave * 15f; // íŒŒë™ë§ˆë‹¤ ì•½ê°„ íšŒì „
 
-            for (int i = 0; i < 5; i++) // 5°¢
+            for (int i = 0; i < 5; i++) // 5ê°
             {
                 float baseAngle = startAngle + (i * 72f);
-                // ÇÑ ²ÀÁöÁ¡¿¡¼­ 3¹ß ºÎÃ¤²Ã
+                // í•œ ê¼­ì§€ì ì—ì„œ 3ë°œ ë¶€ì±„ê¼´
                 for (int j = -1; j <= 1; j++)
                 {
-                    float angle = baseAngle + (j * 5f); // 5µµ °£°İ
+                    float angle = baseAngle + (j * 5f); // 5ë„ ê°„ê²©
                     Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
                     CreateBullet(pentagonBulletPrefab, transform.position, dir, 7f);
                 }
@@ -268,23 +268,23 @@ public class EnemySkills : MonoBehaviour
         onSkillEndCallback?.Invoke();
     }
 
-    // 8. µ¤ÀÎ ¹Ì·¡: ¿À°¢Çü ÆÄµ¿ 8¹ø + ¹«ÀÛÀ§ ¹æ»ç (8ÃÊ)
+    // 8. ë®ì¸ ë¯¸ë˜: ì˜¤ê°í˜• íŒŒë™ 8ë²ˆ + ë¬´ì‘ìœ„ ë°©ì‚¬ (8ì´ˆ)
     private IEnumerator Skill_CoveredFuture()
     {
-        Debug.Log("2ÆäÀÌÁî: µ¤ÀÎ ¹Ì·¡");
+        Debug.Log("2í˜ì´ì¦ˆ: ë®ì¸ ë¯¸ë˜");
 
-        // 8ÃÊ µ¿¾È ¹«ÀÛÀ§ Åº¸· »Ñ¸®´Â ÄÚ·çÆ¾ º°µµ ½ÇÇà
+        // 8ì´ˆ ë™ì•ˆ ë¬´ì‘ìœ„ íƒ„ë§‰ ë¿Œë¦¬ëŠ” ì½”ë£¨í‹´ ë³„ë„ ì‹¤í–‰
         Coroutine randomSpray = StartCoroutine(Routine_RandomSpray(8.0f));
 
-        // ¸ŞÀÎ: ¿À°¢Çü ÆÄµ¿ 8¹ø
+        // ë©”ì¸: ì˜¤ê°í˜• íŒŒë™ 8ë²ˆ
         for (int wave = 0; wave < 8; wave++)
         {
-            // Ä§½ÄÇÏ´Â ÆÄµ¿º¸´Ù Á» ´õ ÃÎÃÎÇÏ°Ô
+            // ì¹¨ì‹í•˜ëŠ” íŒŒë™ë³´ë‹¤ ì¢€ ë” ì´˜ì´˜í•˜ê²Œ
             float startAngle = wave * 10f;
             for (int i = 0; i < 5; i++)
             {
                 float baseAngle = startAngle + (i * 72f);
-                // ²ÀÁöÁ¡¸¶´Ù 5¹ß
+                // ê¼­ì§€ì ë§ˆë‹¤ 5ë°œ
                 for (int j = -2; j <= 2; j++)
                 {
                     float angle = baseAngle + (j * 8f);
@@ -292,17 +292,17 @@ public class EnemySkills : MonoBehaviour
                     CreateBullet(pentagonBulletPrefab, transform.position, dir, 6f);
                 }
             }
-            yield return new WaitForSeconds(0.8f); // 8¹øÀ» 8ÃÊµ¿¾È ÇÏ·Á¸é ´ë·« 1ÃÊ °£°İ
+            yield return new WaitForSeconds(0.8f); // 8ë²ˆì„ 8ì´ˆë™ì•ˆ í•˜ë ¤ë©´ ëŒ€ëµ 1ì´ˆ ê°„ê²©
         }
 
-        yield return randomSpray; // ³¡³¯ ¶§±îÁö ´ë±â
+        yield return randomSpray; // ëë‚  ë•Œê¹Œì§€ ëŒ€ê¸°
         onSkillEndCallback?.Invoke();
     }
 
     private IEnumerator Routine_RoughFuture()
     {
         Vector2 startPos = transform.position;
-        // °¡·Î 5ÁÙ
+        // ê°€ë¡œ 5ì¤„
         for (int i = 0; i < 5; i++)
         {
             float yOffset = 2f - i * 1.0f;
@@ -315,7 +315,7 @@ public class EnemySkills : MonoBehaviour
             }
             yield return new WaitForSeconds(0.2f);
         }
-        // ¼¼·Î 7ÁÙ
+        // ì„¸ë¡œ 7ì¤„
         for (int i = 0; i < 7; i++)
         {
             float xOffset = -3f + i * 1.0f;
@@ -329,7 +329,7 @@ public class EnemySkills : MonoBehaviour
         }
     }
 
-    // ·£´ı ½ºÇÁ·¹ÀÌ (Áö¼Ó½Ã°£ µ¿¾È ·£´ı ¹ß»ç)
+    // ëœë¤ ìŠ¤í”„ë ˆì´ (ì§€ì†ì‹œê°„ ë™ì•ˆ ëœë¤ ë°œì‚¬)
     private IEnumerator Routine_RandomSpray(float duration)
     {
         float timer = 0f;
@@ -355,7 +355,7 @@ public class EnemySkills : MonoBehaviour
 
     private Vector2 GetRandomScreenPos()
     {
-        // È­¸é ¾ÈÂÊ ¾ÈÀüÇÑ ·£´ı À§Ä¡
+        // í™”ë©´ ì•ˆìª½ ì•ˆì „í•œ ëœë¤ ìœ„ì¹˜
         float randX = Random.Range(-7f, 7f);
         float randY = Random.Range(-4f, 4f);
         return new Vector2(randX, randY);
@@ -364,8 +364,15 @@ public class EnemySkills : MonoBehaviour
     private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed)
     {
         if (prefab == null) return;
-        GameObject go = Instantiate(prefab, pos, Quaternion.identity);
+
+        // [ìˆ˜ì •] Instantiate -> ObjectPoolManager.Instance.Spawn ì‚¬ìš©
+        GameObject go = ObjectPoolManager.Instance.Spawn(prefab, pos, Quaternion.identity);
+
         EnemyPojectile p = go.GetComponent<EnemyPojectile>();
-        if (p != null) p.Initialize(dir, 10, speed);
+        if (p != null)
+        {
+            // ì´ˆê¸°í™” ë¡œì§ì€ ê·¸ëŒ€ë¡œ
+            p.Initialize(dir, 10, speed);
+        }
     }
 }

@@ -51,6 +51,7 @@ public class EnemyStats : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // 무적 상태라면 데미지를 입지 않음
+        Debug.Log("ㅎㅎ");
         if (isInvincible) return;
 
         currentHealth -= damage;
