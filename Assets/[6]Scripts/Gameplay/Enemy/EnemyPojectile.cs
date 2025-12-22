@@ -30,9 +30,9 @@ public class EnemyPojectile : MonoBehaviour
                 playerStats.TakeDamage(damage);
             }
 
-            Debug.Log($"ÇÃ·¹ÀÌ¾î ÇÇ°İ! µ¥¹ÌÁö: {damage}");
+            Debug.Log($"í”Œë ˆì´ì–´ í”¼ê²©! ë°ë¯¸ì§€: {damage}");
 
-            Destroy(gameObject); // ÃÑ¾Ë »èÁ¦
+            Destroy(gameObject); // ì´ì•Œ ì‚­ì œ
         }
     }
 }
