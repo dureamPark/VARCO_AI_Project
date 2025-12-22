@@ -9,14 +9,14 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float currentMana;
     [SerializeField] private int attackPower = 1;
     
-    // �ܺο��� ������ ������Ƽ ���� (ù ���� �빮��)
+    
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
     public float MaxMana => maxMana;
     public float CurrentMana => currentMana;
     public int AttackPower => attackPower;
 
-    // ���� ��ų �÷��׿� ����
+    
     private bool isInvincible = false;
 
     public void Initialize()
@@ -41,7 +41,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        // ���� ���¶�� �������� ���� ����
+        
         if (isInvincible) return;
 
         currentHealth -= damage;
