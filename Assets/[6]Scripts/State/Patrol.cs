@@ -6,7 +6,7 @@ public class Patrol: State
     public IdleState idle;
     public Transform anchor1;
     public Transform anchor2;
-    const float IDLETIME = 1.0f;
+    const float IDLETIME = 5.0f;
 
     void GoToNextDestination()
     {
