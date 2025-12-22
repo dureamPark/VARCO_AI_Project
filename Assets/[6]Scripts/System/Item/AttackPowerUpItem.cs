@@ -1,26 +1,20 @@
 using System.Runtime.Serialization;
 using UnityEngine;
 
-public class AttackPowerUpItem : MonoBehaviour
+public class AttackPowerUpItem : BaseItem
 {
     //refactor need.
     //한글 되는지 확인하는 주석
     [SerializeField]
     private int attackPowerUp = 1;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void ApplyEffect(PlayerStats target)
     {
-        if (other.CompareTag("Player"))
-        {   
-            PlayerStats playerStats = other.GetComponent<PlayerStats>();
-            if (playerStats != null)
+            if (target != null)
             {
-                //playerStats.AttackPowerUp(attackPowerUp);
+                target.AttackPowerUp(attackPowerUp);
                 
                 Debug.Log("Attack Power Up Item Used");
             }
-
-            Destroy(gameObject);
-        }
     }
 }

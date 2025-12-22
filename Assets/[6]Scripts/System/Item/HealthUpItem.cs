@@ -1,23 +1,17 @@
 using UnityEngine;
-public class HealthUpItem : MonoBehaviour
+public class HealthUpItem : BaseItem
 {
     [SerializeField]
     private int healAmount = 1;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void ApplyEffect(PlayerStats target)
     {
-        if (other.CompareTag("Player"))
-        {   
-            PlayerStats playerStats = other.GetComponent<PlayerStats>();
-            if (playerStats != null)
+            if (target != null)
             {
-                //playerStats.Heal(healAmount);
+                target.Heal(healAmount);
                 
                 Debug.Log("Heal Item Used");
             }
-
-            Destroy(gameObject);
-        }
     }
 }
 
