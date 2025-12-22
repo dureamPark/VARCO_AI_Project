@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System;
 
 public class EnemyStats : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class EnemyStats : MonoBehaviour
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
 
+    public event Action OnHealthChanged; // 이벤트
+
     //버티기 동안 무적
     private bool isInvincible = false;
 
@@ -24,6 +27,7 @@ public class EnemyStats : MonoBehaviour
     {
         srs = GetComponentsInChildren<SpriteRenderer>(true);
         fsm = GetComponent<EnemyFSM>();
+        Initialize();
     }
 
     void Update()
@@ -35,6 +39,8 @@ public class EnemyStats : MonoBehaviour
     {
         currentHealth = maxHealth;
         isInvincible = false;
+
+        OnHealthChanged?.Invoke();
     }
 
     public void SetInvincible(bool state)
@@ -50,6 +56,9 @@ public class EnemyStats : MonoBehaviour
 
         currentHealth -= damage;
         Debug.Log($"보스 남은 체력: {currentHealth}");
+
+        OnHealthChanged?.Invoke(); // 이벤트
+
         if (blinkCo != null) StopCoroutine(blinkCo);
         blinkCo = StartCoroutine(BlinkByToggle());
         if(currentHealth <= maxHealth * 3 / 10)
