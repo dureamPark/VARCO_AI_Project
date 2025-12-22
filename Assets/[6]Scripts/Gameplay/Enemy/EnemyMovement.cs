@@ -8,8 +8,9 @@ public class EnemyMovement : MonoBehaviour
     private bool isMoving = false;
 
     //이동범위 제한용
-    [SerializeField] private float paddingX = 0.8f;
+    [SerializeField] private float paddingX = 5f;
     [SerializeField] private float paddingY = 0.8f;
+    [SerializeField] private float paddingUpperY = 6f;
 
     private Vector2 minBounds;
     private Vector2 maxBounds;
@@ -50,7 +51,7 @@ public class EnemyMovement : MonoBehaviour
         // X, Y 좌표를 화면 경계 안으로 가두기 (Clamp)
         // min + padding ~ max - padding 사이로 제한
         viewPos.x = Mathf.Clamp(viewPos.x, minBounds.x + paddingX, maxBounds.x - paddingX);
-        viewPos.y = Mathf.Clamp(viewPos.y, minBounds.y + paddingY, maxBounds.y - paddingY);
+        viewPos.y = Mathf.Clamp(viewPos.y, minBounds.y + paddingUpperY, maxBounds.y - paddingY);
 
         // 보정된 위치 적용
         transform.position = viewPos;
