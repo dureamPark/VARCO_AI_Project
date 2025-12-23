@@ -110,8 +110,9 @@ public class EnemyPojectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || collision.CompareTag("Wall"))
+        if (collision.CompareTag("Player"))
         {
+            collision.GetComponent<PlayerStats>().TakeDamage(damage);
             ReturnToPool();
         }
     }
