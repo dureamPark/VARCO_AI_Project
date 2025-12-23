@@ -4,13 +4,12 @@ using TMPro;
 
 public class PlayerStatsUI : MonoBehaviour
 {
-    [Header("player")]
-    public PlayerStats playerStats; 
+    [Header("Player")]
+    public PlayerStats playerStats;
 
     [Header("UI")]
-    public Image healthBarImage;       
+    public Image[] hearts;
     public TextMeshProUGUI attackText;
-    public TextMeshProUGUI manaText;   
 
     void Start()
     {
@@ -18,6 +17,8 @@ public class PlayerStatsUI : MonoBehaviour
         {
             playerStats.OnHealthChanged += UpdateHealthUI;
             playerStats.OnStatsChanged += UpdateStatsUI;
+
+            
             UpdateHealthUI();
             UpdateStatsUI();
         }
@@ -31,19 +32,21 @@ public class PlayerStatsUI : MonoBehaviour
             playerStats.OnStatsChanged -= UpdateStatsUI;
         }
     }
-    void Update()
-    {
-        if (playerStats != null)
-        {
-            manaText.text = $"Mana: {playerStats.CurrentMana:F0} / {playerStats.MaxMana}";
-        }
-    }
 
     void UpdateHealthUI()
     {
-        float ratio = (float)playerStats.CurrentHealth / playerStats.MaxHealth;
-        healthBarImage.fillAmount = ratio;
-        healthBarImage.gameObject.SetActive(playerStats.CurrentHealth > 0);
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            
+            if (i < playerStats.CurrentHealth)
+            {
+                hearts[i].enabled = true;
+            }
+            else
+            {
+                hearts[i].enabled = false;
+            }
+        }
     }
 
     void UpdateStatsUI()

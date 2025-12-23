@@ -3,7 +3,7 @@ using System;
 public class PlayerStats : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] private int maxHealth = 10;
+    [SerializeField] private int maxHealth = 5;
     [SerializeField] private int currentHealth;
     [SerializeField] private float maxMana = 100f;
     [SerializeField] private float currentMana;
