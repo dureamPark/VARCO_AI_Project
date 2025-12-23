@@ -17,8 +17,6 @@ public class PlayerStatsUI : MonoBehaviour
         {
             playerStats.OnHealthChanged += UpdateHealthUI;
             playerStats.OnStatsChanged += UpdateStatsUI;
-
-            
             UpdateHealthUI();
             UpdateStatsUI();
         }
