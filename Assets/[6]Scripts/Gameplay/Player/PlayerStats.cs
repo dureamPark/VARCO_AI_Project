@@ -48,7 +48,7 @@ public class PlayerStats : MonoBehaviour
         Debug.Log($"�ƾ�! ü�� ����: {currentHealth}");
 
         //attackpower - 1 에서 1은 목숨 깎일 때마다 일정 공격력 수치를 낮추는 용도
-        if (attackPower - 1 > 1)
+        if (attackPower - 1 > 0)
         {
             attackPower -= 1;
         }

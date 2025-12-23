@@ -22,7 +22,6 @@ public class Score : MonoBehaviour
         3. 적의 공격을 아슬아슬하게 피했을 때 : 플레이어의 피격 판정 주위에 데미지 포인트(DP)의 범위를 설정해 적의
             공격이 안으로 들어올 때 마다 점수 합산  
     */
-
     private void Awake()
     {
         if (timeManager == null)
