@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySkills : MonoBehaviour
@@ -12,9 +13,11 @@ public class EnemySkills : MonoBehaviour
     private SpriteRenderer sr;
 
     private System.Action onSkillEndCallback;
+    private int lastSkillId = -1;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject commonBulletPrefab;
+    [SerializeField] private GameObject warningPrefab;
 
     private Transform playerTransform;
     private void Awake()
@@ -39,15 +42,24 @@ public class EnemySkills : MonoBehaviour
     {
         
     }
+
     public void CastSkillByPhase(int phase, System.Action onFinished)
     {
         this.onSkillEndCallback = onFinished;
         if (playerTransform == null) FindPlayer();
 
+        int rnd;
+
         if (phase == 1)
         {
-            // 1페이즈: 0~2번 스킬
-            int rnd = Random.Range(0, 3);
+            do
+            {
+                rnd = Random.Range(0, 3);
+            }
+            while (rnd == lastSkillId);
+
+            lastSkillId = rnd;
+
             switch (rnd)
             {
                 case 0: StartCoroutine(Skill_RoughFuture()); break;
@@ -57,15 +69,21 @@ public class EnemySkills : MonoBehaviour
         }
         else
         {
-            // 2페이즈: 신규 스킬 (인덱스 3~7에 해당)
-            int rnd = Random.Range(0, 5);
+            do
+            {
+                rnd = Random.Range(0, 5);
+            }
+            while ((rnd + 100) == lastSkillId);
+
+            lastSkillId = rnd + 100;
+
             switch (rnd)
             {
-                case 0: StartCoroutine(Skill_GraceOfGod()); break;    // 신의 은총
-                case 1: StartCoroutine(Skill_DistortedShape()); break; // 왜곡된 도형
-                case 2: StartCoroutine(Skill_ChaosPolygon()); break;   // 카오스 폴리곤
-                case 3: StartCoroutine(Skill_ErodingWave()); break;    // 침식하는 파동
-                case 4: StartCoroutine(Skill_CoveredFuture()); break;  // 덮인 미래
+                case 0: StartCoroutine(Skill_GraceOfGod()); break;
+                case 1: StartCoroutine(Skill_DistortedShape()); break;
+                case 2: StartCoroutine(Skill_ChaosPolygon()); break;
+                case 3: StartCoroutine(Skill_ErodingWave()); break;
+                case 4: StartCoroutine(Skill_CoveredFuture()); break;
             }
         }
     }
@@ -77,8 +95,75 @@ public class EnemySkills : MonoBehaviour
     // 1. 거친 미래 (기본)
     private IEnumerator Skill_RoughFuture()
     {
-        Debug.Log("1페이즈: 거친 미래");
-        yield return StartCoroutine(Routine_RoughFuture()); // 로직 재사용을 위해 분리함
+        Debug.Log("스킬: 거친 미래 (드로잉 연출)");
+
+        List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
+        Vector2 centerPos = new Vector2(0,0);
+
+        float drawSpeed = 0.05f;
+
+        for (int i = 0; i < 5; i++)
+        {
+            float yOffset = 2f - i * 1.0f;
+
+            for (int x = -2; x <= 2; x++)
+            {
+                Vector2 spawnPos = centerPos + new Vector2(x * 1.5f, yOffset);
+
+                // 방향 계산 (중앙 -> 바깥)
+                Vector2 dir = (spawnPos - centerPos).normalized;
+                if (dir == Vector2.zero) dir = Vector2.up;
+
+                // 생성 (속도 0으로 정지 상태)
+                EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
+                if (p != null) spawnedBullets.Add(p);
+
+                // [핵심] 총알 하나 만들 때마다 대기!
+                yield return new WaitForSeconds(drawSpeed);
+            }
+        }
+
+        // 가로 다 그리고 세로 그리기 전 아주 잠깐 텀
+        yield return new WaitForSeconds(0.2f);
+
+        // 2. 세로 7줄 그리기 (왼쪽 -> 오른쪽 순서)
+        for (int i = 0; i < 7; i++)
+        {
+            float xOffset = -3f + i * 1.0f; // X 위치
+
+            // 한 줄 안에서 위 -> 아래로 '주르륵'
+            // (y 좌표는 보통 위가 +니까 3에서 -3으로 내려가게 설정)
+            for (int y = 3; y >= -3; y--)
+            {
+                Vector2 spawnPos = centerPos + new Vector2(xOffset, y * 1.0f);
+
+                Vector2 dir = (spawnPos - centerPos).normalized;
+                if (dir == Vector2.zero) dir = Vector2.up;
+
+                EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
+                if (p != null) spawnedBullets.Add(p);
+
+                yield return new WaitForSeconds(drawSpeed);
+            }
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        Debug.Log("발사!");
+        foreach (var bullet in spawnedBullets)
+        {
+            if (bullet != null && bullet.gameObject.activeSelf)
+            {
+                // 현재 위치에서 바깥쪽으로 발사
+                Vector2 currentDir = bullet.transform.position.normalized;
+                if (currentDir == Vector2.zero) currentDir = Vector2.up;
+
+                bullet.Launch(currentDir, 7f); // 속도 7로 발사
+            }
+        }
+
+        spawnedBullets.Clear();
+
         yield return new WaitForSeconds(skillCoolDown);
         onSkillEndCallback?.Invoke();
     }
@@ -91,8 +176,10 @@ public class EnemySkills : MonoBehaviour
         for (int i = 0; i < explosionCount; i++)
         {
             Vector2 origin = GetRandomScreenPos();
-            FireNWay(commonBulletPrefab, origin, 12, 6f);
+            ShowWarning(origin, 0.5f, 2.0f);
+
             yield return new WaitForSeconds(0.5f);
+            FireNWay(commonBulletPrefab, origin, 12, 6f);
         }
         yield return new WaitForSeconds(skillCoolDown);
         onSkillEndCallback?.Invoke();
@@ -358,15 +445,35 @@ public class EnemySkills : MonoBehaviour
         return new Vector2(randX, randY);
     }
 
-    private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
+    private void ShowWarning(Vector2 pos, float duration, float scale)
     {
-        GameObject go = ObjectPoolManager.Instance.Spawn(prefab, pos, Quaternion.identity);
+        if (warningPrefab == null) return;
+
+        GameObject go = ObjectPoolManager.Instance.Spawn(warningPrefab, pos, Quaternion.identity);
+        WarningEffect effect = go.GetComponent<WarningEffect>();
+
+        // 경고 이펙트도 풀링 매니저에 등록 필요 (SetOriginPrefab)
+        if (effect != null)
+        {
+            effect.SetOriginPrefab(warningPrefab); // 원본 등록
+            effect.Initialize(duration, scale);    // 연출 시작
+        }
+    }
+    private EnemyPojectile CreateBulletAndReturn(Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
+    {
+        if (commonBulletPrefab == null) return null;
+
+        GameObject go = ObjectPoolManager.Instance.Spawn(commonBulletPrefab, pos, Quaternion.identity);
         EnemyPojectile p = go.GetComponent<EnemyPojectile>();
 
         if (p != null)
         {
-            // shape 정보 전달
             p.Initialize(dir, 10, speed, startDelay, shape);
         }
+        return p;
+    }
+    private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
+    {
+        CreateBulletAndReturn(pos, dir, speed, startDelay, shape);
     }
 }

@@ -30,6 +30,12 @@ public class ObjectPoolManager : MonoBehaviour
             EnemyPojectile p = newObj.GetComponent<EnemyPojectile>();
             if (p != null) p.SetOriginPrefab(prefab);
 
+            WarningEffect w = newObj.GetComponent<WarningEffect>();
+            if (w != null) w.SetOriginPrefab(prefab);
+
+            PlayerProjectile pp = newObj.GetComponent<PlayerProjectile>();
+            if (pp != null) pp.SetOriginPrefab(prefab);
+
             newObj.SetActive(false);
             poolDictionary[prefab].Enqueue(newObj);
         }

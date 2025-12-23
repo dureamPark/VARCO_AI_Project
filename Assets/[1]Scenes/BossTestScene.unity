@@ -378,6 +378,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6398427431620311532, guid: fa23f9aec9fbb06459bb1652c2aaecf2, type: 3}
+      propertyPath: warningPrefab
+      value: 
+      objectReference: {fileID: 358816762810832984, guid: a6464831410fed94cbe3fe4dd71f8a4f, type: 3}
+    - target: {fileID: 6398427431620311532, guid: fa23f9aec9fbb06459bb1652c2aaecf2, type: 3}
       propertyPath: commonBulletPrefab
       value: 
       objectReference: {fileID: 7228713900131055398, guid: 06ada6358acc91b4dabe800ce4a8054e, type: 3}
@@ -420,7 +424,7 @@ Transform:
   m_GameObject: {fileID: 1772016496}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.48797, y: -0.18998, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
