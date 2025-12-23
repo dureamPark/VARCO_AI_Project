@@ -2,10 +2,20 @@ using UnityEngine;
 
 public interface IInputManager
 {
-    Vector2 GetMovementInput(); // WASD
-    bool GetAttackKeyDown();    // (ÀÚµ¿ °ø°İÀÌ¶ó ÇÊ¿ä ¾øÀ» ¼ö ÀÖÁö¸¸ ¿¹ºñ¿ë)
-    bool GetBombSkillDown();    // J: Æø°İ
-    bool GetSpeedSkillDown();   // K: °¡¼Ó
-    bool GetShieldSkillDown();  // L: ¹æ¾î
-    bool GetInteractDown();     // Space: ´ëÈ­
+    Vector2 GetMovementInput(); // WASD ì´ë™
+
+    // ê³µê²© (Zí‚¤ í† ê¸€)
+    bool GetAttackDown();
+
+    // ìŠ¤í‚¬ 1: ìœ ë„íƒ„ ëª¨ë“œ ë³€ê²½ (Xí‚¤)
+    bool GetFlowStyleDown();
+
+    // ìŠ¤í‚¬ 2: ì°¨ì› ë°©ë²½ (Cí‚¤) 
+    bool GetBarrierKey();
+
+    // ìŠ¤í‚¬ 3: í•„ì‚´ê¸° (Ctrlí‚¤)
+    bool GetOverWriteDown();
+
+    // ëŒ€í™” (Space)
+    bool GetInteractDown();
 }

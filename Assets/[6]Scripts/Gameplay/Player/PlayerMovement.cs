@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    [SerializeField] private float moveSpeed = 7f; // ¼Óµµ Å×½ºÆ® ÈÄ ¼öÁ¤ ÇÊ¿ä
+    [SerializeField] private float moveSpeed = 7f; // ì†ë„ í…ŒìŠ¤íŠ¸ í›„ ìˆ˜ì • í•„ìš”
 
     public float MoveSpeed => moveSpeed;
 
@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = direction.normalized * moveSpeed;
     }
 
-    // °¡¼Ó ½ºÅ³ ¼Óµµ ¼³Á¤
+    // ê°€ì† ìŠ¤í‚¬ ì†ë„ ì„¤ì •
     public void SetSpeed(float newSpeed)
     {
         moveSpeed = newSpeed;

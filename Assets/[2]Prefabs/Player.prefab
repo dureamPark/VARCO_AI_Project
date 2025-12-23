@@ -229,7 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e779010a13b9b8846b4412c9143a78b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooter
-  bulletPrefab: {fileID: 3465996132055146368, guid: 0c2bad8b251c0354bacd63b02bc0a3c1, type: 3}
+  normalBulletPrefab: {fileID: 3465996132055146368, guid: 0c2bad8b251c0354bacd63b02bc0a3c1, type: 3}
+  homingBulletPrefab: {fileID: 3465996132055146368, guid: ebfb5d8c488b77b408ce9defd33281fa, type: 3}
   fireRate: 0.2
 --- !u!114 &5881981028323937762
 MonoBehaviour:
