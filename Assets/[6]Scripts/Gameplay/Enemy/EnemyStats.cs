@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -11,16 +12,13 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] private int currentHealth;
     private EnemyFSM fsm;
 
-    [Header("Drop System")]
-    [SerializeField] 
-    private GameObject itemPrefab; // 떨어뜨릴 아이템 프리팹
-    [SerializeField] 
-    [Range(0, 100)] // 아이템 드롭 확률
-    private float dropPercent = 50f; // 50%로 설정
-
     // �ܺο��� ������ ������Ƽ ���� (ù ���� �빮��)
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
+
+    // enemy가 데미지를 받으면 아이템을 드롭하게 신호 보내는 이벤트
+    public event Action<int> OnTakeDamage;
+    public event Action OnDead;
 
     //��Ƽ�� ���� ����
     private bool isInvincible = false;
@@ -63,7 +61,7 @@ public class EnemyStats : MonoBehaviour
             GameManager.Instance.scoreManager.AddDamageScore(damage);
         }
         UnityEngine.Debug.Log($"데미지 : {damage}");
-        GenerateDropItem();
+        OnTakeDamage?.Invoke(damage);
 
         UnityEngine.Debug.Log($"���� ���� ü��: {currentHealth}");
         if (blinkCo != null) StopCoroutine(blinkCo);
@@ -82,6 +80,8 @@ public class EnemyStats : MonoBehaviour
     private void Die()
     {
         if (fsm != null) fsm.OnEnemyDie();
+
+        OnDead?.Invoke();
         Destroy(gameObject);
         UnityEngine.Debug.Log("�� ���");
     }
@@ -109,28 +109,6 @@ public class EnemyStats : MonoBehaviour
         for (int i = 0; i < srs.Length; i++)
         {
             if (srs[i] != null) srs[i].enabled = on;
-        }
-    }
-
-    private void GenerateDropItem()
-    {
-        UnityEngine.Debug.Log("아이템 드롭 메소드 실행");
-        // 1. 떨어뜨릴 아이템이 설정되어 있지 않다면 그냥 종료
-        if (itemPrefab == null)
-        {
-            return;
-        }    
-
-        // 2. 0부터 100 사이의 랜덤한 숫자를 뽑음
-        float randomValue = Random.Range(0f, 100f);
-
-        // 예: 확률이 30%라면, 0~30 사이의 숫자가 나와야 당첨
-        if (randomValue <= dropPercent)
-        {
-        // 아이템 생성 (생성할 물건, 위치, 회전값(회전없는 상태))
-            Instantiate(itemPrefab, transform.position, Quaternion.identity);
-        
-            UnityEngine.Debug.Log("아이템 드롭 성공!");
         }
     }
 }
