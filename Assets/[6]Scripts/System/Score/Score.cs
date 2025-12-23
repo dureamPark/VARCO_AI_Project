@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 
 public class Score : MonoBehaviour
@@ -11,7 +12,7 @@ public class Score : MonoBehaviour
     [SerializeField]
     private int timeBonusPoint = 0; // 스테이지 클리어 시간 보너스 점수
 
-    private GameTimeManage timeManage;
+    private GameTimeManager timeManager;
 
     public int scorePoint => score;
 
@@ -22,32 +23,38 @@ public class Score : MonoBehaviour
             공격이 안으로 들어올 때 마다 점수 합산  
     */
 
+    private void Awake()
+    {
+        if (timeManager == null)
+        {
+            timeManager = GetComponent<GameTimeManager>();
+        }
+    }
+
     private void Start()
     {
-        if (timeManage != null)
+        if (timeManager != null)
         {
-            timeManage.OnTimerEnded += HandleTimerEnded;
+            UnityEngine.Debug.Log("score : GameTimeManager가 할당되었습니다.");
+            timeManager.OnTimerEnded += HandleTimerEnded;
         }
     }
 
     private void OnDestroy()
     {
-        //구독 해지: 오브젝트가 사라질 때 연결 끊기 (필수!)
-        if (timeManage != null)
+        //구독 해지: 오브젝트가 사라질 때 연결 끊기
+        if (timeManager != null)
         {
-            timeManage.OnTimerEnded -= HandleTimerEnded;
+            UnityEngine.Debug.Log("score : GameTimeManager 구독 해지.");
+            timeManager.OnTimerEnded -= HandleTimerEnded;
         }
     }
 
     private void HandleTimerEnded(float finalTime)
-    {
-        // float 시간을 int로 변환해서 기존 로직 실행
-        // 주의: 남은 시간(RemainTime) 계산이 필요하다면 여기서 처리해야 함
-        // 예: int remainTime = 100 - (int)finalTime;
-        
-        // 일단은 흐른 시간을 그대로 넘깁니다.
+    {        
         AddTimeBonusScore(finalTime);
-        Debug.Log($"점수 갱신 완료! 현재 점수: {score}");
+        UnityEngine.Debug.Log($"점수 갱신 완료! 현재 점수: {score}");
+        OnDestroy();
     }
 
     public void AddDamageScore(int damage)
@@ -55,26 +62,29 @@ public class Score : MonoBehaviour
         score += damage * damagePoint;
     }
 
-    public void AddTimeBonusScore(float remainTime)
+    public void AddTimeBonusScore(float totalTime)
     {
+        UnityEngine.Debug.Log($"add bonus score 총 클리어 시간: {totalTime:F2}초");
         // 시간에 따라 보너스 점수 부여
-        if (remainTime >= 60)
-        {
-            timeBonusPoint = 5000;
-        }
-        else if (remainTime >= 30)
-        {
-            timeBonusPoint = 3000;
-        }
-        else if (remainTime >= 10)
+        if (totalTime >= 60)
         {
             timeBonusPoint = 1000;
         }
+        else if (totalTime >= 30)
+        {
+            timeBonusPoint = 3000;
+        }
+        else if (totalTime >= 10)
+        {
+            timeBonusPoint = 5000;
+        }
         else
         {
-            timeBonusPoint = 100;
+            timeBonusPoint = 123;
         }
 
         score += timeBonusPoint;
+
+        UnityEngine.Debug.Log($"시간 점수: {timeBonusPoint}");
     }
 }

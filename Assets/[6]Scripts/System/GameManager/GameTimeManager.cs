@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.Tracing;
 using UnityEngine;
 
-public class GameTimeManage : MonoBehaviour
+public class GameTimeManager : MonoBehaviour
 {
     public float currentTime { get; private set; } = 0.0f;
 

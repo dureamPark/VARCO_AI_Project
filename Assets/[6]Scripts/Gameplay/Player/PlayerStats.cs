@@ -47,6 +47,12 @@ public class PlayerStats : MonoBehaviour
         currentHealth -= damage;
         Debug.Log($"�ƾ�! ü�� ����: {currentHealth}");
 
+        //attackpower - 1 에서 1은 목숨 깎일 때마다 일정 공격력 수치를 낮추는 용도
+        if (attackPower - 1 > 1)
+        {
+            attackPower -= 1;
+        }
+
         if (currentHealth <= 0)
         {
             Die();
@@ -58,14 +64,14 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("�÷��̾� ���...");
         // ���� ���� ó�� ����
 
-        // if (GameManager.Instance != null)
-        // {
-        //     GameManager.Instance.GameOver();
-        // }
-        // else
-        // {
-        //     Debug.LogError("GameManager가 씬에 없습니다!");
-        // }
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameOver();
+        }
+        else
+        {
+            Debug.LogError("GameManager가 씬에 없습니다!");
+        }
     }
 
     // please make player heal up method
@@ -82,6 +88,11 @@ public class PlayerStats : MonoBehaviour
     // please make player attackPower up method 
     public void AttackPowerUp(int amount)
     {
+        if (attackPower >= 100)
+        {
+            Debug.Log("최대 공격력에 도달했습니다.");
+            return;
+        }
         attackPower += amount;
         Debug.Log($"현재 공격력: {attackPower}");
     }

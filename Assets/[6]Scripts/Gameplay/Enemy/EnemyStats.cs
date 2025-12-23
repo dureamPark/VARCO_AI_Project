@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -10,11 +11,18 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] private int currentHealth;
     private EnemyFSM fsm;
 
-    // ¿ÜºÎ¿¡¼­ ÂüÁ¶¿ë ÇÁ·ÎÆÛÆ¼ º¯¼ö (Ã¹ ±ÛÀÚ ´ë¹®ÀÚ)
+    [Header("Drop System")]
+    [SerializeField] 
+    private GameObject itemPrefab; // ë–¨ì–´ëœ¨ë¦´ ì•„ì´í…œ í”„ë¦¬íŒ¹
+    [SerializeField] 
+    [Range(0, 100)] // ì•„ì´í…œ ë“œë¡­ í™•ë¥ 
+    private float dropPercent = 50f; // 50%ë¡œ ì„¤ì •
+
+    // ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ (Ã¹ ï¿½ï¿½ï¿½ï¿½ ï¿½ë¹®ï¿½ï¿½)
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
 
-    //¹öÆ¼±â µ¿¾È ¹«Àû
+    //ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private bool isInvincible = false;
 
     Coroutine blinkCo;
@@ -44,16 +52,25 @@ public class EnemyStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        // ¹«Àû »óÅÂ¶ó¸é µ¥¹ÌÁö¸¦ ÀÔÁö ¾ÊÀ½
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (isInvincible) return;
 
         currentHealth -= damage;
-        Debug.Log($"º¸½º ³²Àº Ã¼·Â: {currentHealth}");
+        
+        // ë°ë¯¸ì§€ì— ë”°ë¥¸ í”Œë ˆì´ì–´ ì ìˆ˜ ì¶”ê°€
+        if (GameManager.Instance != null && GameManager.Instance.scoreManager != null)
+        {
+            GameManager.Instance.scoreManager.AddDamageScore(damage);
+        }
+        UnityEngine.Debug.Log($"ë°ë¯¸ì§€ : {damage}");
+        GenerateDropItem();
+
+        UnityEngine.Debug.Log($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½: {currentHealth}");
         if (blinkCo != null) StopCoroutine(blinkCo);
         blinkCo = StartCoroutine(BlinkByToggle());
         if(currentHealth <= maxHealth * 3 / 10)
         {
-            Debug.Log($"2ÆäÀÌÁî");
+            UnityEngine.Debug.Log($"2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
 
         if (currentHealth <= 0)
@@ -66,7 +83,7 @@ public class EnemyStats : MonoBehaviour
     {
         if (fsm != null) fsm.OnEnemyDie();
         Destroy(gameObject);
-        Debug.Log("Àû »ç¸Á");
+        UnityEngine.Debug.Log("ï¿½ï¿½ ï¿½ï¿½ï¿½");
     }
 
     IEnumerator BlinkByToggle()
@@ -92,6 +109,28 @@ public class EnemyStats : MonoBehaviour
         for (int i = 0; i < srs.Length; i++)
         {
             if (srs[i] != null) srs[i].enabled = on;
+        }
+    }
+
+    private void GenerateDropItem()
+    {
+        UnityEngine.Debug.Log("ì•„ì´í…œ ë“œë¡­ ë©”ì†Œë“œ ì‹¤í–‰");
+        // 1. ë–¨ì–´ëœ¨ë¦´ ì•„ì´í…œì´ ì„¤ì •ë˜ì–´ ìˆì§€ ì•Šë‹¤ë©´ ê·¸ëƒ¥ ì¢…ë£Œ
+        if (itemPrefab == null)
+        {
+            return;
+        }    
+
+        // 2. 0ë¶€í„° 100 ì‚¬ì´ì˜ ëœë¤í•œ ìˆ«ìë¥¼ ë½‘ìŒ
+        float randomValue = Random.Range(0f, 100f);
+
+        // ì˜ˆ: í™•ë¥ ì´ 30%ë¼ë©´, 0~30 ì‚¬ì´ì˜ ìˆ«ìê°€ ë‚˜ì™€ì•¼ ë‹¹ì²¨
+        if (randomValue <= dropPercent)
+        {
+        // ì•„ì´í…œ ìƒì„± (ìƒì„±í•  ë¬¼ê±´, ìœ„ì¹˜, íšŒì „ê°’(íšŒì „ì—†ëŠ” ìƒíƒœ))
+            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        
+            UnityEngine.Debug.Log("ì•„ì´í…œ ë“œë¡­ ì„±ê³µ!");
         }
     }
 }
