@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
         // 3. 스킬 (아직 구현 안됨)
         if (inputManager.GetFlowStyleDown()) Debug.Log("유도탄 모드(X) 입력됨");
-        if (inputManager.GetBarrierKey()) Debug.Log("방벽(C) 누르는 중");
-        if (inputManager.GetOverWriteDown()) Debug.Log("필살기(Ctrl) 입력됨");
+        if (inputManager.GetBarrierKey()) Debug.Log("배리어(Ctrl) 누르는 중");
+        if (inputManager.GetOverWriteDown()) Debug.Log("필살기(C) 입력됨");
     }
 }

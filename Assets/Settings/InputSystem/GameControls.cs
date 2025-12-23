@@ -162,7 +162,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""0b86c1c1-686e-4571-8cc2-601a1e10f4e8"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -173,7 +173,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""4cd796d3-8795-45e0-98e4-ec9f3a25fe4d"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -184,7 +184,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""ca6f5819-bffa-4833-a972-a3a7c8843881"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -195,7 +195,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""3b602cbc-8b9e-4207-adf2-b4fcc91cc2a6"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -217,7 +217,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6fc459e2-6ff2-489a-8804-40c56f1e71a9"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -228,7 +228,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""eacf21c9-f435-4ba8-8775-9b26ad7c47fa"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
