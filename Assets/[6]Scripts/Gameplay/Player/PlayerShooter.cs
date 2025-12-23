@@ -35,7 +35,7 @@ public class PlayerShooter : MonoBehaviour
 
     private void Fire()
     {
-        GameObject bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        GameObject bulletObj = ObjectPoolManager.Instance.Spawn(bulletPrefab, transform.position, Quaternion.identity);
 
         PlayerProjectile projectile = bulletObj.GetComponent<PlayerProjectile>();
 

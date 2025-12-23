@@ -6,10 +6,12 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 7f;
     private Vector2 moveDir;
     private bool isMoving = false;
+    private bool isBoundsCalculated = false;
 
     //이동범위 제한용
-    [SerializeField] private float paddingX = 0.8f;
+    [SerializeField] private float paddingX = 4.3f;
     [SerializeField] private float paddingY = 0.8f;
+    [SerializeField] private float paddingUpperY = 7f;
 
     private Vector2 minBounds;
     private Vector2 maxBounds;
@@ -50,7 +52,7 @@ public class EnemyMovement : MonoBehaviour
         // X, Y 좌표를 화면 경계 안으로 가두기 (Clamp)
         // min + padding ~ max - padding 사이로 제한
         viewPos.x = Mathf.Clamp(viewPos.x, minBounds.x + paddingX, maxBounds.x - paddingX);
-        viewPos.y = Mathf.Clamp(viewPos.y, minBounds.y + paddingY, maxBounds.y - paddingY);
+        viewPos.y = Mathf.Clamp(viewPos.y, minBounds.y + paddingUpperY, maxBounds.y - paddingY);
 
         // 보정된 위치 적용
         transform.position = viewPos;
@@ -60,5 +62,21 @@ public class EnemyMovement : MonoBehaviour
         // 카메라의 좌측 하단(0,0)과 우측 상단(1,1)을 월드 좌표로 변환
         minBounds = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
         maxBounds = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+        isBoundsCalculated = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (isBoundsCalculated)
+        {
+            Gizmos.color = Color.green;
+            // 사각형 그리기
+            float width = (maxBounds.x - paddingX) - (minBounds.x + paddingX);
+            float height = (maxBounds.y - paddingY) - (minBounds.y + paddingUpperY);
+            float centerX = (minBounds.x + paddingX + maxBounds.x - paddingX) / 2;
+            float centerY = (minBounds.y + paddingUpperY + maxBounds.y - paddingY) / 2;
+
+            Gizmos.DrawWireCube(new Vector3(centerX, centerY, 0), new Vector3(width, height, 0));
+        }
     }
 }

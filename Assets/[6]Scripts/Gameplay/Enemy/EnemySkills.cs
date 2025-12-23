@@ -1,33 +1,30 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySkills : MonoBehaviour
 {
     [Header("Skill Settings")]
-    [SerializeField] private float skillCoolDown = 2.0f;
-    [SerializeField] private float invincibilityDuration = 5.0f;
+    [SerializeField] private float skillCoolDown = 0.0f;
 
-    [Header("Phase 2 Prefabs (Pentagon)")]
-    [SerializeField] private GameObject pentagonBulletPrefab;
-
-    private Color prevColor;
+    private Color originColor;
 
     private EnemyStats stats;
     private SpriteRenderer sr;
 
     private System.Action onSkillEndCallback;
+    private int lastSkillId = -1;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject triangleBulletPrefab; // 삼각형 탄막 (거친 미래)
-    [SerializeField] private GameObject squareBulletPrefab;   // 사각형 탄막 (믿음의 신뢰)
-    [SerializeField] private GameObject circleBulletPrefab;   // 원형 탄막 (자유의 감옥)
+    [SerializeField] private GameObject commonBulletPrefab;
+    [SerializeField] private GameObject warningPrefab;
 
     private Transform playerTransform;
     private void Awake()
     {
         stats = GetComponent<EnemyStats>();
         sr = GetComponent<SpriteRenderer>();
-        prevColor = sr.color;
+        originColor = sr.color;
     }
     void Start()
     {
@@ -45,15 +42,24 @@ public class EnemySkills : MonoBehaviour
     {
         
     }
+
     public void CastSkillByPhase(int phase, System.Action onFinished)
     {
         this.onSkillEndCallback = onFinished;
         if (playerTransform == null) FindPlayer();
 
+        int rnd;
+
         if (phase == 1)
         {
-            // 1페이즈: 0~2번 스킬
-            int rnd = Random.Range(0, 3);
+            do
+            {
+                rnd = Random.Range(0, 3);
+            }
+            while (rnd == lastSkillId);
+
+            lastSkillId = rnd;
+
             switch (rnd)
             {
                 case 0: StartCoroutine(Skill_RoughFuture()); break;
@@ -63,15 +69,21 @@ public class EnemySkills : MonoBehaviour
         }
         else
         {
-            // 2페이즈: 신규 스킬 (인덱스 3~7에 해당)
-            int rnd = Random.Range(0, 5);
+            do
+            {
+                rnd = Random.Range(0, 5);
+            }
+            while ((rnd + 100) == lastSkillId);
+
+            lastSkillId = rnd + 100;
+
             switch (rnd)
             {
-                case 0: StartCoroutine(Skill_GraceOfGod()); break;    // 신의 은총
-                case 1: StartCoroutine(Skill_DistortedShape()); break; // 왜곡된 도형
-                case 2: StartCoroutine(Skill_ChaosPolygon()); break;   // 카오스 폴리곤
-                case 3: StartCoroutine(Skill_ErodingWave()); break;    // 침식하는 파동
-                case 4: StartCoroutine(Skill_CoveredFuture()); break;  // 덮인 미래
+                case 0: StartCoroutine(Skill_GraceOfGod()); break;
+                case 1: StartCoroutine(Skill_DistortedShape()); break;
+                case 2: StartCoroutine(Skill_ChaosPolygon()); break;
+                case 3: StartCoroutine(Skill_ErodingWave()); break;
+                case 4: StartCoroutine(Skill_CoveredFuture()); break;
             }
         }
     }
@@ -83,8 +95,85 @@ public class EnemySkills : MonoBehaviour
     // 1. 거친 미래 (기본)
     private IEnumerator Skill_RoughFuture()
     {
-        Debug.Log("1페이즈: 거친 미래");
-        yield return StartCoroutine(Routine_RoughFuture()); // 로직 재사용을 위해 분리함
+        Debug.Log("스킬: 거친 미래 (사이즈 조절 가능)");
+
+        List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
+        Vector2 centerPos = new Vector2(0, 0);
+
+        // ================= [설정값] 여기서 크기를 조절하세요 =================
+        int rowCount = 7;      // 가로 줄 개수 (높이 결정)
+        int colCount = 7;      // 세로 줄 개수 (너비 결정)
+
+        float gapX = 1.4f;     // 가로 간격 (넓을수록 뚱뚱해짐)
+        float gapY = 1.4f;     // 세로 간격 (넓을수록 길어짐)
+
+        float drawSpeed = 0.1f; // 그려지는 속도
+        // ====================================================================
+
+        // [자동 계산] 전체 크기의 절반을 구해서 시작점(왼쪽 위)을 잡음
+        float startY = ((rowCount - 1) * gapY) / 2f;
+        float startX = ((colCount - 1) * gapX) / 2f;
+
+        // 1. 가로 줄 그리기 (위 -> 아래)
+        for (int i = 0; i < rowCount; i++)
+        {
+            // 현재 줄의 Y 좌표 (위에서부터 아래로 내려옴)
+            float currentY = startY - (i * gapY);
+
+            // 한 줄 긋기 (왼쪽 -> 오른쪽)
+            for (int j = 0; j < colCount; j++)
+            {
+                float currentX = -startX + (j * gapX); // 왼쪽 끝에서 시작
+
+                Vector2 spawnPos = centerPos + new Vector2(currentX, currentY);
+                Vector2 dir = spawnPos.normalized; // (0,0 기준 방사형)
+                if (dir == Vector2.zero) dir = Vector2.up;
+
+                EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
+                if (p != null) spawnedBullets.Add(p);
+
+                yield return new WaitForSeconds(drawSpeed);
+            }
+        }
+
+        //yield return new WaitForSeconds(0.2f);
+
+        //// 2. 세로 줄 그리기 (왼쪽 -> 오른쪽)
+        //for (int i = 0; i < colCount; i++)
+        //{
+        //    // 현재 줄의 X 좌표 (왼쪽부터 오른쪽으로 이동)
+        //    float currentX = -startX + (i * gapX);
+
+        //    // 한 줄 긋기 (위 -> 아래)
+        //    for (int j = 0; j < rowCount; j++)
+        //    {
+        //        float currentY = startY - (j * gapY); // 위쪽 끝에서 시작
+
+        //        Vector2 spawnPos = centerPos + new Vector2(currentX, currentY);
+        //        Vector2 dir = spawnPos.normalized;
+        //        if (dir == Vector2.zero) dir = Vector2.up;
+
+        //        EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
+        //        if (p != null) spawnedBullets.Add(p);
+
+        //        yield return new WaitForSeconds(drawSpeed);
+        //    }
+        //}
+
+        yield return new WaitForSeconds(0.5f);
+
+        Debug.Log("발사!");
+        foreach (var bullet in spawnedBullets)
+        {
+            if (bullet != null && bullet.gameObject.activeSelf)
+            {
+                Vector2 currentDir = bullet.transform.position.normalized;
+                if (currentDir == Vector2.zero) currentDir = Vector2.up;
+                bullet.Launch(currentDir, 7f);
+            }
+        }
+
+        spawnedBullets.Clear();
         yield return new WaitForSeconds(skillCoolDown);
         onSkillEndCallback?.Invoke();
     }
@@ -97,8 +186,10 @@ public class EnemySkills : MonoBehaviour
         for (int i = 0; i < explosionCount; i++)
         {
             Vector2 origin = GetRandomScreenPos();
-            FireNWay(squareBulletPrefab, origin, 12, 6f);
+            ShowWarning(origin, 0.5f, 2.0f);
+
             yield return new WaitForSeconds(0.5f);
+            FireNWay(commonBulletPrefab, origin, 12, 6f);
         }
         yield return new WaitForSeconds(skillCoolDown);
         onSkillEndCallback?.Invoke();
@@ -120,7 +211,7 @@ public class EnemySkills : MonoBehaviour
             {
                 Vector2 spawnPos = targetPos + (Vector2)(Quaternion.Euler(0, 0, i * step) * Vector2.right * 4f);
                 Vector2 dir = (targetPos - spawnPos).normalized;
-                CreateBullet(circleBulletPrefab, spawnPos, dir, 3f);
+                CreateBullet(commonBulletPrefab, spawnPos, dir, 3f, 0f, BulletShape.Circle);
             }
             yield return new WaitForSeconds(2.0f);
         }
@@ -139,7 +230,7 @@ public class EnemySkills : MonoBehaviour
         Debug.Log("2페이즈: 신의 은총");
 
         // 병렬 실행: 거친 미래 패턴을 시작하고, 동시에 추가 공격을 수행
-        StartCoroutine(Routine_RoughFuture());
+        StartCoroutine(Skill_RoughFuture());
 
         float duration = 3.0f;
         float timer = 0f;
@@ -159,7 +250,7 @@ public class EnemySkills : MonoBehaviour
 
                     // 플레이어 방향 계산
                     Vector2 targetDir = (playerTransform.position - (Vector3)spawnPos).normalized;
-                    CreateBullet(pentagonBulletPrefab, spawnPos, targetDir, 8f);
+                    CreateBullet(commonBulletPrefab, spawnPos, targetDir, 8f, 0f, BulletShape.Pentagon);
                 }
             }
             yield return new WaitForSeconds(fireRate);
@@ -189,9 +280,9 @@ public class EnemySkills : MonoBehaviour
 
                 // 플레이어를 향해 아주 느리게 다가옴
                 Vector2 dir = (playerTransform.position - (Vector3)spawnPos).normalized;
-                CreateBullet(pentagonBulletPrefab, spawnPos, dir, 2f); // 속도 2 (느림)
+                CreateBullet(commonBulletPrefab, spawnPos, dir, 2f, 0f, BulletShape.Pentagon); // 속도 2 (느림)
             }
-            yield return new WaitForSeconds(0.2f); // 0.2초마다 생성
+            yield return new WaitForSeconds(0.1f); //이거 줄이면 탄막 수많아짐
         }
 
         yield return new WaitForSeconds(skillCoolDown);
@@ -203,14 +294,14 @@ public class EnemySkills : MonoBehaviour
     {
         Debug.Log("2페이즈: 카오스 폴리곤");
 
-        // 3번 반복
+        List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
+
         for (int k = 0; k < 3; k++)
         {
             Vector2 center = GetRandomScreenPos();
-            float radius = 2.0f;
-            int bulletsPerSide = 5; // 변당 총알 수
+            float radius = 3.0f;
+            int bulletsPerSide = 6;
 
-            // 오각형 그리기 (5개의 변)
             for (int i = 0; i < 5; i++)
             {
                 float angleCurrent = i * 72f * Mathf.Deg2Rad;
@@ -219,19 +310,44 @@ public class EnemySkills : MonoBehaviour
                 Vector2 p1 = center + new Vector2(Mathf.Cos(angleCurrent), Mathf.Sin(angleCurrent)) * radius;
                 Vector2 p2 = center + new Vector2(Mathf.Cos(angleNext), Mathf.Sin(angleNext)) * radius;
 
-                // 두 꼭지점 사이를 채움 (선 긋기)
+                // 변 채우기
                 for (int j = 0; j < bulletsPerSide; j++)
                 {
                     float t = (float)j / bulletsPerSide;
                     Vector2 spawnPos = Vector2.Lerp(p1, p2, t);
 
-                    // 일단 멈춰있는 상태로 생성 (속도 0) -> 나중에 움직이게 하려면 투사체 스크립트 수정 필요
-                    // 여기서는 생성 즉시 바깥으로 퍼지게 구현
-                    Vector2 dir = (spawnPos - center).normalized;
-                    CreateBullet(pentagonBulletPrefab, spawnPos, dir, 5f);
+                    EnemyPojectile p = CreateBulletAndReturn(spawnPos, Vector2.zero, 0f, 0f, BulletShape.Pentagon);
+
+                    if (p != null)
+                    {
+                        Collider2D col = p.GetComponent<Collider2D>();
+                        if (col != null) col.enabled = false;
+
+                        spawnedBullets.Add(p);
+                    }
                 }
-                yield return new WaitForSeconds(0.05f); // 그려지는 연출
+                // 변 하나가 그려지는 연출 시간
+                yield return new WaitForSeconds(0.05f);
             }
+
+            yield return new WaitForSeconds(0.5f);
+
+            foreach (var bullet in spawnedBullets)
+            {
+                if (bullet != null && bullet.gameObject.activeSelf)
+                {
+                    Collider2D col = bullet.GetComponent<Collider2D>();
+                    if (col != null) col.enabled = true;
+
+                    Vector2 dir = (bullet.transform.position - (Vector3)center).normalized;
+                    if (dir == Vector2.zero) dir = Vector2.up;
+
+                    bullet.Launch(dir, 6f); 
+                }
+            }
+
+            spawnedBullets.Clear();
+
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -258,7 +374,7 @@ public class EnemySkills : MonoBehaviour
                 {
                     float angle = baseAngle + (j * 5f); // 5도 간격
                     Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
-                    CreateBullet(pentagonBulletPrefab, transform.position, dir, 7f);
+                    CreateBullet(commonBulletPrefab, transform.position, dir, 7f, 0f, BulletShape.Pentagon);
                 }
             }
             yield return new WaitForSeconds(0.4f);
@@ -273,60 +389,32 @@ public class EnemySkills : MonoBehaviour
     {
         Debug.Log("2페이즈: 덮인 미래");
 
-        // 8초 동안 무작위 탄막 뿌리는 코루틴 별도 실행
+        sr.color = Color.red;
+        stats.SetInvincible(true);
+
+        StartCoroutine(Routine_InvincibilityTimer(5.0f));
+
         Coroutine randomSpray = StartCoroutine(Routine_RandomSpray(8.0f));
 
-        // 메인: 오각형 파동 8번
         for (int wave = 0; wave < 8; wave++)
         {
-            // 침식하는 파동보다 좀 더 촘촘하게
             float startAngle = wave * 10f;
             for (int i = 0; i < 5; i++)
             {
                 float baseAngle = startAngle + (i * 72f);
-                // 꼭지점마다 5발
                 for (int j = -2; j <= 2; j++)
                 {
                     float angle = baseAngle + (j * 8f);
                     Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
-                    CreateBullet(pentagonBulletPrefab, transform.position, dir, 6f);
+                    CreateBullet(commonBulletPrefab, transform.position, dir, 6f, 0f, BulletShape.Pentagon);
                 }
             }
-            yield return new WaitForSeconds(0.8f); // 8번을 8초동안 하려면 대략 1초 간격
+
+            yield return new WaitForSeconds(0.8f);
         }
 
-        yield return randomSpray; // 끝날 때까지 대기
+        yield return randomSpray;
         onSkillEndCallback?.Invoke();
-    }
-
-    private IEnumerator Routine_RoughFuture()
-    {
-        Vector2 startPos = transform.position;
-        // 가로 5줄
-        for (int i = 0; i < 5; i++)
-        {
-            float yOffset = 2f - i * 1.0f;
-            for (int x = -2; x <= 2; x++)
-            {
-                Vector2 spawnPos = startPos + new Vector2(x * 1.5f, yOffset);
-                Vector2 dir = (spawnPos - startPos).normalized;
-                if (dir == Vector2.zero) dir = Vector2.up;
-                CreateBullet(triangleBulletPrefab, spawnPos, dir, 5f);
-            }
-            yield return new WaitForSeconds(0.2f);
-        }
-        // 세로 7줄
-        for (int i = 0; i < 7; i++)
-        {
-            float xOffset = -3f + i * 1.0f;
-            for (int y = -3; y <= 3; y++)
-            {
-                Vector2 spawnPos = startPos + new Vector2(xOffset, y * 1.0f);
-                Vector2 dir = (spawnPos - startPos).normalized;
-                CreateBullet(triangleBulletPrefab, spawnPos, dir, 5f);
-            }
-            yield return new WaitForSeconds(0.1f);
-        }
     }
 
     // 랜덤 스프레이 (지속시간 동안 랜덤 발사)
@@ -336,7 +424,7 @@ public class EnemySkills : MonoBehaviour
         while (timer < duration)
         {
             Vector2 dir = Random.insideUnitCircle.normalized;
-            CreateBullet(pentagonBulletPrefab, transform.position, dir, 5f);
+            CreateBullet(commonBulletPrefab, transform.position, dir, 5f, 0f, BulletShape.Pentagon);
             yield return new WaitForSeconds(0.1f);
             timer += 0.1f;
         }
@@ -349,7 +437,7 @@ public class EnemySkills : MonoBehaviour
         {
             float angle = j * angleStep;
             Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
-            CreateBullet(prefab, origin, dir, speed);
+            CreateBullet(prefab, origin, dir, speed, 0f, BulletShape.Square);
         }
     }
 
@@ -361,18 +449,47 @@ public class EnemySkills : MonoBehaviour
         return new Vector2(randX, randY);
     }
 
-    private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed)
+    private void ShowWarning(Vector2 pos, float duration, float scale)
     {
-        if (prefab == null) return;
+        if (warningPrefab == null) return;
 
-        // [수정] Instantiate -> ObjectPoolManager.Instance.Spawn 사용
-        GameObject go = ObjectPoolManager.Instance.Spawn(prefab, pos, Quaternion.identity);
+        GameObject go = ObjectPoolManager.Instance.Spawn(warningPrefab, pos, Quaternion.identity);
+        WarningEffect effect = go.GetComponent<WarningEffect>();
 
+        // 경고 이펙트도 풀링 매니저에 등록 필요 (SetOriginPrefab)
+        if (effect != null)
+        {
+            effect.SetOriginPrefab(warningPrefab); // 원본 등록
+            effect.Initialize(duration, scale);    // 연출 시작
+        }
+    }
+    private EnemyPojectile CreateBulletAndReturn(Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
+    {
+        if (commonBulletPrefab == null) return null;
+
+        GameObject go = ObjectPoolManager.Instance.Spawn(commonBulletPrefab, pos, Quaternion.identity);
         EnemyPojectile p = go.GetComponent<EnemyPojectile>();
+
         if (p != null)
         {
-            // 초기화 로직은 그대로
-            p.Initialize(dir, 10, speed);
+            p.Initialize(dir, 10, speed, startDelay, shape);
         }
+        return p;
+    }
+    private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
+    {
+        CreateBulletAndReturn(pos, dir, speed, startDelay, shape);
+    }
+
+    private IEnumerator Routine_InvincibilityTimer(float duration)
+    {
+        // 정확히 duration(5초)만큼 대기
+        yield return new WaitForSeconds(duration);
+
+        // 무적 해제 및 색상 복구
+        // (EnemySkills.cs에 정의된 원래 색상 변수가 prevColor라면 그것을 사용)
+        sr.color = originColor;
+        stats.SetInvincible(false);
+        Debug.Log("무적 자동 해제됨 (5초 경과)");
     }
 }
