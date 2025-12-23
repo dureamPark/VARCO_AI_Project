@@ -13,7 +13,7 @@ public class EnemyFSM : MonoBehaviour
 {
     [Header("State")]
     [SerializeField] private EnemyState currentState;
-    public EnemyState CurrentState => currentState; // ¿ÜºÎ È®ÀÎ¿ë
+    public EnemyState CurrentState => currentState; // ì™¸ë¶€ í™•ì¸ìš©
 
     [Header("Timers")]
     [SerializeField] private float idleTime = 1.0f;
@@ -63,25 +63,25 @@ public class EnemyFSM : MonoBehaviour
     public void ChangeState(EnemyState newState)
     {
         currentState = newState;
-        timer = 0f; // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+        timer = 0f; // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
 
         switch (currentState)
         {
             case EnemyState.Idle:
-                Debug.Log("»óÅÂ: ´ë±â");
-                movement.StopMove(); // ÀÌµ¿ ¸ØÃã
+                Debug.Log("ìƒíƒœ: ëŒ€ê¸°");
+                movement.StopMove(); // ì´ë™ ë©ˆì¶¤
                 break;
             case EnemyState.Move:
-                Debug.Log("»óÅÂ: ÀÌµ¿");
-                movement.StartRandomMove(); // ÀÌµ¿ ½ÃÀÛ
+                Debug.Log("ìƒíƒœ: ì´ë™");
+                movement.StartRandomMove(); // ì´ë™ ì‹œì‘
                 break;
             case EnemyState.Attack:
-                Debug.Log("»óÅÂ: °ø°İ ½ÃÀÛ");
-                movement.StopMove(); // °ø°İ Áß¿£ º¸Åë ¸ØÃã
+                Debug.Log("ìƒíƒœ: ê³µê²© ì‹œì‘");
+                movement.StopMove(); // ê³µê²© ì¤‘ì—” ë³´í†µ ë©ˆì¶¤
                 skill.CastSkillByPhase(CurrentPhase, OnSkillFinished);
                 break;
             case EnemyState.Die:
-                // »ç¸Á Ã³¸®
+                // ì‚¬ë§ ì²˜ë¦¬
                 break;
         }
     }
@@ -92,10 +92,9 @@ public class EnemyFSM : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= idleTime)
         {
-            // ´ë±â ½Ã°£ÀÌ ³¡³ª¸é ÀÌµ¿ÀÌ³ª °ø°İÀ¸·Î ÀüÈ¯
-            // ¿¹: 50% È®·ü·Î ÀÌµ¿, 50% È®·ü·Î °ø°İ
-            if (Random.value > 0.5f) ChangeState(EnemyState.Move);
-            else ChangeState(EnemyState.Attack);
+            // ëŒ€ê¸° ì‹œê°„ì´ ëë‚˜ë©´ ì´ë™ì´ë‚˜ ê³µê²©ìœ¼ë¡œ ì „í™˜
+            if (Random.value > 0.2f) ChangeState(EnemyState.Attack);
+            else ChangeState(EnemyState.Move);
         }
     }
 
@@ -104,17 +103,17 @@ public class EnemyFSM : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= moveTime)
         {
-            // ÀÌµ¿ ½Ã°£ÀÌ ³¡³ª¸é ¹Ù·Î °ø°İ
+            // ì´ë™ ì‹œê°„ì´ ëë‚˜ë©´ ë°”ë¡œ ê³µê²©
             ChangeState(EnemyState.Attack);
         }
     }
     void OnSkillFinished()
     {
-        // °ø°İÀÌ ³¡³ª¸é ´Ù½Ã Idle »óÅÂ·Î º¹±Í
+        // ê³µê²©ì´ ëë‚˜ë©´ ë‹¤ì‹œ Idle ìƒíƒœë¡œ ë³µê·€
         ChangeState(EnemyState.Idle);
     }
 
-    // ¿ÜºÎ(Stats)¿¡¼­ È£ÃâÇÒ »ç¸Á Ã³¸®
+    // ì™¸ë¶€(Stats)ì—ì„œ í˜¸ì¶œí•  ì‚¬ë§ ì²˜ë¦¬
     public void OnEnemyDie()
     {
         ChangeState(EnemyState.Die);

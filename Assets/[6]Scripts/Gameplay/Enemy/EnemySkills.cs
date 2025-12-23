@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySkills : MonoBehaviour
 {
     [Header("Skill Settings")]
-    [SerializeField] private float skillCoolDown = 2.0f;
+    [SerializeField] private float skillCoolDown = 0.0f;
 
     private Color originColor;
 
@@ -95,49 +95,38 @@ public class EnemySkills : MonoBehaviour
     // 1. 거친 미래 (기본)
     private IEnumerator Skill_RoughFuture()
     {
-        Debug.Log("스킬: 거친 미래 (드로잉 연출)");
+        Debug.Log("스킬: 거친 미래 (사이즈 조절 가능)");
 
         List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
-        Vector2 centerPos = new Vector2(0,0);
+        Vector2 centerPos = new Vector2(0, 0);
 
-        float drawSpeed = 0.05f;
+        // ================= [설정값] 여기서 크기를 조절하세요 =================
+        int rowCount = 7;      // 가로 줄 개수 (높이 결정)
+        int colCount = 7;      // 세로 줄 개수 (너비 결정)
 
-        for (int i = 0; i < 5; i++)
+        float gapX = 1.4f;     // 가로 간격 (넓을수록 뚱뚱해짐)
+        float gapY = 1.4f;     // 세로 간격 (넓을수록 길어짐)
+
+        float drawSpeed = 0.1f; // 그려지는 속도
+        // ====================================================================
+
+        // [자동 계산] 전체 크기의 절반을 구해서 시작점(왼쪽 위)을 잡음
+        float startY = ((rowCount - 1) * gapY) / 2f;
+        float startX = ((colCount - 1) * gapX) / 2f;
+
+        // 1. 가로 줄 그리기 (위 -> 아래)
+        for (int i = 0; i < rowCount; i++)
         {
-            float yOffset = 2f - i * 1.0f;
+            // 현재 줄의 Y 좌표 (위에서부터 아래로 내려옴)
+            float currentY = startY - (i * gapY);
 
-            for (int x = -2; x <= 2; x++)
+            // 한 줄 긋기 (왼쪽 -> 오른쪽)
+            for (int j = 0; j < colCount; j++)
             {
-                Vector2 spawnPos = centerPos + new Vector2(x * 1.5f, yOffset);
+                float currentX = -startX + (j * gapX); // 왼쪽 끝에서 시작
 
-                // 방향 계산 (중앙 -> 바깥)
-                Vector2 dir = (spawnPos - centerPos).normalized;
-                if (dir == Vector2.zero) dir = Vector2.up;
-
-                // 생성 (속도 0으로 정지 상태)
-                EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
-                if (p != null) spawnedBullets.Add(p);
-
-                // [핵심] 총알 하나 만들 때마다 대기!
-                yield return new WaitForSeconds(drawSpeed);
-            }
-        }
-
-        // 가로 다 그리고 세로 그리기 전 아주 잠깐 텀
-        yield return new WaitForSeconds(0.2f);
-
-        // 2. 세로 7줄 그리기 (왼쪽 -> 오른쪽 순서)
-        for (int i = 0; i < 7; i++)
-        {
-            float xOffset = -3f + i * 1.0f; // X 위치
-
-            // 한 줄 안에서 위 -> 아래로 '주르륵'
-            // (y 좌표는 보통 위가 +니까 3에서 -3으로 내려가게 설정)
-            for (int y = 3; y >= -3; y--)
-            {
-                Vector2 spawnPos = centerPos + new Vector2(xOffset, y * 1.0f);
-
-                Vector2 dir = (spawnPos - centerPos).normalized;
+                Vector2 spawnPos = centerPos + new Vector2(currentX, currentY);
+                Vector2 dir = spawnPos.normalized; // (0,0 기준 방사형)
                 if (dir == Vector2.zero) dir = Vector2.up;
 
                 EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
@@ -146,6 +135,30 @@ public class EnemySkills : MonoBehaviour
                 yield return new WaitForSeconds(drawSpeed);
             }
         }
+
+        //yield return new WaitForSeconds(0.2f);
+
+        //// 2. 세로 줄 그리기 (왼쪽 -> 오른쪽)
+        //for (int i = 0; i < colCount; i++)
+        //{
+        //    // 현재 줄의 X 좌표 (왼쪽부터 오른쪽으로 이동)
+        //    float currentX = -startX + (i * gapX);
+
+        //    // 한 줄 긋기 (위 -> 아래)
+        //    for (int j = 0; j < rowCount; j++)
+        //    {
+        //        float currentY = startY - (j * gapY); // 위쪽 끝에서 시작
+
+        //        Vector2 spawnPos = centerPos + new Vector2(currentX, currentY);
+        //        Vector2 dir = spawnPos.normalized;
+        //        if (dir == Vector2.zero) dir = Vector2.up;
+
+        //        EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
+        //        if (p != null) spawnedBullets.Add(p);
+
+        //        yield return new WaitForSeconds(drawSpeed);
+        //    }
+        //}
 
         yield return new WaitForSeconds(0.5f);
 
@@ -154,16 +167,13 @@ public class EnemySkills : MonoBehaviour
         {
             if (bullet != null && bullet.gameObject.activeSelf)
             {
-                // 현재 위치에서 바깥쪽으로 발사
                 Vector2 currentDir = bullet.transform.position.normalized;
                 if (currentDir == Vector2.zero) currentDir = Vector2.up;
-
-                bullet.Launch(currentDir, 7f); // 속도 7로 발사
+                bullet.Launch(currentDir, 7f);
             }
         }
 
         spawnedBullets.Clear();
-
         yield return new WaitForSeconds(skillCoolDown);
         onSkillEndCallback?.Invoke();
     }
