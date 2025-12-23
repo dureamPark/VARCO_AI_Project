@@ -112,7 +112,7 @@ public class EnemyPojectile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerStats>().TakeDamage(damage);
+            collision.GetComponent<PlayerStats>().TakeDamage();
             ReturnToPool();
         }
     }
