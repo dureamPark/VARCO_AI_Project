@@ -230,7 +230,7 @@ public class EnemySkills : MonoBehaviour
         Debug.Log("2페이즈: 신의 은총");
 
         // 병렬 실행: 거친 미래 패턴을 시작하고, 동시에 추가 공격을 수행
-        StartCoroutine(Routine_RoughFuture());
+        StartCoroutine(Skill_RoughFuture());
 
         float duration = 3.0f;
         float timer = 0f;
@@ -391,36 +391,6 @@ public class EnemySkills : MonoBehaviour
         stats.SetInvincible(false);
         yield return randomSpray; // 끝날 때까지 대기
         onSkillEndCallback?.Invoke();
-    }
-
-    private IEnumerator Routine_RoughFuture()
-    {
-        Vector2 startPos = transform.position;
-        // 가로 5줄
-        for (int i = 0; i < 5; i++)
-        {
-            float yOffset = 2f - i * 1.0f;
-            for (int x = -2; x <= 2; x++)
-            {
-                Vector2 spawnPos = startPos + new Vector2(x * 1.5f, yOffset);
-                Vector2 dir = (spawnPos - startPos).normalized;
-                if (dir == Vector2.zero) dir = Vector2.up;
-                CreateBullet(commonBulletPrefab, spawnPos, dir, 5f, 0f, BulletShape.Triangle);
-            }
-            yield return new WaitForSeconds(0.2f);
-        }
-        // 세로 7줄
-        for (int i = 0; i < 7; i++)
-        {
-            float xOffset = -3f + i * 1.0f;
-            for (int y = -3; y <= 3; y++)
-            {
-                Vector2 spawnPos = startPos + new Vector2(xOffset, y * 1.0f);
-                Vector2 dir = (spawnPos - startPos).normalized;
-                CreateBullet(commonBulletPrefab, spawnPos, dir, 5f, 0f, BulletShape.Triangle);
-            }
-            yield return new WaitForSeconds(0.1f);
-        }
     }
 
     // 랜덤 스프레이 (지속시간 동안 랜덤 발사)
