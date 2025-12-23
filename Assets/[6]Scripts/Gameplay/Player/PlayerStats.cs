@@ -45,9 +45,18 @@ public class PlayerStats : MonoBehaviour
 
     private void LoseLife()
     {
+        // 이 밑에 코드는 머지?
+        if (isInvincible) return;
+
         currentLives--;
         OnStatsChanged?.Invoke(); // UI 갱신
         Debug.Log($"남은 목숨: {currentLives}");
+
+        //attackpower - 1 에서 1은 목숨 깎일 때마다 일정 공격력 수치를 낮추는 용도
+        if (attackPower - 1 > 0)
+        {
+            attackPower -= 1;
+        }
 
         if (currentLives > 0)
         {
@@ -65,6 +74,16 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("게임 오버 (Game Over)");
         // GameManager.Instance.GameOver(); // 나중에 연결
         gameObject.SetActive(false); // 플레이어 끄기
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameOver();
+        }
+        else
+        {
+            Debug.LogError("GameManager가 씬에 없습니다!");
+        }
+        Debug.Log("�÷��̾� ���...");
     }
 
     // 밤 사용 시도 (PlayerSkill에서 호출)
@@ -82,6 +101,11 @@ public class PlayerStats : MonoBehaviour
     // 공격력 증가
     public void AttackPowerUp(int amount)
     {
+        if (attackPower >= 100)
+        {
+            Debug.Log("최대 공격력에 도달했습니다.");
+            return;
+        }
         attackPower += amount;
         if (attackPower > MaxAttackPower) attackPower = MaxAttackPower;
         OnStatsChanged?.Invoke();
