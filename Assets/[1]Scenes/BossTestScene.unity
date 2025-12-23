@@ -378,6 +378,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6398427431620311532, guid: fa23f9aec9fbb06459bb1652c2aaecf2, type: 3}
+      propertyPath: commonBulletPrefab
+      value: 
+      objectReference: {fileID: 7228713900131055398, guid: 06ada6358acc91b4dabe800ce4a8054e, type: 3}
+    - target: {fileID: 6398427431620311532, guid: fa23f9aec9fbb06459bb1652c2aaecf2, type: 3}
       propertyPath: pentagonBulletPrefab
       value: 
       objectReference: {fileID: 740184303272170562, guid: 7410850f51917a844939131af1cdda9b, type: 3}

@@ -6,9 +6,6 @@ public class EnemySkills : MonoBehaviour
     [Header("Skill Settings")]
     [SerializeField] private float skillCoolDown = 2.0f;
 
-    [Header("Phase 2 Prefabs (Pentagon)")]
-    [SerializeField] private GameObject pentagonBulletPrefab;
-
     private Color originColor;
 
     private EnemyStats stats;
@@ -17,9 +14,7 @@ public class EnemySkills : MonoBehaviour
     private System.Action onSkillEndCallback;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject triangleBulletPrefab; // 삼각형 탄막 (거친 미래)
-    [SerializeField] private GameObject squareBulletPrefab;   // 사각형 탄막 (믿음의 신뢰)
-    [SerializeField] private GameObject circleBulletPrefab;   // 원형 탄막 (자유의 감옥)
+    [SerializeField] private GameObject commonBulletPrefab;
 
     private Transform playerTransform;
     private void Awake()
@@ -96,7 +91,7 @@ public class EnemySkills : MonoBehaviour
         for (int i = 0; i < explosionCount; i++)
         {
             Vector2 origin = GetRandomScreenPos();
-            FireNWay(squareBulletPrefab, origin, 12, 6f);
+            FireNWay(commonBulletPrefab, origin, 12, 6f);
             yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(skillCoolDown);
@@ -119,7 +114,7 @@ public class EnemySkills : MonoBehaviour
             {
                 Vector2 spawnPos = targetPos + (Vector2)(Quaternion.Euler(0, 0, i * step) * Vector2.right * 4f);
                 Vector2 dir = (targetPos - spawnPos).normalized;
-                CreateBullet(circleBulletPrefab, spawnPos, dir, 3f);
+                CreateBullet(commonBulletPrefab, spawnPos, dir, 3f, 0f, BulletShape.Circle);
             }
             yield return new WaitForSeconds(2.0f);
         }
@@ -158,7 +153,7 @@ public class EnemySkills : MonoBehaviour
 
                     // 플레이어 방향 계산
                     Vector2 targetDir = (playerTransform.position - (Vector3)spawnPos).normalized;
-                    CreateBullet(pentagonBulletPrefab, spawnPos, targetDir, 8f);
+                    CreateBullet(commonBulletPrefab, spawnPos, targetDir, 8f, 0f, BulletShape.Pentagon);
                 }
             }
             yield return new WaitForSeconds(fireRate);
@@ -188,7 +183,7 @@ public class EnemySkills : MonoBehaviour
 
                 // 플레이어를 향해 아주 느리게 다가옴
                 Vector2 dir = (playerTransform.position - (Vector3)spawnPos).normalized;
-                CreateBullet(pentagonBulletPrefab, spawnPos, dir, 2f); // 속도 2 (느림)
+                CreateBullet(commonBulletPrefab, spawnPos, dir, 2f, 0f, BulletShape.Pentagon); // 속도 2 (느림)
             }
             yield return new WaitForSeconds(0.2f); // 0.2초마다 생성
         }
@@ -227,7 +222,7 @@ public class EnemySkills : MonoBehaviour
                     // 일단 멈춰있는 상태로 생성 (속도 0) -> 나중에 움직이게 하려면 투사체 스크립트 수정 필요
                     // 여기서는 생성 즉시 바깥으로 퍼지게 구현
                     Vector2 dir = (spawnPos - center).normalized;
-                    CreateBullet(pentagonBulletPrefab, spawnPos, dir, 5f);
+                    CreateBullet(commonBulletPrefab, spawnPos, dir, 5f, 1.0f, BulletShape.Pentagon);
                 }
                 yield return new WaitForSeconds(0.05f); // 그려지는 연출
             }
@@ -257,7 +252,7 @@ public class EnemySkills : MonoBehaviour
                 {
                     float angle = baseAngle + (j * 5f); // 5도 간격
                     Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
-                    CreateBullet(pentagonBulletPrefab, transform.position, dir, 7f);
+                    CreateBullet(commonBulletPrefab, transform.position, dir, 7f, 0f, BulletShape.Pentagon);
                 }
             }
             yield return new WaitForSeconds(0.4f);
@@ -289,7 +284,7 @@ public class EnemySkills : MonoBehaviour
                 {
                     float angle = baseAngle + (j * 8f);
                     Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
-                    CreateBullet(pentagonBulletPrefab, transform.position, dir, 6f);
+                    CreateBullet(commonBulletPrefab, transform.position, dir, 6f, 0f, BulletShape.Pentagon);
                 }
             }
             yield return new WaitForSeconds(0.8f); // 8번을 8초동안 하려면 대략 1초 간격
@@ -313,7 +308,7 @@ public class EnemySkills : MonoBehaviour
                 Vector2 spawnPos = startPos + new Vector2(x * 1.5f, yOffset);
                 Vector2 dir = (spawnPos - startPos).normalized;
                 if (dir == Vector2.zero) dir = Vector2.up;
-                CreateBullet(triangleBulletPrefab, spawnPos, dir, 5f);
+                CreateBullet(commonBulletPrefab, spawnPos, dir, 5f, 0f, BulletShape.Triangle);
             }
             yield return new WaitForSeconds(0.2f);
         }
@@ -325,7 +320,7 @@ public class EnemySkills : MonoBehaviour
             {
                 Vector2 spawnPos = startPos + new Vector2(xOffset, y * 1.0f);
                 Vector2 dir = (spawnPos - startPos).normalized;
-                CreateBullet(triangleBulletPrefab, spawnPos, dir, 5f);
+                CreateBullet(commonBulletPrefab, spawnPos, dir, 5f, 0f, BulletShape.Triangle);
             }
             yield return new WaitForSeconds(0.1f);
         }
@@ -338,7 +333,7 @@ public class EnemySkills : MonoBehaviour
         while (timer < duration)
         {
             Vector2 dir = Random.insideUnitCircle.normalized;
-            CreateBullet(pentagonBulletPrefab, transform.position, dir, 5f);
+            CreateBullet(commonBulletPrefab, transform.position, dir, 5f, 0f, BulletShape.Pentagon);
             yield return new WaitForSeconds(0.1f);
             timer += 0.1f;
         }
@@ -351,7 +346,7 @@ public class EnemySkills : MonoBehaviour
         {
             float angle = j * angleStep;
             Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
-            CreateBullet(prefab, origin, dir, speed);
+            CreateBullet(prefab, origin, dir, speed, 0f, BulletShape.Square);
         }
     }
 
@@ -363,18 +358,15 @@ public class EnemySkills : MonoBehaviour
         return new Vector2(randX, randY);
     }
 
-    private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed)
+    private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
     {
-        if (prefab == null) return;
-
-        // [수정] Instantiate -> ObjectPoolManager.Instance.Spawn 사용
         GameObject go = ObjectPoolManager.Instance.Spawn(prefab, pos, Quaternion.identity);
-
         EnemyPojectile p = go.GetComponent<EnemyPojectile>();
+
         if (p != null)
         {
-            // 초기화 로직은 그대로
-            p.Initialize(dir, 10, speed);
+            // shape 정보 전달
+            p.Initialize(dir, 10, speed, startDelay, shape);
         }
     }
 }
