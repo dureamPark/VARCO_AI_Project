@@ -122,7 +122,7 @@ public class EnemyPojectile : MonoBehaviour
         ReturnToPool();
     }
 
-    private void ReturnToPool()
+    public void ReturnToPool()
     {
         if (ObjectPoolManager.Instance != null && originPrefab != null)
         {

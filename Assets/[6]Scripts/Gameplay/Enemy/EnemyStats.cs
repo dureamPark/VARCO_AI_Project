@@ -75,6 +75,21 @@ public class EnemyStats : MonoBehaviour
     private void Die()
     {
         if (fsm != null) fsm.OnEnemyDie();
+
+        GameObject[] projectiles = GameObject.FindGameObjectsWithTag("EnemyProjectile");
+
+        foreach (GameObject p in projectiles)
+        {
+            EnemyPojectile ep = p.GetComponent<EnemyPojectile>();
+            if (ep != null)
+            {
+                ep.ReturnToPool();
+            }
+            else
+            {
+                p.SetActive(false);
+            }
+        }
         Destroy(gameObject);
         Debug.Log("적 사망");
     }

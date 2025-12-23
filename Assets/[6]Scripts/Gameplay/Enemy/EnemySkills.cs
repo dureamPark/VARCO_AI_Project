@@ -282,7 +282,7 @@ public class EnemySkills : MonoBehaviour
                 Vector2 dir = (playerTransform.position - (Vector3)spawnPos).normalized;
                 CreateBullet(commonBulletPrefab, spawnPos, dir, 2f, 0f, BulletShape.Pentagon); // 속도 2 (느림)
             }
-            yield return new WaitForSeconds(0.2f); // 0.2초마다 생성
+            yield return new WaitForSeconds(0.1f); //이거 줄이면 탄막 수많아짐
         }
 
         yield return new WaitForSeconds(skillCoolDown);
@@ -294,14 +294,14 @@ public class EnemySkills : MonoBehaviour
     {
         Debug.Log("2페이즈: 카오스 폴리곤");
 
-        // 3번 반복
+        List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
+
         for (int k = 0; k < 3; k++)
         {
             Vector2 center = GetRandomScreenPos();
-            float radius = 2.0f;
-            int bulletsPerSide = 5; // 변당 총알 수
+            float radius = 3.0f;
+            int bulletsPerSide = 6;
 
-            // 오각형 그리기 (5개의 변)
             for (int i = 0; i < 5; i++)
             {
                 float angleCurrent = i * 72f * Mathf.Deg2Rad;
@@ -310,19 +310,44 @@ public class EnemySkills : MonoBehaviour
                 Vector2 p1 = center + new Vector2(Mathf.Cos(angleCurrent), Mathf.Sin(angleCurrent)) * radius;
                 Vector2 p2 = center + new Vector2(Mathf.Cos(angleNext), Mathf.Sin(angleNext)) * radius;
 
-                // 두 꼭지점 사이를 채움 (선 긋기)
+                // 변 채우기
                 for (int j = 0; j < bulletsPerSide; j++)
                 {
                     float t = (float)j / bulletsPerSide;
                     Vector2 spawnPos = Vector2.Lerp(p1, p2, t);
 
-                    // 일단 멈춰있는 상태로 생성 (속도 0) -> 나중에 움직이게 하려면 투사체 스크립트 수정 필요
-                    // 여기서는 생성 즉시 바깥으로 퍼지게 구현
-                    Vector2 dir = (spawnPos - center).normalized;
-                    CreateBullet(commonBulletPrefab, spawnPos, dir, 5f, 1.0f, BulletShape.Pentagon);
+                    EnemyPojectile p = CreateBulletAndReturn(spawnPos, Vector2.zero, 0f, 0f, BulletShape.Pentagon);
+
+                    if (p != null)
+                    {
+                        Collider2D col = p.GetComponent<Collider2D>();
+                        if (col != null) col.enabled = false;
+
+                        spawnedBullets.Add(p);
+                    }
                 }
-                yield return new WaitForSeconds(0.05f); // 그려지는 연출
+                // 변 하나가 그려지는 연출 시간
+                yield return new WaitForSeconds(0.05f);
             }
+
+            yield return new WaitForSeconds(0.5f);
+
+            foreach (var bullet in spawnedBullets)
+            {
+                if (bullet != null && bullet.gameObject.activeSelf)
+                {
+                    Collider2D col = bullet.GetComponent<Collider2D>();
+                    if (col != null) col.enabled = true;
+
+                    Vector2 dir = (bullet.transform.position - (Vector3)center).normalized;
+                    if (dir == Vector2.zero) dir = Vector2.up;
+
+                    bullet.Launch(dir, 6f); 
+                }
+            }
+
+            spawnedBullets.Clear();
+
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -363,20 +388,20 @@ public class EnemySkills : MonoBehaviour
     private IEnumerator Skill_CoveredFuture()
     {
         Debug.Log("2페이즈: 덮인 미래");
+
         sr.color = Color.red;
         stats.SetInvincible(true);
-        // 8초 동안 무작위 탄막 뿌리는 코루틴 별도 실행
+
+        StartCoroutine(Routine_InvincibilityTimer(5.0f));
+
         Coroutine randomSpray = StartCoroutine(Routine_RandomSpray(8.0f));
 
-        // 메인: 오각형 파동 8번
         for (int wave = 0; wave < 8; wave++)
         {
-            // 침식하는 파동보다 좀 더 촘촘하게
             float startAngle = wave * 10f;
             for (int i = 0; i < 5; i++)
             {
                 float baseAngle = startAngle + (i * 72f);
-                // 꼭지점마다 5발
                 for (int j = -2; j <= 2; j++)
                 {
                     float angle = baseAngle + (j * 8f);
@@ -384,12 +409,11 @@ public class EnemySkills : MonoBehaviour
                     CreateBullet(commonBulletPrefab, transform.position, dir, 6f, 0f, BulletShape.Pentagon);
                 }
             }
-            yield return new WaitForSeconds(0.8f); // 8번을 8초동안 하려면 대략 1초 간격
+
+            yield return new WaitForSeconds(0.8f);
         }
 
-        sr.color = originColor;
-        stats.SetInvincible(false);
-        yield return randomSpray; // 끝날 때까지 대기
+        yield return randomSpray;
         onSkillEndCallback?.Invoke();
     }
 
@@ -455,5 +479,17 @@ public class EnemySkills : MonoBehaviour
     private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
     {
         CreateBulletAndReturn(pos, dir, speed, startDelay, shape);
+    }
+
+    private IEnumerator Routine_InvincibilityTimer(float duration)
+    {
+        // 정확히 duration(5초)만큼 대기
+        yield return new WaitForSeconds(duration);
+
+        // 무적 해제 및 색상 복구
+        // (EnemySkills.cs에 정의된 원래 색상 변수가 prevColor라면 그것을 사용)
+        sr.color = originColor;
+        stats.SetInvincible(false);
+        Debug.Log("무적 자동 해제됨 (5초 경과)");
     }
 }
