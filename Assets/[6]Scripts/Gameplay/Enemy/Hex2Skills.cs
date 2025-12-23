@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySkills : EnemySkillBase
+public class Hex2Skills : EnemySkillBase
 {
     [Header("Skill Settings")]
     [SerializeField] private float skillCoolDown = 0.0f;
 
-    private Color originColor;
-
     private EnemyStats stats;
     private SpriteRenderer sr;
+
+    private Color originColor;
 
     private int lastSkillId = -1;
 
@@ -20,13 +20,6 @@ public class EnemySkills : EnemySkillBase
         sr = GetComponent<SpriteRenderer>();
         originColor = sr.color;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void CastSkill(int phase, System.Action onFinished)
     {
         this.onSkillEndCallback = onFinished;
@@ -34,41 +27,19 @@ public class EnemySkills : EnemySkillBase
 
         int rnd;
 
-        if (phase == 1)
-        {
-            // 1페이즈 로직 (기존 동일)
-            do { rnd = Random.Range(0, 3); } while (rnd == lastSkillId);
-            lastSkillId = rnd;
+        do { rnd = Random.Range(0, 5); } while (rnd == lastSkillId);
+        lastSkillId = rnd;
 
-            switch (rnd)
-            {
-                case 0: StartCoroutine(Skill_RoughFuture()); break;
-                case 1: StartCoroutine(Skill_TrustOfBelief()); break;
-                case 2: StartCoroutine(Skill_PrisonOfFreedom()); break;
-            }
-        }
-        else
+        switch (rnd)
         {
-            // 2페이즈 로직 (기존 동일)
-            do { rnd = Random.Range(0, 5); } while ((rnd + 100) == lastSkillId);
-            lastSkillId = rnd + 100;
-
-            switch (rnd)
-            {
-                case 0: StartCoroutine(Skill_GraceOfGod()); break;
-                case 1: StartCoroutine(Skill_DistortedShape()); break;
-                case 2: StartCoroutine(Skill_ChaosPolygon()); break;
-                case 3: StartCoroutine(Skill_ErodingWave()); break;
-                case 4: StartCoroutine(Skill_CoveredFuture()); break;
-            }
+            case 0: StartCoroutine(Skill_GraceOfGod()); break;
+            case 1: StartCoroutine(Skill_DistortedShape()); break;
+            case 2: StartCoroutine(Skill_ChaosPolygon()); break;
+            case 3: StartCoroutine(Skill_ErodingWave()); break;
+            case 4: StartCoroutine(Skill_CoveredFuture()); break;
         }
     }
 
-    // ========================================================================
-    // Phase 1 Skills
-    // ========================================================================
-
-    // 1. 거친 미래 (기본)
     private IEnumerator Skill_RoughFuture()
     {
         Debug.Log("스킬: 거친 미래 (사이즈 조절 가능)");
@@ -76,15 +47,13 @@ public class EnemySkills : EnemySkillBase
         List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
         Vector2 centerPos = new Vector2(0, 0);
 
-        // ================= [설정값] 여기서 크기를 조절하세요 =================
-        int rowCount = 7;      // 가로 줄 개수 (높이 결정)
-        int colCount = 7;      // 세로 줄 개수 (너비 결정)
+        int rowCount = 5;      // 가로 줄 개수 (높이 결정)
+        int colCount = 5;      // 세로 줄 개수 (너비 결정)
 
-        float gapX = 1.4f;     // 가로 간격 (넓을수록 뚱뚱해짐)
-        float gapY = 1.4f;     // 세로 간격 (넓을수록 길어짐)
+        float gapX = 2f;     // 가로 간격 (넓을수록 뚱뚱해짐)
+        float gapY = 2f;     // 세로 간격 (넓을수록 길어짐)
 
         float drawSpeed = 0.1f; // 그려지는 속도
-        // ====================================================================
 
         // [자동 계산] 전체 크기의 절반을 구해서 시작점(왼쪽 위)을 잡음
         float startY = ((rowCount - 1) * gapY) / 2f;
@@ -112,30 +81,6 @@ public class EnemySkills : EnemySkillBase
             }
         }
 
-        //yield return new WaitForSeconds(0.2f);
-
-        //// 2. 세로 줄 그리기 (왼쪽 -> 오른쪽)
-        //for (int i = 0; i < colCount; i++)
-        //{
-        //    // 현재 줄의 X 좌표 (왼쪽부터 오른쪽으로 이동)
-        //    float currentX = -startX + (i * gapX);
-
-        //    // 한 줄 긋기 (위 -> 아래)
-        //    for (int j = 0; j < rowCount; j++)
-        //    {
-        //        float currentY = startY - (j * gapY); // 위쪽 끝에서 시작
-
-        //        Vector2 spawnPos = centerPos + new Vector2(currentX, currentY);
-        //        Vector2 dir = spawnPos.normalized;
-        //        if (dir == Vector2.zero) dir = Vector2.up;
-
-        //        EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
-        //        if (p != null) spawnedBullets.Add(p);
-
-        //        yield return new WaitForSeconds(drawSpeed);
-        //    }
-        //}
-
         yield return new WaitForSeconds(0.5f);
 
         Debug.Log("발사!");
@@ -154,7 +99,6 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-    // 2. 믿음의 신뢰
     private IEnumerator Skill_TrustOfBelief()
     {
         Debug.Log("1페이즈: 믿음의 신뢰");
@@ -165,13 +109,12 @@ public class EnemySkills : EnemySkillBase
             ShowWarning(origin, 0.5f, 2.0f);
 
             yield return new WaitForSeconds(0.5f);
-            FireNWay(commonBulletPrefab, origin, 12, 6f);
+            FireNWay(commonBulletPrefab, origin, 12, 4f);
         }
         yield return new WaitForSeconds(skillCoolDown);
         onSkillEndCallback?.Invoke();
     }
 
-    // 3. 자유의 감옥
     private IEnumerator Skill_PrisonOfFreedom()
     {
         Debug.Log("1페이즈: 자유의 감옥");
@@ -195,12 +138,6 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-
-    // ========================================================================
-    // Phase 2 Skills (Pentagon Theme)
-    // ========================================================================
-
-    // 4. 신의 은총: <거친 미래> + 오각형에서 플레이어 조준 사격 (3초)
     private IEnumerator Skill_GraceOfGod()
     {
         Debug.Log("2페이즈: 신의 은총");
@@ -238,7 +175,6 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-    // 5. 왜곡된 도형: 플레이어 주위에 느린 오각형 탄막 랜덤 생성
     private IEnumerator Skill_DistortedShape()
     {
         Debug.Log("2페이즈: 왜곡된 도형");
@@ -265,7 +201,6 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-    // 6. 카오스 폴리곤: 주위에 오각형 형태로 생성 후 방사형 터짐
     private IEnumerator Skill_ChaosPolygon()
     {
         Debug.Log("2페이즈: 카오스 폴리곤");
@@ -318,7 +253,7 @@ public class EnemySkills : EnemySkillBase
                     Vector2 dir = (bullet.transform.position - (Vector3)center).normalized;
                     if (dir == Vector2.zero) dir = Vector2.up;
 
-                    bullet.Launch(dir, 6f); 
+                    bullet.Launch(dir, 6f);
                 }
             }
 
@@ -331,7 +266,6 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-    // 7. 침식하는 파동: 보스 중심으로 오각형 파동 5번
     private IEnumerator Skill_ErodingWave()
     {
         Debug.Log("2페이즈: 침식하는 파동");
@@ -360,7 +294,6 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-    // 8. 덮인 미래: 오각형 파동 8번 + 무작위 방사 (8초)
     private IEnumerator Skill_CoveredFuture()
     {
         Debug.Log("2페이즈: 덮인 미래");
@@ -393,17 +326,15 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-    // 랜덤 스프레이 (지속시간 동안 랜덤 발사)
-    private IEnumerator Routine_RandomSpray(float duration)
+    private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
     {
-        float timer = 0f;
-        while (timer < duration)
-        {
-            Vector2 dir = Random.insideUnitCircle.normalized;
-            CreateBullet(commonBulletPrefab, transform.position, dir, 5f, 0f, BulletShape.Pentagon);
-            yield return new WaitForSeconds(0.1f);
-            timer += 0.1f;
-        }
+        CreateBulletAndReturn(pos, dir, speed, startDelay, shape);
+    }
+    private Vector2 GetRandomScreenPos()
+    {
+        float randX = Random.Range(-7f, 7f);
+        float randY = Random.Range(-4f, 4f);
+        return new Vector2(randX, randY);
     }
 
     private void FireNWay(GameObject prefab, Vector2 origin, int count, float speed)
@@ -417,16 +348,16 @@ public class EnemySkills : EnemySkillBase
         }
     }
 
-    private Vector2 GetRandomScreenPos()
+    private IEnumerator Routine_RandomSpray(float duration)
     {
-        // 화면 안쪽 안전한 랜덤 위치
-        float randX = Random.Range(-7f, 7f);
-        float randY = Random.Range(-4f, 4f);
-        return new Vector2(randX, randY);
-    }
-    private void CreateBullet(GameObject prefab, Vector2 pos, Vector2 dir, float speed, float startDelay, BulletShape shape)
-    {
-        CreateBulletAndReturn(pos, dir, speed, startDelay, shape);
+        float timer = 0f;
+        while (timer < duration)
+        {
+            Vector2 dir = Random.insideUnitCircle.normalized;
+            CreateBullet(commonBulletPrefab, transform.position, dir, 5f, 0f, BulletShape.Pentagon);
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+        }
     }
 
     private IEnumerator Routine_InvincibilityTimer(float duration)
