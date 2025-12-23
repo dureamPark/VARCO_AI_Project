@@ -31,7 +31,7 @@ public class EnemyPojectile : MonoBehaviour
     public void Initialize(Vector2 direction, int damageValue, float speed, float startDelay, BulletShape shape)
     {
         // 1. 데미지 및 속도 설정
-        this.damage = damageValue;
+        this.damage = 1; //ㅋㅋ 데미지 1로 고정
         this.moveSpeed = speed; // 0이 들어오면 0으로 저장됨 (정지 상태)
 
         // 2. 모양(Sprite) 교체
@@ -110,8 +110,9 @@ public class EnemyPojectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || collision.CompareTag("Wall"))
+        if (collision.CompareTag("Player"))
         {
+            collision.GetComponent<PlayerStats>().TakeDamage(damage);
             ReturnToPool();
         }
     }
