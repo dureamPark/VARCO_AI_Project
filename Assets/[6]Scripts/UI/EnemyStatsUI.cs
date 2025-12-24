@@ -1,45 +1,63 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class EnemyStatsUI : MonoBehaviour
 {
-    [Header("Enemy")]
-    public EnemyStats enemyStats;
+    public static EnemyStatsUI Instance;
 
-    [Header("UI")]
-    public Image healthBarImage; 
+    [Header("UI Components")]
+    public GameObject healthBarContainer;
+    public Image healthBarImage;
+    private EnemyStats currentBoss;
 
-    void Start()
+    private void Awake()
     {
-        if (enemyStats != null)
+        if (Instance == null)
         {
-            enemyStats.OnHealthChanged += UpdateEnemyHealthUI;
-            UpdateEnemyHealthUI();
-        }
-    }
-
-    void OnDestroy()
-    {
-        if (enemyStats != null)
-        {
-            enemyStats.OnHealthChanged -= UpdateEnemyHealthUI;
-        }
-    }
-    void UpdateEnemyHealthUI()
-    {
-        if (enemyStats == null) return;
-        float ratio = (float)enemyStats.CurrentHealth / enemyStats.MaxHealth;
-        healthBarImage.fillAmount = ratio;
-
-        
-        if (enemyStats.CurrentHealth <= 0)
-        {
-            healthBarImage.gameObject.SetActive(false);
+            Instance = this;
         }
         else
         {
-            healthBarImage.gameObject.SetActive(true);
+            Destroy(gameObject);
+        }
+        if (healthBarContainer != null)
+            healthBarContainer.SetActive(false);
+    }
+    public void SetBoss(EnemyStats boss)
+    {
+        if (currentBoss != null)
+        {
+            currentBoss.OnHealthChanged -= UpdateUI;
+            currentBoss.OnDead -= HideUI;
+        }
+
+        currentBoss = boss;
+        if (currentBoss != null)
+        {
+            currentBoss.OnHealthChanged += UpdateUI;
+            currentBoss.OnDead += HideUI;
+            if (healthBarContainer != null) healthBarContainer.SetActive(true);
+            UpdateUI();
+        }
+    }
+    void UpdateUI()
+    {
+        if (currentBoss == null) return;
+        float ratio = (float)currentBoss.CurrentHealth / currentBoss.MaxHealth;
+
+        if (healthBarImage != null)
+            healthBarImage.fillAmount = ratio;
+    }
+
+    void HideUI()
+    {
+        if (healthBarContainer != null)
+            healthBarContainer.SetActive(false);
+        if (currentBoss != null)
+        {
+            currentBoss.OnHealthChanged -= UpdateUI;
+            currentBoss.OnDead -= HideUI;
+            currentBoss = null;
         }
     }
 }
