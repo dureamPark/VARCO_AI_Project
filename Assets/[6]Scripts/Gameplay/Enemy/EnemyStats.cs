@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
-using System;
 
 public class EnemyStats : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class EnemyStats : MonoBehaviour
     // 외부에서 참조용 프로퍼티 변수 (첫 글자 대문자)
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
+    
+    // enemy가 데미지를 받으면 아이템을 드롭하게 신호 보내는 이벤트
+    public event Action<int> OnTakeDamage;
+    public event Action OnDead;
 
     public event Action OnHealthChanged; // 이벤트
 
@@ -51,19 +56,26 @@ public class EnemyStats : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // 무적 상태라면 데미지를 입지 않음
-        Debug.Log("ㅎㅎ");
+        UnityEngine.Debug.Log("ㅎㅎ");
         if (isInvincible) return;
 
         currentHealth -= damage;
-        Debug.Log($"보스 남은 체력: {currentHealth}");
+        // 데미지에 따른 플레이어 점수 추가
+        if (GameManager.Instance != null && GameManager.Instance.scoreManager != null)
+        {
+            GameManager.Instance.scoreManager.AddDamageScore(damage);
+        }
+        UnityEngine.Debug.Log($"데미지 : {damage}");
+        OnTakeDamage?.Invoke(damage);
+        UnityEngine.Debug.Log($"보스 남은 체력: {currentHealth}");
 
         OnHealthChanged?.Invoke(); // 이벤트
-
+        
         if (blinkCo != null) StopCoroutine(blinkCo);
         blinkCo = StartCoroutine(BlinkByToggle());
         if(currentHealth <= maxHealth * 3 / 10)
         {
-            Debug.Log($"2페이즈");
+            UnityEngine.Debug.Log($"2페이즈");
         }
 
         if (currentHealth <= 0)
@@ -75,7 +87,7 @@ public class EnemyStats : MonoBehaviour
     private void Die()
     {
         if (fsm != null) fsm.OnEnemyDie();
-
+        OnDead?.Invoke();
         GameObject[] projectiles = GameObject.FindGameObjectsWithTag("EnemyProjectile");
 
         foreach (GameObject p in projectiles)
@@ -91,7 +103,7 @@ public class EnemyStats : MonoBehaviour
             }
         }
         Destroy(gameObject);
-        Debug.Log("적 사망");
+        UnityEngine.Debug.Log("적 사망");
     }
 
     IEnumerator BlinkByToggle()

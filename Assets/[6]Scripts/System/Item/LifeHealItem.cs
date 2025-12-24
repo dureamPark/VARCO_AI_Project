@@ -1,18 +1,18 @@
 using System.Runtime.Serialization;
 using UnityEngine;
-
-public class AttackPowerUpItem : BaseItem
+public class LifeHealItem : BaseItem
 {
     [SerializeField]
-    private int attackPowerUp = 1;
+    private int healAmount = 1;
 
     protected override void ApplyEffect(PlayerStats target)
     {
             if (target != null)
             {
-                target.AttackPowerUp(attackPowerUp);
+                target.HealLife(healAmount);
                 
-                Debug.Log("Attack Power Up Item Used");
+                Debug.Log("Heal Item Used");
             }
     }
 }
+
