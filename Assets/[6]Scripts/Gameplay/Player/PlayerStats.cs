@@ -31,6 +31,11 @@ public class PlayerStats : MonoBehaviour
         attackPower = 1;
         isDead = false;
 
+        if (PlayerStatsUI.Instance != null)
+        {
+            PlayerStatsUI.Instance.SetPlayer(this);
+        }
+
         OnStatsChanged?.Invoke();
     }
 
@@ -46,9 +51,7 @@ public class PlayerStats : MonoBehaviour
     private void LoseLife()
     {
         currentLives--;
-        OnStatsChanged?.Invoke(); // UI 갱신
         Debug.Log($"남은 목숨: {currentLives}");
-
         //attackpower - 1 에서 1은 목숨 깎일 때마다 일정 공격력 수치를 낮추는 용도
         //승우가 아래 if문에도 OnStatsChanged?.Invoke(); 넣어야하지 않나?
         if (attackPower - 1 > 0)
@@ -64,6 +67,7 @@ public class PlayerStats : MonoBehaviour
         {
             Die();
         }
+        OnStatsChanged?.Invoke(); // UI 갱신
     }
 
     private void Die()
