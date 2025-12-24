@@ -22,6 +22,7 @@ public class StageManager : MonoBehaviour
     {
         // 게임 시작 시 첫 번째 적 소환
         StartCoroutine(StartNextStage(0));
+        //AudioEvents.TriggerPlayBGM("ArenaCall");
     }
 
     // 적이 죽었을 때 호출될 함수
