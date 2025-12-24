@@ -59,9 +59,6 @@ public abstract class EnemySkillBase : MonoBehaviour
 
     protected void AnnounceSkill(string skillName)
     {
-        Debug.Log($"보스 스킬 발동: {skillName}");
-
-        // 구독자가 있으면 신호를 보냄 (?.)
         OnBossSkillCast?.Invoke(skillName);
     }
 }
