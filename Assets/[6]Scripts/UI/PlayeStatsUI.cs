@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class PlayerStatsUI : MonoBehaviour
 {
-    // ▼▼▼ [핵심 1] 어디서든 접근할 수 있게 싱글톤 인스턴스 선언
+    //어디서든 접근할 수 있게 싱글톤 인스턴스 선언
     public static PlayerStatsUI Instance;
 
-    [Header("Target")]
+    [HideInInspector]
     public PlayerStats playerStats; // 인스펙터에서 연결 안 해도 됨 (코드로 연결됨)
 
     [Header("Life UI (Hearts)")]
@@ -21,7 +22,7 @@ public class PlayerStatsUI : MonoBehaviour
 
     private void Awake()
     {
-        // ▼▼▼ [핵심 2] 게임 시작 시 전광판(Instance) 켜기
+        //게임 시작 시 전광판(Instance) 켜기
         if (Instance == null)
         {
             Instance = this;
@@ -32,7 +33,7 @@ public class PlayerStatsUI : MonoBehaviour
         }
     }
 
-    // ▼▼▼ [핵심 3] 플레이어가 태어나면 이 함수를 통해 자신을 등록함
+    // 플레이어가 태어나면 이 함수를 통해 자신을 등록함
     public void SetPlayer(PlayerStats player)
     {
         // 기존에 연결된 게 있다면 끊어주기 (안전장치)
@@ -63,7 +64,6 @@ public class PlayerStatsUI : MonoBehaviour
     void UpdateUI()
     {
         if (playerStats == null) return;
-
         UpdateLives();
         UpdateBombs();
         UpdateTextInfo();

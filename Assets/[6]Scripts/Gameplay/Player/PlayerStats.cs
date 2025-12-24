@@ -17,6 +17,7 @@ public class PlayerStats : MonoBehaviour
     // UI 갱신용 이벤트
     public event Action OnStatsChanged;
 
+
     // 외부에서 갖다 쓸 프로퍼티
     public int AttackPower => attackPower;
     public int CurrentLives => currentLives;
