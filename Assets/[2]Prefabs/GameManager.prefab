@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6275281874775545241}
   - component: {fileID: 4925667915589252935}
   - component: {fileID: 6049438936636421651}
+  - component: {fileID: 300142681794110375}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e883bcde21b27cd419518dc34fbf659d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  timeManage: {fileID: 6049438936636421651}
+  timeManager: {fileID: 0}
+  score: {fileID: 0}
 --- !u!114 &6049438936636421651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,3 +60,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fe4eefec600c4c4e95de09d2c414bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameTimeManage
+--- !u!114 &300142681794110375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2651604424981556885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8251c42fee5972b45acbf2f9a942d16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Score
+  score: 0
+  damagePoint: 10
+  timeBonusPoint: 0

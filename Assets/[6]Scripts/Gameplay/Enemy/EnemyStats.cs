@@ -87,7 +87,10 @@ public class EnemyStats : MonoBehaviour
     private void Die()
     {
         if (fsm != null) fsm.OnEnemyDie();
+
         OnDead?.Invoke();
+        UnityEngine.Debug.Log("OnDead 이벤트 호출됨");
+        
         GameObject[] projectiles = GameObject.FindGameObjectsWithTag("EnemyProjectile");
 
         foreach (GameObject p in projectiles)

@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7277062812260283703}
   - component: {fileID: 4359858220793786139}
   - component: {fileID: 5123224888758443837}
+  - component: {fileID: 2554219381584291600}
+  - component: {fileID: 4749229945973865022}
   - component: {fileID: 6398427431620311532}
   m_Layer: 0
   m_Name: Enemy
@@ -213,7 +215,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7816055206299033561}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d996dc567471c2249a576a9f65b9a6b2, type: 3}
   m_Name: 
@@ -222,6 +224,38 @@ MonoBehaviour:
   paddingX: 7
   paddingY: 0.8
   paddingUpperY: 7
+--- !u!114 &2554219381584291600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7816055206299033561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b2957925232d743bcf40d46481f0c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyItemSpawner
+  dropTable:
+  - itemName: HealItem
+    itemPrefab: {fileID: 3809359313748757205, guid: 27278fdfdc969154b90c5c6b92a4f48d, type: 3}
+    dropPercent: 2
+  - itemName: AttackUpItem
+    itemPrefab: {fileID: 798958552226082942, guid: 71e9b2f40c9a8b840a4ec64eb624da6b, type: 3}
+    dropPercent: 5
+--- !u!114 &4749229945973865022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7816055206299033561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1075345c8ae565841b5357d4c022f5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyEntry
+  entrySpeed: 3
 --- !u!114 &6398427431620311532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b70db54ed0b1e4f9b91fa52cbbb70d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkills
-  skillCoolDown: 2
   commonBulletPrefab: {fileID: 7228713900131055398, guid: 06ada6358acc91b4dabe800ce4a8054e, type: 3}
   warningPrefab: {fileID: 358816762810832984, guid: a6464831410fed94cbe3fe4dd71f8a4f, type: 3}
+  skillCoolDown: 2
