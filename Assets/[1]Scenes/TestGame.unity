@@ -1155,6 +1155,10 @@ PrefabInstance:
       propertyPath: m_IgnoreReversedGraphics
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6760743613920312271, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1198477067713850731, guid: 5a53c2e638e1f5841a4e06b54dbc554f, type: 3}
     - target: {fileID: 6865129150922014640, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1239,6 +1243,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas_Game
       objectReference: {fileID: 0}
+    - target: {fileID: 9141086886757570130, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1198477067713850731, guid: 5a53c2e638e1f5841a4e06b54dbc554f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
