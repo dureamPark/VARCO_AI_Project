@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
 
 public abstract class EnemySkillBase : MonoBehaviour
 {
@@ -52,5 +53,15 @@ public abstract class EnemySkillBase : MonoBehaviour
             effect.SetOriginPrefab(warningPrefab);
             effect.Initialize(duration, scale);
         }
+    }
+
+    public static event Action<string> OnBossSkillCast;
+
+    protected void AnnounceSkill(string skillName)
+    {
+        Debug.Log($"보스 스킬 발동: {skillName}");
+
+        // 구독자가 있으면 신호를 보냄 (?.)
+        OnBossSkillCast?.Invoke(skillName);
     }
 }

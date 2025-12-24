@@ -71,7 +71,7 @@ public class EnemySkills : EnemySkillBase
     // 1. 거친 미래 (기본)
     private IEnumerator Skill_RoughFuture()
     {
-        Debug.Log("스킬: 거친 미래 (사이즈 조절 가능)");
+        AnnounceSkill("거친 미래");
 
         List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
         Vector2 centerPos = new Vector2(0, 0);
@@ -138,7 +138,6 @@ public class EnemySkills : EnemySkillBase
 
         yield return new WaitForSeconds(0.5f);
 
-        Debug.Log("발사!");
         foreach (var bullet in spawnedBullets)
         {
             if (bullet != null && bullet.gameObject.activeSelf)
@@ -157,7 +156,7 @@ public class EnemySkills : EnemySkillBase
     // 2. 믿음의 신뢰
     private IEnumerator Skill_TrustOfBelief()
     {
-        Debug.Log("1페이즈: 믿음의 신뢰");
+        AnnounceSkill("믿음의 신뢰");
         int explosionCount = 4;
         for (int i = 0; i < explosionCount; i++)
         {
@@ -174,7 +173,7 @@ public class EnemySkills : EnemySkillBase
     // 3. 자유의 감옥
     private IEnumerator Skill_PrisonOfFreedom()
     {
-        Debug.Log("1페이즈: 자유의 감옥");
+        AnnounceSkill("자유의 감옥");
         for (int k = 0; k < 4; k++)
         {
             if (playerTransform == null) break;
@@ -203,7 +202,7 @@ public class EnemySkills : EnemySkillBase
     // 4. 신의 은총: <거친 미래> + 오각형에서 플레이어 조준 사격 (3초)
     private IEnumerator Skill_GraceOfGod()
     {
-        Debug.Log("2페이즈: 신의 은총");
+        AnnounceSkill("신의 은총");
 
         // 병렬 실행: 거친 미래 패턴을 시작하고, 동시에 추가 공격을 수행
         StartCoroutine(Skill_RoughFuture());
@@ -241,7 +240,7 @@ public class EnemySkills : EnemySkillBase
     // 5. 왜곡된 도형: 플레이어 주위에 느린 오각형 탄막 랜덤 생성
     private IEnumerator Skill_DistortedShape()
     {
-        Debug.Log("2페이즈: 왜곡된 도형");
+        AnnounceSkill("왜곡된 도형");
 
         float duration = 3.0f; // 지속시간 임의 설정
         float endTime = Time.time + duration;
@@ -268,7 +267,7 @@ public class EnemySkills : EnemySkillBase
     // 6. 카오스 폴리곤: 주위에 오각형 형태로 생성 후 방사형 터짐
     private IEnumerator Skill_ChaosPolygon()
     {
-        Debug.Log("2페이즈: 카오스 폴리곤");
+        AnnounceSkill("카오스 폴리곤");
 
         List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
 
@@ -334,7 +333,7 @@ public class EnemySkills : EnemySkillBase
     // 7. 침식하는 파동: 보스 중심으로 오각형 파동 5번
     private IEnumerator Skill_ErodingWave()
     {
-        Debug.Log("2페이즈: 침식하는 파동");
+        AnnounceSkill("침식하는 파동");
 
         for (int wave = 0; wave < 5; wave++)
         {
@@ -363,7 +362,7 @@ public class EnemySkills : EnemySkillBase
     // 8. 덮인 미래: 오각형 파동 8번 + 무작위 방사 (8초)
     private IEnumerator Skill_CoveredFuture()
     {
-        Debug.Log("2페이즈: 덮인 미래");
+        AnnounceSkill("덮인 미래");
 
         sr.color = Color.red;
         stats.SetInvincible(true);
