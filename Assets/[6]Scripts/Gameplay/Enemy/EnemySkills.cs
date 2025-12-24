@@ -71,12 +71,12 @@ public class EnemySkills : EnemySkillBase
     // 1. 거친 미래 (기본)
     private IEnumerator Skill_RoughFuture()
     {
-        Debug.Log("스킬: 거친 미래 (사이즈 조절 가능)");
+        AnnounceSkill("RoughFuture");
 
         List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
         Vector2 centerPos = new Vector2(0, 0);
 
-        // ================= [설정값] 여기서 크기를 조절하세요 =================
+        // ================= 크기를 조절 =================
         int rowCount = 7;      // 가로 줄 개수 (높이 결정)
         int colCount = 7;      // 세로 줄 개수 (너비 결정)
 
@@ -86,23 +86,19 @@ public class EnemySkills : EnemySkillBase
         float drawSpeed = 0.1f; // 그려지는 속도
         // ====================================================================
 
-        // [자동 계산] 전체 크기의 절반을 구해서 시작점(왼쪽 위)을 잡음
         float startY = ((rowCount - 1) * gapY) / 2f;
         float startX = ((colCount - 1) * gapX) / 2f;
-
-        // 1. 가로 줄 그리기 (위 -> 아래)
         for (int i = 0; i < rowCount; i++)
         {
-            // 현재 줄의 Y 좌표 (위에서부터 아래로 내려옴)
+           
             float currentY = startY - (i * gapY);
 
-            // 한 줄 긋기 (왼쪽 -> 오른쪽)
             for (int j = 0; j < colCount; j++)
             {
-                float currentX = -startX + (j * gapX); // 왼쪽 끝에서 시작
+                float currentX = -startX + (j * gapX);
 
                 Vector2 spawnPos = centerPos + new Vector2(currentX, currentY);
-                Vector2 dir = spawnPos.normalized; // (0,0 기준 방사형)
+                Vector2 dir = spawnPos.normalized;
                 if (dir == Vector2.zero) dir = Vector2.up;
 
                 EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
@@ -112,33 +108,9 @@ public class EnemySkills : EnemySkillBase
             }
         }
 
-        //yield return new WaitForSeconds(0.2f);
-
-        //// 2. 세로 줄 그리기 (왼쪽 -> 오른쪽)
-        //for (int i = 0; i < colCount; i++)
-        //{
-        //    // 현재 줄의 X 좌표 (왼쪽부터 오른쪽으로 이동)
-        //    float currentX = -startX + (i * gapX);
-
-        //    // 한 줄 긋기 (위 -> 아래)
-        //    for (int j = 0; j < rowCount; j++)
-        //    {
-        //        float currentY = startY - (j * gapY); // 위쪽 끝에서 시작
-
-        //        Vector2 spawnPos = centerPos + new Vector2(currentX, currentY);
-        //        Vector2 dir = spawnPos.normalized;
-        //        if (dir == Vector2.zero) dir = Vector2.up;
-
-        //        EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
-        //        if (p != null) spawnedBullets.Add(p);
-
-        //        yield return new WaitForSeconds(drawSpeed);
-        //    }
-        //}
 
         yield return new WaitForSeconds(0.5f);
 
-        Debug.Log("발사!");
         foreach (var bullet in spawnedBullets)
         {
             if (bullet != null && bullet.gameObject.activeSelf)
@@ -157,7 +129,7 @@ public class EnemySkills : EnemySkillBase
     // 2. 믿음의 신뢰
     private IEnumerator Skill_TrustOfBelief()
     {
-        Debug.Log("1페이즈: 믿음의 신뢰");
+        AnnounceSkill("TrustOfBelief");
         int explosionCount = 4;
         for (int i = 0; i < explosionCount; i++)
         {
@@ -174,7 +146,7 @@ public class EnemySkills : EnemySkillBase
     // 3. 자유의 감옥
     private IEnumerator Skill_PrisonOfFreedom()
     {
-        Debug.Log("1페이즈: 자유의 감옥");
+        AnnounceSkill("PrisonOfFreedom");
         for (int k = 0; k < 4; k++)
         {
             if (playerTransform == null) break;
@@ -203,7 +175,7 @@ public class EnemySkills : EnemySkillBase
     // 4. 신의 은총: <거친 미래> + 오각형에서 플레이어 조준 사격 (3초)
     private IEnumerator Skill_GraceOfGod()
     {
-        Debug.Log("2페이즈: 신의 은총");
+        AnnounceSkill("GraceOfGod");
 
         // 병렬 실행: 거친 미래 패턴을 시작하고, 동시에 추가 공격을 수행
         StartCoroutine(Skill_RoughFuture());
@@ -216,7 +188,6 @@ public class EnemySkills : EnemySkillBase
         {
             if (playerTransform != null)
             {
-                // 보스 위치 기준 오각형 5발 발사 -> 플레이어 쪽으로
                 for (int i = 0; i < 5; i++)
                 {
                     // 오각형 꼭지점 위치 계산 (보스 주변 1.5 거리)
@@ -241,7 +212,7 @@ public class EnemySkills : EnemySkillBase
     // 5. 왜곡된 도형: 플레이어 주위에 느린 오각형 탄막 랜덤 생성
     private IEnumerator Skill_DistortedShape()
     {
-        Debug.Log("2페이즈: 왜곡된 도형");
+        AnnounceSkill("DistortedShape");
 
         float duration = 3.0f; // 지속시간 임의 설정
         float endTime = Time.time + duration;
@@ -268,7 +239,7 @@ public class EnemySkills : EnemySkillBase
     // 6. 카오스 폴리곤: 주위에 오각형 형태로 생성 후 방사형 터짐
     private IEnumerator Skill_ChaosPolygon()
     {
-        Debug.Log("2페이즈: 카오스 폴리곤");
+        AnnounceSkill("ChaosPolygon");
 
         List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
 
@@ -334,7 +305,7 @@ public class EnemySkills : EnemySkillBase
     // 7. 침식하는 파동: 보스 중심으로 오각형 파동 5번
     private IEnumerator Skill_ErodingWave()
     {
-        Debug.Log("2페이즈: 침식하는 파동");
+        AnnounceSkill("ErodingWave");
 
         for (int wave = 0; wave < 5; wave++)
         {
@@ -363,7 +334,7 @@ public class EnemySkills : EnemySkillBase
     // 8. 덮인 미래: 오각형 파동 8번 + 무작위 방사 (8초)
     private IEnumerator Skill_CoveredFuture()
     {
-        Debug.Log("2페이즈: 덮인 미래");
+        AnnounceSkill("CoveredFuture");
 
         sr.color = Color.red;
         stats.SetInvincible(true);
@@ -393,7 +364,6 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-    // 랜덤 스프레이 (지속시간 동안 랜덤 발사)
     private IEnumerator Routine_RandomSpray(float duration)
     {
         float timer = 0f;
