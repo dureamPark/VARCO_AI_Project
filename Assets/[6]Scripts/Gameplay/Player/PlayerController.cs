@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
         shooter = GetComponent<PlayerShooter>(); 
         skill = GetComponent<PlayerSkill>();     
 
-        // 의존성 주입 
         inputManager = new KeyboardInputManager();
     }
 
@@ -36,18 +35,23 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInput()
     {
-        // 1. 이동
+        // 이동
         movement.Move(inputManager.GetMovementInput());
 
-        // 2. 공격
+        // 공격
         if (shooter != null)
         {
             shooter.HandleShooting(inputManager.GetAttackDown());
         }
 
-        // 3. 스킬 (아직 구현 안됨)
-        if (inputManager.GetFlowStyleDown()) Debug.Log("유도탄 모드(X) 입력됨");
-        if (inputManager.GetBarrierKey()) Debug.Log("배리어(Ctrl) 누르는 중");
-        if (inputManager.GetOverWriteDown()) Debug.Log("필살기(C) 입력됨");
+        // 스킬 
+        if (skill != null)
+        {
+            skill.HandleSkills(
+                inputManager.GetFlowStyleDown(), // 토글형
+                inputManager.GetBarrierKey(),    // 지속형
+                inputManager.GetOverWriteDown()  // 즉발형
+            );
+        }
     }
 }
