@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7802086121979392570}
   - component: {fileID: 3401354091002239624}
+  - component: {fileID: 6777767092629996802}
   - component: {fileID: 1514108592832829126}
   - component: {fileID: 3809359313748757205}
   m_Layer: 0
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 462.5802, y: 193.20792, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -93,6 +94,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &6777767092629996802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4377950137570366122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2857f944b86e954fbae4ba61ce61149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemMovement
+  moveSpeed: 2
+  destroyYPos: -5.8
 --- !u!61 &1514108592832829126
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -148,7 +163,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4377950137570366122}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7f4caf94822254459bfcb68453278fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 63d1d6ef26cf20a40b827eaa1a0db280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthUpItem
   healAmount: 1

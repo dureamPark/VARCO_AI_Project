@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
-using System;
 
 public class EnemyStats : MonoBehaviour
 {
