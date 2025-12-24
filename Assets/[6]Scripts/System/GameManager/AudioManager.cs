@@ -57,7 +57,7 @@ public class AudioManager : MonoBehaviour
     }
 
 
-    // 외부에서 부를 때: AudioManager.Instance.PlaySFX("Jump");
+    // 외부에서 부를 때: AudioEvents.TriggerPlaySFX("PlayerAttack");
     public void PlaySFX(string sfxName)
     {
         if (sfxSource == null) return;
@@ -77,8 +77,7 @@ public class AudioManager : MonoBehaviour
         PlaySFX(skillName);
     }
 
-
-    // 외부에서 부를 때: AudioManager.Instance.PlayBGM("Stage1");
+    // 외부에서 부를 때: AudioEvents.TriggerPlayBGM("");
     public void PlayBGM(string bgmName)
     {
         if (bgmSource == null) return;

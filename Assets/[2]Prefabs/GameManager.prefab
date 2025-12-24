@@ -113,21 +113,21 @@ MonoBehaviour:
   - name: SkillX
     clip: {fileID: 8300000, guid: c618f33e771b64e4c9d151e6de84b853, type: 3}
   - name: RoughFuture
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 23e22178c42476344b418a7e2ff68b18, type: 3}
   - name: TrustOfBelief
-    clip: {fileID: 0}
-  - name: TrustOfBelief
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 40b6d225b01afb14aab56b0feef90eb6, type: 3}
+  - name: PrisonOfFreedom
+    clip: {fileID: 8300000, guid: 5bbec65f5bc024545afe49350160dbb7, type: 3}
   - name: GraceOfGod
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 05f3ac4f1c0b16943bc804bf6c8b8a52, type: 3}
   - name: DistortedShape
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d1649d3a64204564e99ffa7df2d88b07, type: 3}
   - name: ChaosPolygon
-    clip: {fileID: 0}
-  - name: ChaosPolygon
-    clip: {fileID: 0}
-  - name: ChaosPolygon
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 156b8297f9e04a04680e165c3fdaefcf, type: 3}
+  - name: ErodingWave
+    clip: {fileID: 8300000, guid: 7327355a123c8db439c17ba274135036, type: 3}
+  - name: CoveredFuture
+    clip: {fileID: 8300000, guid: 5429dcb766abfca4980395e0ac0b0007, type: 3}
 --- !u!82 &2689275758619647654
 AudioSource:
   m_ObjectHideFlags: 0

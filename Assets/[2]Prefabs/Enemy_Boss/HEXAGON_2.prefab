@@ -189,8 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54aea0b05740e6a4f89722fea5af9413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  isBoss: 1
-  maxHealth: 5
+  maxHealth: 14000
   currentHealth: 0
 --- !u!114 &4605187810518802870
 MonoBehaviour:
