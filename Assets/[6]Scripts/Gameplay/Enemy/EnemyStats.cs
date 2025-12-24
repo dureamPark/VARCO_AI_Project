@@ -19,7 +19,6 @@ public class EnemyStats : MonoBehaviour
     // enemy가 데미지를 받으면 아이템을 드롭하게 신호 보내는 이벤트
     public event Action<int> OnTakeDamage;
     public event Action OnDead;
-
     public event Action OnHealthChanged; // 이벤트
 
     //버티기 동안 무적
@@ -33,6 +32,11 @@ public class EnemyStats : MonoBehaviour
         srs = GetComponentsInChildren<SpriteRenderer>(true);
         fsm = GetComponent<EnemyFSM>();
         Initialize();
+
+        if (EnemyStatsUI.Instance != null)
+        {
+            EnemyStatsUI.Instance.SetBoss(this);
+        }
     }
 
     void Update()
