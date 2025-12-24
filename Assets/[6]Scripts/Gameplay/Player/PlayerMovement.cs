@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    [SerializeField] private float moveSpeed = 7f; // 속도 테스트 후 수정 필요
+    [SerializeField] private float moveSpeed = 12f; // 속도 테스트 후 수정 필요
 
     public float MoveSpeed => moveSpeed;
 

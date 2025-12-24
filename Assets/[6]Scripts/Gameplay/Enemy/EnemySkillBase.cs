@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
 
 public abstract class EnemySkillBase : MonoBehaviour
 {
@@ -52,5 +53,12 @@ public abstract class EnemySkillBase : MonoBehaviour
             effect.SetOriginPrefab(warningPrefab);
             effect.Initialize(duration, scale);
         }
+    }
+
+    public static event Action<string> OnBossSkillCast;
+
+    protected void AnnounceSkill(string skillName)
+    {
+        OnBossSkillCast?.Invoke(skillName);
     }
 }
