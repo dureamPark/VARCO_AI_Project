@@ -57,7 +57,7 @@ public class EnemyStats : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // 무적 상태라면 데미지를 입지 않음
-        Debug.Log("ㅎㅎ");
+        UnityEngine.Debug.Log("ㅎㅎ");
         if (isInvincible) return;
 
         currentHealth -= damage;
@@ -68,7 +68,7 @@ public class EnemyStats : MonoBehaviour
         }
         UnityEngine.Debug.Log($"데미지 : {damage}");
         OnTakeDamage?.Invoke(damage);
-        Debug.Log($"보스 남은 체력: {currentHealth}");
+        UnityEngine.Debug.Log($"보스 남은 체력: {currentHealth}");
 
         OnHealthChanged?.Invoke(); // 이벤트
         
@@ -76,7 +76,7 @@ public class EnemyStats : MonoBehaviour
         blinkCo = StartCoroutine(BlinkByToggle());
         if(currentHealth <= maxHealth * 3 / 10)
         {
-            Debug.Log($"2페이즈");
+            UnityEngine.Debug.Log($"2페이즈");
         }
 
         if (currentHealth <= 0)
@@ -104,7 +104,7 @@ public class EnemyStats : MonoBehaviour
             }
         }
         Destroy(gameObject);
-        Debug.Log("적 사망");
+        UnityEngine.Debug.Log("적 사망");
     }
 
     IEnumerator BlinkByToggle()
