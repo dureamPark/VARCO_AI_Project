@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerSkill : MonoBehaviour
@@ -15,6 +16,12 @@ public class PlayerSkill : MonoBehaviour
     [Header("Skill 3: Code OverWrite (Bomb)")]
     [SerializeField] private GameObject overwriteBulletPrefab;
     [SerializeField] private GameObject bombEffectPrefab; // 필살기 이펙트 (나중에 연결)
+
+
+    public float CurrentBarrierEnergy => currentBarrierEnergy; //Ui에서 땡겨쓸라고 여따 추가했습니다 두사부
+    public float MaxBarrierEnergy => maxBarrierEnergy;
+    public bool IsHomingMode => shooter != null && shooter.IsHomingMode;
+    public event Action<bool> OnWeaponModeChanged;
 
     // 컴포넌트 참조
     private PlayerShooter shooter;
@@ -82,6 +89,7 @@ public class PlayerSkill : MonoBehaviour
         shooter.SetHomingMode(newMode);
 
         lastHomingSwitchTime = Time.time;
+        OnWeaponModeChanged?.Invoke(newMode);
     }
 
     // 스킬 2: 차원 방벽 (Barrier)

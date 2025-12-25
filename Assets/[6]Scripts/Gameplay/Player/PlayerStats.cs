@@ -25,6 +25,7 @@ public class PlayerStats : MonoBehaviour
 
     private bool isDead = false;
 
+    
     public void Initialize()
     {
         currentLives = maxLives;

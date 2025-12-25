@@ -507,9 +507,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2450960951193843019, guid: e847a51bb11450c44bbf36a348dbfcf5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -380
+      objectReference: {fileID: 0}
     - target: {fileID: 3081046753437797592, guid: e847a51bb11450c44bbf36a348dbfcf5, type: 3}
       propertyPath: m_Name
       value: Canvas_Titel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7550505925110286795, guid: e847a51bb11450c44bbf36a348dbfcf5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -25533031545326202, guid: dc7548943ff623247afc9c73f3bf5e36, type: 3}
+    - target: {fileID: 9032339594481217392, guid: e847a51bb11450c44bbf36a348dbfcf5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -120
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
