@@ -10,11 +10,15 @@ public class EnemyStats : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int currentHealth;
+    [SerializeField] private int maxShield = 100;
+    [SerializeField] private int currentShield;
     private EnemyFSM fsm;
 
     // 외부에서 참조용 프로퍼티 변수 (첫 글자 대문자)
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
+    public int MaxShield => maxShield;
+    public int CurrentShield => currentShield;
     
     // enemy가 데미지를 받으면 아이템을 드롭하게 신호 보내는 이벤트
     public event Action<int> OnTakeDamage;
@@ -47,6 +51,7 @@ public class EnemyStats : MonoBehaviour
     public void Initialize()
     {
         currentHealth = maxHealth;
+        currentShield = maxShield;
         isInvincible = false;
 
         OnHealthChanged?.Invoke();
@@ -60,10 +65,16 @@ public class EnemyStats : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // 무적 상태라면 데미지를 입지 않음
-        UnityEngine.Debug.Log("ㅎㅎ");
         if (isInvincible) return;
-
-        currentHealth -= damage;
+        if(currentShield > 0)
+        {
+            currentShield -= damage;
+        }
+        else
+        {
+            currentHealth -= damage;
+        }
+            
         // 데미지에 따른 플레이어 점수 추가
         if (GameManager.Instance != null && GameManager.Instance.scoreManager != null)
         {
@@ -72,6 +83,7 @@ public class EnemyStats : MonoBehaviour
         UnityEngine.Debug.Log($"데미지 : {damage}");
         OnTakeDamage?.Invoke(damage);
         UnityEngine.Debug.Log($"보스 남은 체력: {currentHealth}");
+        UnityEngine.Debug.Log($"보스 남은 실드: {currentShield}");
 
         OnHealthChanged?.Invoke(); // 이벤트
         

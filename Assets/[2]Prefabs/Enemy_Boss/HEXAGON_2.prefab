@@ -193,6 +193,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   maxHealth: 14000
   currentHealth: 0
+  maxShield: 0
+  currentShield: 0
 --- !u!114 &4605187810518802870
 MonoBehaviour:
   m_ObjectHideFlags: 0
