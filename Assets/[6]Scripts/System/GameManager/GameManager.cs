@@ -13,10 +13,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Score score;
 
-    [Header("UI Reference")]
-    [SerializeField] 
-    private GameObject pausePanel; // 일시정지 시 띄울 UI 패널
-
     // 상태 변수
     private bool isPaused = false;      // 현재 일시정지 상태인가?
     private bool isGameActive = false;  // 게임이 플레이 중인가?
@@ -63,12 +59,6 @@ public class GameManager : MonoBehaviour
         isGameActive = true;
         isPaused = false;
 
-        // 시작할 때 일시정지 UI가 켜져있다면 끔
-        if (pausePanel != null)
-        {
-            pausePanel.SetActive(false);
-        }
-
         // 시간 정상화 
         Time.timeScale = 1f;
 
@@ -101,10 +91,6 @@ public class GameManager : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0f; // 시간 정지
-
-        if (pausePanel != null)
-            pausePanel.SetActive(true); // UI 켜기
-
         UnityEngine.Debug.Log("일시정지");
     }
 
@@ -112,10 +98,6 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f; // 시간 정상화
-
-        if (pausePanel != null)
-            pausePanel.SetActive(false); // UI 끄기
-
         UnityEngine.Debug.Log("게임 재개");
     }
 
