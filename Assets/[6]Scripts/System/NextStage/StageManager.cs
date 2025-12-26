@@ -60,10 +60,10 @@ public class StageManager : MonoBehaviour
         Debug.Log($"스테이지 {currentStage + 1} 시작!");
 
         // 2스테이지의 경우만 예외 처리
-        if(currentStage + 1 == 2)
-        {
-            return;
-        }
+        // if(currentStage + 1 == 2)
+        // {
+        //     return;
+        // }
 
         if(spawner != null)
         {
