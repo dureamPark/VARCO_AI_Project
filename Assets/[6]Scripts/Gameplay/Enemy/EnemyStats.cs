@@ -19,12 +19,15 @@ public class EnemyStats : MonoBehaviour
     public int CurrentHealth => currentHealth;
     public int MaxShield => maxShield;
     public int CurrentShield => currentShield;
-    
+
+    private bool isShieldBroken = false;
+
     // enemy가 데미지를 받으면 아이템을 드롭하게 신호 보내는 이벤트
     public event Action<int> OnTakeDamage;
     public event Action OnDead;
-    public event Action OnHealthChanged; // 이벤트
-
+    public event Action OnHealthChanged; // 스탯변경이벤트
+    public event Action OnShieldBroken;// 실드가 0이 되었을 때 알리는 이벤트
+    
     //버티기 동안 무적
     private bool isInvincible = false;
 
@@ -53,7 +56,7 @@ public class EnemyStats : MonoBehaviour
         currentHealth = maxHealth;
         currentShield = maxShield;
         isInvincible = false;
-
+        isShieldBroken = false;
         OnHealthChanged?.Invoke();
     }
 
@@ -66,15 +69,27 @@ public class EnemyStats : MonoBehaviour
     {
         // 무적 상태라면 데미지를 입지 않음
         if (isInvincible) return;
-        if(currentShield > 0)
+        if (currentShield > 0)
         {
             currentShield -= damage;
+
+            if (currentShield <= 0 && !isShieldBroken)
+            {
+                currentShield = 0; 
+                isShieldBroken = true;
+                OnShieldBroken?.Invoke(); 
+                UnityEngine.Debug.Log("실드 파괴됨!)");
+            }
         }
         else
         {
             currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
         }
-            
+
         // 데미지에 따른 플레이어 점수 추가
         if (GameManager.Instance != null && GameManager.Instance.scoreManager != null)
         {
@@ -92,11 +107,6 @@ public class EnemyStats : MonoBehaviour
         if(currentHealth <= maxHealth * 3 / 10)
         {
             UnityEngine.Debug.Log($"2페이즈");
-        }
-
-        if (currentHealth <= 0)
-        {
-            Die();
         }
     }
 
