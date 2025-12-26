@@ -59,17 +59,6 @@ public class StageManager : MonoBehaviour
         UnityEngine.Debug.Log("생존 시간 종료! 펜타 퇴장 시퀀스 시작.");
         StartCoroutine(ExitPentaAndNextStage());
     }
-    // public void SurvivalStageEnd()
-    // {
-    //     // 펜타의 공격을 버티면 다음 스테이지로 전환
-    //     // 다음 스테이지 전환은 먼저 펜타를 맵 밖으로 내보내고 destory를 해준 다음에
-
-    //     // 스토리 대화 진행하고
-    //     // 육각형을 맵으로 집어 넣는 형태니깐
-    //     // 육각형 맵에 집어 넣는건 아래 주석 처리된 코드로 처리하면 되겠다.
-    //     // StartCoroutine(StartNextStage(0.5f)); <- 육각형 집어넣기
-
-    // }
 
     private IEnumerator ExitPentaAndNextStage()
     {
@@ -108,7 +97,7 @@ public class StageManager : MonoBehaviour
 
             // 위쪽 화면 밖으로 이동 연출
             Vector3 startPos = currentEnemy.transform.position;
-            Vector3 endPos = new Vector3(0, 12f, 0);
+            Vector3 endPos = new Vector3(0, 6.5f, 0);
             float duration = 2.0f; // 2초 동안 이동
             float elapsed = 0f;
 
@@ -137,6 +126,7 @@ public class StageManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f); 
 
         currentStage++;
+        
         // 육각형 소환
         StartCoroutine(StartNextStage(0.5f));
     }
@@ -158,13 +148,6 @@ public class StageManager : MonoBehaviour
     {
         // 잠시 대기
         yield return new WaitForSeconds(delay);
-
-        if(currentStage == 2)
-        {
-            UnityEngine.Debug.Log("생존 스테이지 시작!");
-            SurvivalStageEnd();
-            yield break;
-        }
 
         if(spawner != null)
         {
