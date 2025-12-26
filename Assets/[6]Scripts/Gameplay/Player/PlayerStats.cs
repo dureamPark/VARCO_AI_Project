@@ -132,6 +132,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    // 목숨 증가
     public void HealLife(int healItem)
     {
         if (currentLives < maxLives)

@@ -18,7 +18,6 @@ public class ItemMovement : MonoBehaviour
         if (transform.position.y <= destroyYPos)
         {
             Destroy(gameObject); // 오브젝트 파괴
-            Debug.Log("아이템이 화면 밖으로 사라짐");
         }
     }
 }

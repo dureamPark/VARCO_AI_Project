@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    public static StageManager Instance; // StageManager 싱글톤
+    public static StageManager Instance; // StageManager 싱글톤 근데 이게 필요한가?
 
     [Header("References")]
     public EnemySpawner spawner;

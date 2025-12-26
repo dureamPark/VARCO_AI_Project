@@ -12,6 +12,9 @@ public class Score : MonoBehaviour
     [SerializeField]
     private int timeBonusPoint = 0; // 스테이지 클리어 시간 보너스 점수
 
+    [SerializeField]
+    private int itemPoint = 1500;
+
     private GameTimeManager timeManager;
 
     public int scorePoint => score;
@@ -85,5 +88,10 @@ public class Score : MonoBehaviour
         score += timeBonusPoint;
 
         UnityEngine.Debug.Log($"시간 점수: {timeBonusPoint}");
+    }
+
+    public void AddScoreItem()
+    {
+        score += itemPoint;
     }
 }
