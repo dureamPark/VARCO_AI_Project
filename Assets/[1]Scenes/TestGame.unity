@@ -383,6 +383,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 65934550}
     - target: {fileID: 8023334295506614287, guid: 85c1652cab176d74095e36617a23c35d, type: 3}
+      propertyPath: startPoint
+      value: 
+      objectReference: {fileID: 705510683}
+    - target: {fileID: 8023334295506614287, guid: 85c1652cab176d74095e36617a23c35d, type: 3}
       propertyPath: battlePoint
       value: 
       objectReference: {fileID: 705510683}
