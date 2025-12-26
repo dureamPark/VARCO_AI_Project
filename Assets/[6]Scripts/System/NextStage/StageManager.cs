@@ -20,7 +20,7 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
-        // [수정] 저장된 스테이지가 있다면 불러오기 (없으면 0 반환)
+        // 저장된 스테이지가 있다면 불러오기 (없으면 0 반환)
         currentStage = PlayerPrefs.GetInt("SavedStage", 0);
 
         Debug.Log($"스테이지 {currentStage} 부터 시작");
@@ -44,7 +44,7 @@ public class StageManager : MonoBehaviour
             EnemyStats stats = currentEnemy.GetComponent<EnemyStats>();
             if (stats != null)
             {
-                stats.OnDead -= OnEnemyDead; // 구독 해제 (깔끔한 마무리)
+                stats.OnDead -= OnEnemyDead; // 구독 해제
             }
         }
 
@@ -58,6 +58,12 @@ public class StageManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         Debug.Log($"스테이지 {currentStage + 1} 시작!");
+
+        // 2스테이지의 경우만 예외 처리
+        if(currentStage + 1 == 2)
+        {
+            return;
+        }
 
         if(spawner != null)
         {

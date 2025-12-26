@@ -64,11 +64,6 @@ public class EnemyStats : MonoBehaviour
         if (isInvincible) return;
 
         currentHealth -= damage;
-        // 데미지에 따른 플레이어 점수 추가
-        if (GameManager.Instance != null && GameManager.Instance.scoreManager != null)
-        {
-            GameManager.Instance.scoreManager.AddDamageScore(damage);
-        }
         UnityEngine.Debug.Log($"데미지 : {damage}");
         OnTakeDamage?.Invoke(damage);
         UnityEngine.Debug.Log($"보스 남은 체력: {currentHealth}");

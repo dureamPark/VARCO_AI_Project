@@ -25,7 +25,7 @@ public class EnemyEntry : MonoBehaviour
         UnityEngine.Debug.Log($"적 등장 시작, 목표 지점: {targetPosition}");
         isEntering = true;
 
-        // 1. 등장 중에는 AI를 껍니다. (공격 안 하게)
+        // 등장 중에는 AI를 끔. (공격 안 하게)
         if (enemyFSM != null) 
         {
             enemyFSM.enabled = false;
@@ -38,7 +38,7 @@ public class EnemyEntry : MonoBehaviour
             moveScript.enabled = false; 
         }
 
-        // 2. 등장 중에는 무적으로 만듭니다. (선택 사항)
+        // 등장 중에는 무적 (선택 사항)
         if (enemyStats != null) 
         {
             enemyStats.SetInvincible(true);
