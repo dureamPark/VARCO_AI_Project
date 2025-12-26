@@ -20,8 +20,13 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
-        // 게임 시작 시 첫 번째 적 소환
-        StartCoroutine(StartNextStage(0));
+        // [수정] 저장된 스테이지가 있다면 불러오기 (없으면 0 반환)
+        currentStage = PlayerPrefs.GetInt("SavedStage", 0);
+
+        Debug.Log($"스테이지 {currentStage} 부터 시작");
+
+        // 게임 시작 시 적 소환 (StartNextStage의 인자는 delay 시간임)
+        StartCoroutine(StartNextStage(0.5f));
         AudioEvents.TriggerPlayBGM("ArenaCall");
     }
 

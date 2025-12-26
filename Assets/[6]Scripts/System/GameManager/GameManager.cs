@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         UnityEngine.Debug.Log("게임 시작 프로세스 가동...");
+        PlayerPrefs.DeleteKey("SavedStage"); // 이전에 저장된 스테이지 삭제
 
         // 게임 상태 활성화
         isGameActive = true;
@@ -105,6 +107,7 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = false;
         UnityEngine.Debug.Log("게임 클리어!");
+        PlayerPrefs.DeleteKey("SavedStage"); // 저장된 스테이지 삭제
 
         // 시간 측정 종료 명령
         if (Instance.timeManager != null)
@@ -125,10 +128,18 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
         UnityEngine.Debug.Log("게임 오버!");
 
+        if (StageManager.Instance != null)
+        {
+            PlayerPrefs.SetInt("SavedStage", StageManager.Instance.currentStage);
+            UnityEngine.Debug.Log($"현재 스테이지 저장 : {StageManager.Instance.currentStage}");
+            PlayerPrefs.Save(); // 저장
+        }
+
         // 시간 측정 종료 명령
         if (Instance.timeManager != null)
         {
             Instance.timeManager.StopTimer();
+            RetryGame();
         }
         else
         {
@@ -136,5 +147,14 @@ public class GameManager : MonoBehaviour
         }
 
         // 결과창 띄우기 등...
+    }
+
+    public void RetryGame()
+    {
+        // 멈췄던 시간 다시 흐르게 설정
+        Time.timeScale = 1f;
+
+        // 현재 씬을 다시 로드
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

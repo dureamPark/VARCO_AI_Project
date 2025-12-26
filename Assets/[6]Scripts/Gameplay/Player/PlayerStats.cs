@@ -101,6 +101,8 @@ public class PlayerStats : MonoBehaviour
         gameObject.SetActive(true);
 
         // 체력 3으로 UI 업뎃 해주시면 됩니다
+        // 여기에서 RetryGame 호출해야 함.
+        GameManager.Instance.RetryGame();
 
         Debug.Log($"플레이어 부활! HP: {currentLives}");
     }
