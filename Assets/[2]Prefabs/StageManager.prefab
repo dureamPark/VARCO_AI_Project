@@ -62,6 +62,6 @@ MonoBehaviour:
   spawnPoint: {fileID: 0}
   battlePoint: {fileID: 0}
   enemyPrefabs:
-  - {fileID: 7816055206299033561, guid: fa23f9aec9fbb06459bb1652c2aaecf2, type: 3}
-  - {fileID: 7816055206299033561, guid: fa23f9aec9fbb06459bb1652c2aaecf2, type: 3}
-  - {fileID: 7816055206299033561, guid: fa23f9aec9fbb06459bb1652c2aaecf2, type: 3}
+  - {fileID: 2238869222327766133, guid: ae85da20252876f499d5dbf59aa0bd79, type: 3}
+  - {fileID: 7219040953939094356, guid: 146dae50f527e5947a4812bcc99576d5, type: 3}
+  - {fileID: 5320689951190446023, guid: fece53f0ae0dc464781c224a5331d41b, type: 3}

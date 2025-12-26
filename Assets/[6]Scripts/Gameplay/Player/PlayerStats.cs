@@ -17,6 +17,7 @@ public class PlayerStats : MonoBehaviour
     // UI 갱신용 이벤트
     public event Action OnStatsChanged;
 
+
     // 외부에서 갖다 쓸 프로퍼티
     public int AttackPower => attackPower;
     public int CurrentLives => currentLives;
@@ -24,12 +25,18 @@ public class PlayerStats : MonoBehaviour
 
     private bool isDead = false;
 
+    
     public void Initialize()
     {
         currentLives = maxLives;
         currentBombs = maxBombs;
         attackPower = 1;
         isDead = false;
+
+        if (PlayerStatsUI.Instance != null)
+        {
+            PlayerStatsUI.Instance.SetPlayer(this);
+        }
 
         OnStatsChanged?.Invoke();
     }
@@ -39,6 +46,8 @@ public class PlayerStats : MonoBehaviour
     {
         if (isDead) return;
 
+        // OnStatsChanged?.Invoke();
+
         Debug.Log("피격! 목숨 차감");
         LoseLife();
     }
@@ -46,11 +55,8 @@ public class PlayerStats : MonoBehaviour
     private void LoseLife()
     {
         currentLives--;
-        OnStatsChanged?.Invoke(); // UI 갱신
         Debug.Log($"남은 목숨: {currentLives}");
-
-        //attackpower - 1 에서 1은 목숨 깎일 때마다 일정 공격력 수치를 낮추는 용도
-        //승우가 아래 if문에도 OnStatsChanged?.Invoke(); 넣어야하지 않나?
+        
         if (attackPower - 1 > 0)
         {
             attackPower -= 1;
@@ -64,6 +70,7 @@ public class PlayerStats : MonoBehaviour
         {
             Die();
         }
+        OnStatsChanged?.Invoke(); 
     }
 
     private void Die()
@@ -82,6 +89,20 @@ public class PlayerStats : MonoBehaviour
             Debug.LogError("GameManager가 씬에 없습니다!");
         }
         Debug.Log("�÷��̾� ���...");
+    }
+
+    // continue 누를 시 호출할 부활 함수
+    public void Revive()
+    {
+        isDead = false;
+
+        currentLives = 3;
+
+        gameObject.SetActive(true);
+
+        // 체력 3으로 UI 업뎃 해주시면 됩니다
+
+        Debug.Log($"플레이어 부활! HP: {currentLives}");
     }
 
     // 밤 사용 시도 (PlayerSkill에서 호출)

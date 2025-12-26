@@ -54,5 +54,6 @@ public class PlayerShooter : MonoBehaviour
             // 총알 초기화
             projectile.Initialize(Vector2.up, finalDamage, IsHomingMode);
         }
+        AudioEvents.TriggerPlaySFX("PlayerAttack");
     }
 }
