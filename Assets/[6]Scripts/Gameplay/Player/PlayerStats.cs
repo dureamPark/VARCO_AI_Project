@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -14,6 +15,13 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int attackPower = 1;
     private const int MaxAttackPower = 100; //최대 공격력 100으로 수정   
 
+    [Header("Hit Effect Settings")]
+    [SerializeField] private float flashDuration = 1.0f; // 무적 지속 시간
+    [SerializeField] private float flashInterval = 0.1f; // 깜빡임 속도
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+    private bool isInvincible = false;
+
     // UI 갱신용 이벤트
     public event Action OnStatsChanged;
 
@@ -25,7 +33,15 @@ public class PlayerStats : MonoBehaviour
 
     private bool isDead = false;
 
-    
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
+    }
+
     public void Initialize()
     {
         currentLives = maxLives;
@@ -46,6 +62,8 @@ public class PlayerStats : MonoBehaviour
     {
         if (isDead) return;
 
+        if (isInvincible) return;
+
         // OnStatsChanged?.Invoke();
 
         Debug.Log("피격! 목숨 차감");
@@ -65,6 +83,8 @@ public class PlayerStats : MonoBehaviour
         if (currentLives > 0)
         {
             Debug.Log("플레이어 부활");
+
+            StartCoroutine(HitFlashRoutine());
         }
         else
         {
@@ -99,6 +119,9 @@ public class PlayerStats : MonoBehaviour
         currentLives = 3;
 
         gameObject.SetActive(true);
+
+        isInvincible = false;
+        if (spriteRenderer != null) spriteRenderer.color = originalColor;
 
         // 체력 3으로 UI 업뎃 해주시면 됩니다
         // 여기에서 RetryGame 호출해야 함.
@@ -142,5 +165,29 @@ public class PlayerStats : MonoBehaviour
             currentLives += healItem;
             OnStatsChanged?.Invoke();
         }    
+    }
+
+    IEnumerator HitFlashRoutine()
+    {
+        isInvincible = true; 
+
+        Color flashColor = originalColor;
+        flashColor.a = 0.3f; 
+
+        float elapsed = 0f;
+
+        while (elapsed < flashDuration)
+        {
+            if (spriteRenderer != null) spriteRenderer.color = flashColor;
+            yield return new WaitForSeconds(flashInterval);
+
+            if (spriteRenderer != null) spriteRenderer.color = originalColor;
+            yield return new WaitForSeconds(flashInterval);
+
+            elapsed += flashInterval * 2;
+        }
+
+        if (spriteRenderer != null) spriteRenderer.color = originalColor;
+        isInvincible = false; 
     }
 }

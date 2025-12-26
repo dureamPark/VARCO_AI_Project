@@ -201,6 +201,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 5
+  minX: -6.3
+  maxX: 6.3
+  minY: -5.6
+  maxY: 5.3
 --- !u!114 &-5185058975992797110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +222,8 @@ MonoBehaviour:
   maxBombs: 3
   currentBombs: 0
   attackPower: 1
+  flashDuration: 1
+  flashInterval: 0.1
 --- !u!114 &-6799020554042126993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +239,7 @@ MonoBehaviour:
   normalBulletPrefab: {fileID: 3465996132055146368, guid: 0c2bad8b251c0354bacd63b02bc0a3c1, type: 3}
   homingBulletPrefab: {fileID: 3465996132055146368, guid: ebfb5d8c488b77b408ce9defd33281fa, type: 3}
   fireRate: 0.2
+  bulletSpacing: 0.4
 --- !u!114 &5881981028323937762
 MonoBehaviour:
   m_ObjectHideFlags: 0

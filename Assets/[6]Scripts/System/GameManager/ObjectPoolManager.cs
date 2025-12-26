@@ -23,10 +23,27 @@ public class ObjectPoolManager : MonoBehaviour
             poolDictionary.Add(prefab, new Queue<GameObject>());
         }
 
-        // 1-2. 창고에 남는게 없으면 새로 생성 (Instantiate)
-        if (poolDictionary[prefab].Count == 0)
+        GameObject obj = null;
+
+        // [수정된 부분] 1-2. 창고에서 '살아있는' 녀석이 나올 때까지 꺼내봄
+        while (poolDictionary[prefab].Count > 0)
+        {
+            obj = poolDictionary[prefab].Dequeue();
+
+            // 꺼냈는데 유효한(파괴되지 않은) 오브젝트라면 루프 탈출
+            if (obj != null)
+            {
+                break;
+            }
+            // obj가 null이면(이미 Destroy됨), 그냥 버리고 다음 거 뽑으러 루프 다시 돔
+        }
+
+        // 1-3. 창고가 비었거나, 꺼낸 것들이 다 죽어서 obj가 여전히 null이라면 -> 새로 생성
+        if (obj == null)
         {
             GameObject newObj = Instantiate(prefab);
+
+            // 컴포넌트 세팅 (Enemy, Warning, Player 각각 확인)
             EnemyPojectile p = newObj.GetComponent<EnemyPojectile>();
             if (p != null) p.SetOriginPrefab(prefab);
 
@@ -36,12 +53,10 @@ public class ObjectPoolManager : MonoBehaviour
             PlayerProjectile pp = newObj.GetComponent<PlayerProjectile>();
             if (pp != null) pp.SetOriginPrefab(prefab);
 
-            newObj.SetActive(false);
-            poolDictionary[prefab].Enqueue(newObj);
+            obj = newObj; // 새로 만든 걸 obj에 할당
         }
 
-        // 1-3. 창고에서 하나 꺼내서 활성화
-        GameObject obj = poolDictionary[prefab].Dequeue();
+        // 1-4. 위치 잡고 활성화
         obj.transform.position = position;
         obj.transform.rotation = rotation;
         obj.SetActive(true);

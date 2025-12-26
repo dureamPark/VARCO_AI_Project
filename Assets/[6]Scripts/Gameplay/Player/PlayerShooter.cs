@@ -8,6 +8,7 @@ public class PlayerShooter : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float fireRate = 0.2f;
+    [SerializeField] private float bulletSpacing = 0.4f;
 
     private float lastFireTime;
     private PlayerStats stats;
@@ -42,18 +43,61 @@ public class PlayerShooter : MonoBehaviour
         GameObject prefabToUse = IsHomingMode ? homingBulletPrefab : normalBulletPrefab;
         if (prefabToUse == null) return;
 
-        GameObject bulletObj = ObjectPoolManager.Instance.Spawn(prefabToUse, transform.position, Quaternion.identity);
+        int currentLevel = stats.AttackPower;
+
+        if (currentLevel >= 76)
+        {
+            CreateBullet(prefabToUse, Vector2.zero, Vector2.up);     
+            CreateBullet(prefabToUse, new Vector2(-bulletSpacing, 0), Vector2.up); 
+            CreateBullet(prefabToUse, new Vector2(bulletSpacing, 0), Vector2.up);  
+
+            Vector2 leftDir = Quaternion.Euler(0, 0, 45f) * Vector2.up;
+            Vector2 rightDir = Quaternion.Euler(0, 0, -45f) * Vector2.up;
+
+            CreateBullet(prefabToUse, Vector2.zero, leftDir);
+            CreateBullet(prefabToUse, Vector2.zero, rightDir);
+        }
+        // LV 51 ~ 75: [3갈래 일자] 
+        else if (currentLevel >= 51)
+        {
+            CreateBullet(prefabToUse, Vector2.zero, Vector2.up);        
+            CreateBullet(prefabToUse, new Vector2(-bulletSpacing, 0), Vector2.up); 
+            CreateBullet(prefabToUse, new Vector2(bulletSpacing, 0), Vector2.up);  
+        }
+        // LV 26 ~ 50: [2갈래 일자] 
+        else if (currentLevel >= 26)
+        {
+            CreateBullet(prefabToUse, new Vector2(-bulletSpacing / 2f, 0), Vector2.up); 
+            CreateBullet(prefabToUse, new Vector2(bulletSpacing / 2f, 0), Vector2.up); 
+        }
+        // LV 1 ~ 25: [1갈래 일자] 
+        else
+        {
+            CreateBullet(prefabToUse, Vector2.zero, Vector2.up); 
+        }
+
+        AudioEvents.TriggerPlaySFX("PlayerAttack");
+    }
+
+    private void CreateBullet(GameObject prefab, Vector2 offset, Vector2 direction)
+    {
+        Vector3 spawnPos = transform.position + (Vector3)offset;
+
+        GameObject bulletObj = ObjectPoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
 
         PlayerProjectile projectile = bulletObj.GetComponent<PlayerProjectile>();
         if (projectile != null)
         {
-
             int finalDamage = stats.AttackPower;
             if (IsHomingMode) finalDamage = Mathf.Max(1, finalDamage / 2);
 
-            // 총알 초기화
-            projectile.Initialize(Vector2.up, finalDamage, IsHomingMode);
+            projectile.Initialize(direction, finalDamage, IsHomingMode);
+
+            if (direction != Vector2.up)
+            {
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+                bulletObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
         }
-        AudioEvents.TriggerPlaySFX("PlayerAttack");
     }
 }
