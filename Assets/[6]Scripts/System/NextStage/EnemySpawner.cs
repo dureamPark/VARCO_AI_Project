@@ -14,9 +14,11 @@ public class EnemySpawner : MonoBehaviour
     // StageManager에서 호출할 함수
     public GameObject SpawnEnemy(int stageIndex)
     {
+        UnityEngine.Debug.Log("enemy 스폰 시작");
         // 리스트 범위를 넘지 않게 안전장치
         if (stageIndex >= enemyPrefabs.Count)
         {
+            UnityEngine.Debug.Log("안전장치");
             stageIndex = enemyPrefabs.Count - 1;
         }
 
@@ -24,6 +26,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemyObj == null) 
         {
+            UnityEngine.Debug.Log("enemy null");
             return null;
         }
 

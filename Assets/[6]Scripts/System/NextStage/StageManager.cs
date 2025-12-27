@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Diagnostics;
 using UnityEngine.InputSystem;
+//using System.Reflection.PortableExecutable;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -14,6 +15,7 @@ public class StageManager : MonoBehaviour
     public int currentStage = 0; // 현재 스테이지 (0부터 시작)
 
     private GameObject currentEnemy;
+    private Coroutine survivalTimerCoroutine;
 
     private void Awake()
     {
@@ -56,8 +58,25 @@ public class StageManager : MonoBehaviour
 
     public void SurvivalStageEnd()
     {
+        if (survivalTimerCoroutine != null)
+        {
+            StopCoroutine(survivalTimerCoroutine);
+            survivalTimerCoroutine = null;
+        }
+
         UnityEngine.Debug.Log("생존 시간 종료! 퇴장 시퀀스 시작.");
         StartCoroutine(ExitPentaAndNextStage());
+    }
+
+    IEnumerator SurvivalTimer(float time)
+    {
+        UnityEngine.Debug.Log($"생존 타이머 시작: {time}초");
+        
+        // 60초 대기 (나중에 UI 남은 시간 표시가 필요하면 while문으로 변경 가능)
+        yield return new WaitForSeconds(time);
+
+        // 시간이 다 되면 종료 함수 호출
+        SurvivalStageEnd();
     }
 
     private IEnumerator ExitPentaAndNextStage()
@@ -146,20 +165,36 @@ public class StageManager : MonoBehaviour
 
     IEnumerator StartNextStage(float delay)
     {
-        // 잠시 대기
         yield return new WaitForSeconds(delay);
+        UnityEngine.Debug.Log("");
 
         if(spawner != null)
         {
             currentEnemy = spawner.SpawnEnemy(currentStage);
 
+            // [추가됨] 3번째 스테이지(Index 2)라면 60초 타이머 가동!
+            if (currentStage == 1)
+            {
+                UnityEngine.Debug.Log("생존 스테이지 시작! 7초 동안 버티세요!");
+                // 기존 타이머가 있다면 정리
+                if (survivalTimerCoroutine != null) StopCoroutine(survivalTimerCoroutine);
+                
+                // 60초 타이머 시작
+                survivalTimerCoroutine = StartCoroutine(SurvivalTimer(7f));
+            }
+
             if (currentEnemy != null)
             {
+
                 EnemyStats stats = currentEnemy.GetComponent<EnemyStats>();
                 if (stats != null)
                 {
-                    // 구독 연결
-                    stats.OnDead += OnEnemyDead;
+                    // 생존 스테이지가 아닐 때만 죽음 이벤트 구독 (버티기 스테이지는 죽여서 깨는게 아니므로)
+                    // 만약 펜타도 죽일 수 있다면 이 조건문은 빼셔도 됩니다.
+                    if (currentStage != 1) 
+                    {
+                        stats.OnDead += OnEnemyDead;
+                    }
                 }
             }
         }
