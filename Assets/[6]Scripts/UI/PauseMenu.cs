@@ -34,6 +34,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        AudioEvents.TriggerPlaySFX("ButtonClick");
         pausePanel.SetActive(false); // 버튼으로 눌러도 이게 실행되어 꺼짐
         Time.timeScale = 1f;
         isPaused = false;
@@ -41,6 +42,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
+        AudioEvents.TriggerPlaySFX("ButtonClick");
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
