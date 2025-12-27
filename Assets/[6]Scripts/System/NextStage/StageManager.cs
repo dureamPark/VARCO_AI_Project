@@ -56,13 +56,13 @@ public class StageManager : MonoBehaviour
 
     public void SurvivalStageEnd()
     {
-        UnityEngine.Debug.Log("생존 시간 종료! 펜타 퇴장 시퀀스 시작.");
+        UnityEngine.Debug.Log("생존 시간 종료! 퇴장 시퀀스 시작.");
         StartCoroutine(ExitPentaAndNextStage());
     }
 
     private IEnumerator ExitPentaAndNextStage()
     {
-        // 현재 적(펜타)이 존재하는지 확인
+        // 현재 적이 존재하는지 확인
         if (currentEnemy != null)
         {
             // 죽음 이벤트 구독 해제
