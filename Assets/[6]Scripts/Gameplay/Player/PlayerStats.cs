@@ -165,6 +165,16 @@ public class PlayerStats : MonoBehaviour
         }    
     }
 
+    // 밤 아이템 획득시 호출해주시면 됩니다
+    public void IncreaseBomb(int bombItem)
+    {
+        if (currentBombs < maxBombs)
+        {
+            currentBombs += bombItem;
+            OnStatsChanged?.Invoke();
+        }
+    }
+
     IEnumerator HitFlashRoutine()
     {
         isInvincible = true; 

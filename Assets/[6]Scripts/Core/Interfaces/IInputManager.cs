@@ -18,4 +18,7 @@ public interface IInputManager
 
     // 대화 (Space)
     bool GetInteractDown();
+
+    void Enable();
+    void Disable();
 }
