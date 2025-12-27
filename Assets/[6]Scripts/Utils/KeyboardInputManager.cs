@@ -45,4 +45,14 @@ public class KeyboardInputManager : IInputManager
     {
         return controls.Player.Interact.WasPressedThisFrame();
     }
+
+    public void Enable()
+    {
+        controls.Player.Enable(); 
+    }
+
+    public void Disable()
+    {
+        controls.Player.Disable(); 
+    }
 }

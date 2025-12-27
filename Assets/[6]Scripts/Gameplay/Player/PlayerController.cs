@@ -54,4 +54,20 @@ public class PlayerController : MonoBehaviour
             );
         }
     }
+
+    private void OnEnable()
+    {
+        if (inputManager != null)
+        {
+            inputManager.Enable();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (inputManager != null)
+        {
+            inputManager.Disable();
+        }
+    }
 }

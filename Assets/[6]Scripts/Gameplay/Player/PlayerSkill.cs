@@ -124,6 +124,8 @@ public class PlayerSkill : MonoBehaviour
 
             GameObject[] enemyBullets = GameObject.FindGameObjectsWithTag("EnemyProjectile");
 
+            GameObject boss = GameObject.FindGameObjectWithTag("Enemy");
+
             int count = 0;
 
             foreach (GameObject enemyBullet in enemyBullets)
@@ -139,9 +141,16 @@ public class PlayerSkill : MonoBehaviour
                     PlayerProjectile projectile = myBullet.GetComponent<PlayerProjectile>();
                     if (projectile != null)
                     {
-                        int damage = stats.AttackPower; 
+                        int damage = stats.AttackPower;
 
-                        projectile.Initialize(Vector2.up, damage, true);
+                        Vector2 finalDir = Vector2.up; // 적이 없으면 위로
+
+                        if (boss != null && boss.activeInHierarchy)
+                        {
+                            finalDir = (boss.transform.position - targetPos).normalized;
+                        }
+
+                        projectile.Initialize(finalDir, damage, true);
                     }
                 }
                 count++;
