@@ -86,12 +86,4 @@ public class StoryPanel : MonoBehaviour
         onEndCallback = null;
     }
 
-    private void Update()
-    {
-        // 패널 켜져있을 때 클릭/스페이스바 입력 처리
-        if (dialogPanel.activeSelf && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
-        {
-            ShowNext();
-        }
-    }
 }
