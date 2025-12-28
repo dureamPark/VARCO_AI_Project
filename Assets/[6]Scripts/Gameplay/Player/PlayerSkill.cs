@@ -64,6 +64,8 @@ public class PlayerSkill : MonoBehaviour
         if (isFlowStyleDown)
         {
             TryToggleHoming();
+            AudioEvents.TriggerPlaySFX("PlayerSkillX");
+            AudioEvents.TriggerPlaySFX("PlayerSkillXVoice");
         }
 
         // 차원 방벽 (C키) - 키다운
@@ -73,6 +75,8 @@ public class PlayerSkill : MonoBehaviour
         if (isOverWriteDown)
         {
             TryUseBomb();
+            AudioEvents.TriggerPlaySFX("PlayerSkillCtrl");
+            AudioEvents.TriggerPlaySFX("PlayerSkillCtrlVoice");
         }
     }
 
@@ -99,7 +103,12 @@ public class PlayerSkill : MonoBehaviour
 
         if (isPressed && currentBarrierEnergy > 0)
         {
-            if (!barrierObject.activeSelf) barrierObject.SetActive(true);
+            if (!barrierObject.activeSelf)
+            {
+                barrierObject.SetActive(true);
+                AudioEvents.TriggerPlaySFX("PlayerSkillC");
+                AudioEvents.TriggerPlaySFX("PlayerSkillCVoice");
+            }
 
             currentBarrierEnergy -= Time.deltaTime; 
 

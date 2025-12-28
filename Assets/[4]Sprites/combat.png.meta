@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 30bcb7354cccd4b499a392ff16254783
+guid: 9f116bc8bba874a428c314bfe2a2d646
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3374019232011368951
-    second: Orbis_0
+      213: 2179016324844787500
+    second: combat_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Orbis_0
+      name: combat_0
       rect:
         serializedVersion: 2
-        x: 203
-        y: 192
-        width: 1665
-        height: 1664
+        x: 0
+        y: 0
+        width: 733
+        height: 677
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90640a282631d21d0800000000000000
-      internalID: -3374019232011368951
+      spriteID: c2796227dcb6d3e10800000000000000
+      internalID: 2179016324844787500
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Orbis_0: -3374019232011368951
+      combat_0: 2179016324844787500
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -10,6 +10,10 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private float fireRate = 0.2f;
     [SerializeField] private float bulletSpacing = 0.4f;
 
+    [Header("Audio")]
+    public AudioClip attackSound;
+    private AudioSource audioSource;
+
     private float lastFireTime;
     private PlayerStats stats;
     private bool isFiring = false;
@@ -18,6 +22,7 @@ public class PlayerShooter : MonoBehaviour
     private void Awake()
     {
         stats = GetComponent<PlayerStats>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void HandleShooting(bool isAttackDown)
@@ -76,7 +81,13 @@ public class PlayerShooter : MonoBehaviour
             CreateBullet(prefabToUse, Vector2.zero, Vector2.up); 
         }
 
-        AudioEvents.TriggerPlaySFX("PlayerAttack");
+        // PlayerAttack 사운드가 다른 사운드 애셋에 비해 소리가 너무 작아서 안들려서 자체 스피커로 구현
+        // AudioEvents.TriggerPlaySFX("PlayerAttack");
+
+        if (audioSource != null && attackSound != null)
+        {
+            audioSource.PlayOneShot(attackSound);
+        }
     }
 
     private void CreateBullet(GameObject prefab, Vector2 offset, Vector2 direction)
