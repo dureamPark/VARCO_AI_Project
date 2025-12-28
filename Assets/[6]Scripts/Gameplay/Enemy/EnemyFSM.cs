@@ -13,6 +13,7 @@ public class EnemyFSM : MonoBehaviour
 {
     [Header("State")]
     [SerializeField] private EnemyState currentState;
+    [SerializeField] private float MoveRate = 0.2f;
     public EnemyState CurrentState => currentState; // 외부 확인용
 
     [Header("Timers")]
@@ -94,7 +95,7 @@ public class EnemyFSM : MonoBehaviour
         if (timer >= idleTime)
         {
             // 대기 시간이 끝나면 이동이나 공격으로 전환
-            if (Random.value > 0.2f) ChangeState(EnemyState.Attack);
+            if (Random.value > MoveRate) ChangeState(EnemyState.Attack);
             else ChangeState(EnemyState.Move);
         }
     }
