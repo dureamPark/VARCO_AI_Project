@@ -96,6 +96,10 @@ public class StageManager : MonoBehaviour
 
             case 2: // 버티기
                 float timer = 20f;//잠깐 바꿈
+                if(stats != null)
+                {
+                    stats.SetInvincible(true);
+                }
                 while (timer > 0)
                 {
                     timer -= Time.deltaTime;
