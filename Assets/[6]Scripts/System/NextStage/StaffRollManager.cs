@@ -11,11 +11,14 @@ public class StaffRollManager : MonoBehaviour
         public GameObject enemyPrefab; // 스탭롤 적 (이름표 등)
         public float nextSpawnDelay;   // 다음 녀석 나올 때까지 대기 시간
     }
+    [Header("UI")]
+    [SerializeField] private SceneFader sceneFader;
 
     [Header("References")]
     public EnemySpawner spawner; // [필수] EnemySpawner 연결!
 
     [Header("Settings")]
+    [SerializeField] private float startDelay = 2.0f;
     [SerializeField] private List<StaffWave> staffWaves;
     [SerializeField] private GameObject finalBossPrefab;
     [SerializeField] private GameObject endPanel;
@@ -32,6 +35,8 @@ public class StaffRollManager : MonoBehaviour
 
     IEnumerator StaffRollRoutine()
     {
+        yield return new WaitForSeconds(startDelay);
+
         // 1. 스탭롤 순차 소환 (EnemySpawner 이용)
         foreach (var wave in staffWaves)
         {
@@ -103,6 +108,15 @@ public class StaffRollManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         if (endPanel != null) endPanel.SetActive(true);
         yield return new WaitForSeconds(3.0f);
-        SceneManager.LoadScene("Title");
+
+        if (sceneFader != null)
+        {
+            sceneFader.FadeOutAndLoadScene("Title");
+        }
+        else
+        {
+            // 페이더 없으면 그냥 이동 (안전장치)
+            SceneManager.LoadScene("Title");
+        }
     }
 }

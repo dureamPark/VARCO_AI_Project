@@ -357,7 +357,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -402,9 +402,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   moveSpeed: 7
-  paddingX: 12
-  paddingRightX: 3
-  paddingY: 7
+  paddingX: 1
+  paddingRightX: 1
+  paddingY: 1
   paddingUpperY: 1
 --- !u!50 &44364015227960722
 Rigidbody2D:
@@ -432,7 +432,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &3618830898548559347
 MonoBehaviour:
   m_ObjectHideFlags: 0
