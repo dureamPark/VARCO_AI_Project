@@ -61,8 +61,8 @@ public class StageManager : MonoBehaviour
             if (currentStage == 2) yield return StartCoroutine(ExitPentaSequence());
 
             currentStage++;
-            PlayerPrefs.SetInt("SavedStage", currentStage);
-            PlayerPrefs.Save();
+            //PlayerPrefs.SetInt("SavedStage", currentStage);
+            //PlayerPrefs.Save();
 
             yield return new WaitForSeconds(1.0f);
         }
