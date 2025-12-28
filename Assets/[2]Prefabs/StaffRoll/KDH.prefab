@@ -283,10 +283,9 @@ GameObject:
   - component: {fileID: 2358083006050440731}
   - component: {fileID: 2997286149705890992}
   - component: {fileID: 2269553924919815167}
-  - component: {fileID: 5156283942042122390}
-  - component: {fileID: 5540128103337700217}
   - component: {fileID: 1436130408928352908}
   - component: {fileID: 2613600368112665155}
+  - component: {fileID: -2441050195919363016}
   m_Layer: 0
   m_Name: KDH
   m_TagString: Enemy
@@ -323,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54aea0b05740e6a4f89722fea5af9413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHealth: 5
+  maxHealth: 10
   currentHealth: 0
   maxShield: 0
   currentShield: 0
@@ -357,7 +356,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -373,39 +372,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5156283942042122390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8838491690179210978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13e3b01c8538cbd459b6df047e661695, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyFSM
-  currentState: 0
-  MoveRate: 1
-  idleTime: 1
-  moveTime: 2
---- !u!114 &5540128103337700217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8838491690179210978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d996dc567471c2249a576a9f65b9a6b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-  moveSpeed: 7
-  paddingX: 1
-  paddingRightX: 1
-  paddingY: 1
-  paddingUpperY: 1
 --- !u!50 &1436130408928352908
 Rigidbody2D:
   serializedVersion: 5
@@ -447,3 +413,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StaffRollSkill
   commonBulletPrefab: {fileID: 7228713900131055398, guid: 06ada6358acc91b4dabe800ce4a8054e, type: 3}
   warningPrefab: {fileID: 358816762810832984, guid: a6464831410fed94cbe3fe4dd71f8a4f, type: 3}
+--- !u!114 &-2441050195919363016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838491690179210978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba065f2694756e489b88e081e44ed41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StaffRollMovement
+  moveSpeed: 3
+  stopY: -4
+  autoDestroyTime: 5
+  autoStartTimer: 0
