@@ -130,14 +130,66 @@ public class StageManager : MonoBehaviour
 
     IEnumerator ExitPentaSequence()
     {
+        Debug.Log("🚀 펜타 퇴장 시퀀스 시작 (상세 연출)");
+
+        // 1. 현재 적이 존재하는지 확인
         if (currentEnemy != null)
         {
-            var stats = currentEnemy.GetComponent<EnemyStats>();
-            if(stats) stats.SetInvincible(true);
+            // [복구] 죽음 이벤트 구독 해제 (중요: 에러 방지)
+            EnemyStats stats = currentEnemy.GetComponent<EnemyStats>();
+            if (stats != null)
+            {
+                // OnEnemyDead 함수가 StageManager에 있다고 가정합니다.
+                // 만약 에러가 난다면 이 줄은 주석 처리하거나 해당 함수가 있는지 확인하세요.
+                // stats.OnDead -= OnEnemyDead; 
+                
+                stats.SetInvincible(true); // 퇴장 중 무적 설정 
+            }
+
+            // [복구] AI 끄기 (공격 멈춤)
+            // ※ 프로젝트에 EnemyFSM 스크립트가 있어야 작동합니다.
+            // 없으면 에러가 날 수 있으니, 없다면 주석 처리하세요.
+             EnemyFSM fsm = currentEnemy.GetComponent<EnemyFSM>();
+            if (fsm != null) fsm.enabled = false;
             
-            // AI 끄기 등 추가 가능
-            Destroy(currentEnemy, 2.0f);
+
+            // [복구] 이동 로직 끄기 (제자리 고정 풀기)
+            // ※ EnemyMovement 스크립트가 있어야 작동합니다.
+            
+            EnemyMovement moveScript = currentEnemy.GetComponent<EnemyMovement>();
+            if (moveScript != null)
+            {
+                moveScript.StopMove(); 
+                moveScript.enabled = false; 
+            }
+            
+
+            // [복구] 물리 충돌 끄기 (플레이어 통과 가능)
+            Collider2D col = currentEnemy.GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
+
+            // [복구] 위쪽 화면 밖으로 이동 연출
+            Vector3 startPos = currentEnemy.transform.position;
+            Vector3 endPos = new Vector3(0, 6.5f, 0); // 화면 위쪽 목표 지점
+            float duration = 2.0f; // 2초 동안 이동
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                if (currentEnemy == null) break;
+                
+                // 부드럽게 위로 이동 (Lerp)
+                currentEnemy.transform.position = Vector3.Lerp(startPos, endPos, elapsed / duration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            // [복구] 완전히 사라지게 파괴
+            if (currentEnemy != null) Destroy(currentEnemy);
         }
-        yield return new WaitForSeconds(2.0f);
+
+        // 스토리 대화 등을 위한 대기
+        Debug.Log("스토리 대화 진행 중... (Dialog)");
+        yield return new WaitForSeconds(2.0f); 
     }
 }
