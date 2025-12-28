@@ -493,6 +493,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8023334295506614287, guid: 85c1652cab176d74095e36617a23c35d, type: 3}
+      propertyPath: enemyPanel
+      value: 
+      objectReference: {fileID: 1712356296933838099}
+    - target: {fileID: 8023334295506614287, guid: 85c1652cab176d74095e36617a23c35d, type: 3}
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 65934550}
@@ -1047,6 +1051,14 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2244870439807081493, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+      propertyPath: m_Name
+      value: WarningPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2244870439807081493, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3845972620852054595, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -1128,6 +1140,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+--- !u!1 &1712356296933838099 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2244870439807081493, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+  m_PrefabInstance: {fileID: 1712356296933838098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
