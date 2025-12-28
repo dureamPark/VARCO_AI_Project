@@ -975,17 +975,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3aa815e858b2a94787d7ea150d55bbe, type: 3}
---- !u!114 &2001211191 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3845972620852054595, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
-  m_PrefabInstance: {fileID: 7559016431269905007}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &2090111636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1849,10 +1838,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51429819ab129394bb2be13ba2bd3499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryPanel
-  speakerText: {fileID: 0}
-  contentText: {fileID: 0}
-  dialogPanel: {fileID: 0}
-  storyData: []
+  nameText: {fileID: 4379115902837104816}
+  scriptText: {fileID: 2294096441092697516}
 --- !u!114 &2838747324918473716
 MonoBehaviour:
   m_ObjectHideFlags: 0

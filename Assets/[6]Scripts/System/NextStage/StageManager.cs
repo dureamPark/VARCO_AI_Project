@@ -95,7 +95,7 @@ public class StageManager : MonoBehaviour
                 break;
 
             case 2: // 버티기
-                float timer = 60f;
+                float timer = 20f;//잠깐 바꿈
                 while (timer > 0)
                 {
                     timer -= Time.deltaTime;
@@ -117,15 +117,39 @@ public class StageManager : MonoBehaviour
 
     void OnConditionMet() => isStageClearConditionMet = true;
 
+    //IEnumerator PlayDialogueAndWait(string dialogID)
+    //{
+    //    bool isFinished = false;
+    //    if (StoryManager.Instance != null)
+    //    {
+    //        Time.timeScale = 0f;
+    //        StoryManager.Instance.StartScenario(dialogID, () => { isFinished = true; });
+    //        yield return new WaitUntil(() => isFinished);
+    //    }
+    //    else yield return new WaitForSeconds(0.5f);
+    //}
     IEnumerator PlayDialogueAndWait(string dialogID)
     {
+        // [수정 1] 게임 시간 정지 (캐릭터, 적, 물리 연산 등 멈춤)
+        Time.timeScale = 0f;
+
         bool isFinished = false;
         if (StoryManager.Instance != null)
         {
             StoryManager.Instance.StartScenario(dialogID, () => { isFinished = true; });
+
+            // WaitUntil은 timeScale이 0이어도 작동합니다. (매 프레임 조건 검사)
             yield return new WaitUntil(() => isFinished);
         }
-        else yield return new WaitForSeconds(0.5f);
+        else
+        {
+            // [수정 2] timeScale이 0일 때는 WaitForSeconds는 무한 대기하므로
+            // 실제 시간(Realtime)을 기준으로 기다리는 함수를 써야 합니다.
+            yield return new WaitForSecondsRealtime(0.5f);
+        }
+
+        // [수정 3] 게임 시간 재개
+        Time.timeScale = 1f;
     }
 
     IEnumerator ExitPentaSequence()

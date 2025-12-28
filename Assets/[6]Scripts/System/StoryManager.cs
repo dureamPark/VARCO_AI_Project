@@ -92,7 +92,7 @@ public class StoryManager : MonoBehaviour
             foreach (char c in text)
             {
                 storyPanel.scriptText.text += c;
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSecondsRealtime(0.05f);
             }
         }
     }
