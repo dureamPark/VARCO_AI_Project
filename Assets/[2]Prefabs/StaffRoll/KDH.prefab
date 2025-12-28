@@ -426,6 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaffRollMovement
   moveSpeed: 3
-  stopY: -4
+  stopY: 4
   autoDestroyTime: 5
+  exitYThreshold: -10
   autoStartTimer: 0

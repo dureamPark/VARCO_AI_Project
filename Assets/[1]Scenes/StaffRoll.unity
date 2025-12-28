@@ -1190,15 +1190,15 @@ MonoBehaviour:
   startDelay: 2
   spawnPoint: {fileID: 253670550}
   staffWaves:
-  - enemyPrefab: {fileID: 8838491690179210978, guid: 53d57e511d1b93441a5b41d63454974a, type: 3}
-    nextSpawnDelay: 2
-  - enemyPrefab: {fileID: 7709721559135308182, guid: 38909bf2e9274354ca513c6c9dd8c865, type: 3}
-    nextSpawnDelay: 2
-  - enemyPrefab: {fileID: 7851854032836806627, guid: c926509d5d56ae04f8156352fa1ad602, type: 3}
+  - enemyPrefab: {fileID: 9009970135088814660, guid: 6f245b920e5af7342abf354d0e288032, type: 3}
     nextSpawnDelay: 2
   - enemyPrefab: {fileID: 6509705995269791839, guid: 4f624cce86c3fbd45a5dc924f9542582, type: 3}
     nextSpawnDelay: 2
-  - enemyPrefab: {fileID: 9009970135088814660, guid: 6f245b920e5af7342abf354d0e288032, type: 3}
+  - enemyPrefab: {fileID: 7851854032836806627, guid: c926509d5d56ae04f8156352fa1ad602, type: 3}
+    nextSpawnDelay: 2
+  - enemyPrefab: {fileID: 7709721559135308182, guid: 38909bf2e9274354ca513c6c9dd8c865, type: 3}
+    nextSpawnDelay: 2
+  - enemyPrefab: {fileID: 8838491690179210978, guid: 53d57e511d1b93441a5b41d63454974a, type: 3}
     nextSpawnDelay: 2
   finalBossPrefab: {fileID: 277238188827249543, guid: 0c25597b3a55b024f8bd562dd7af9935, type: 3}
   endPanel: {fileID: 1891725640}

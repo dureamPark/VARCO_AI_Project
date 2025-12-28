@@ -8,10 +8,12 @@ public class StaffRollMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 3.0f;
     [SerializeField] private float stopY = -3.0f;
     [SerializeField] private float autoDestroyTime = 5.0f;
+    [SerializeField] private float exitYThreshold = -10.0f;
 
     public bool autoStartTimer = false;
 
     private bool isStopped = false;
+    private bool isExiting = false;
     private EnemyStats stats;
 
     private void Awake()
@@ -21,7 +23,22 @@ public class StaffRollMovement : MonoBehaviour
 
     private void Update()
     {
-        if (isStopped || stats.CurrentHealth <= 0) return;
+        if (stats.CurrentHealth <= 0) return;
+
+        if (isExiting)
+        {
+            transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+
+            if (transform.position.y <= exitYThreshold)
+            {
+                // 이제 진짜 파괴
+                KillSelf();
+            }
+            return;
+        }
+
+        // 일반 등장 로직 (기존과 동일)
+        if (isStopped) return;
 
         transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
 
@@ -38,7 +55,6 @@ public class StaffRollMovement : MonoBehaviour
         pos.y = stopY;
         transform.position = pos;
 
-        // [수정] 옵션이 켜져 있으면 도착 즉시 타이머 시작!
         if (autoStartTimer)
         {
             BeginSelfDestructTimer();
@@ -48,17 +64,23 @@ public class StaffRollMovement : MonoBehaviour
     public void BeginSelfDestructTimer()
     {
         if (stats == null || stats.CurrentHealth <= 0) return;
-        StartCoroutine(SelfDestructRoutine());
+        StartCoroutine(WaitAndStartExitRoutine());
     }
 
-    private IEnumerator SelfDestructRoutine()
+    private IEnumerator WaitAndStartExitRoutine()
     {
-        // 설정된 시간만큼 대기
         yield return new WaitForSeconds(autoDestroyTime);
 
         if (stats != null && stats.CurrentHealth > 0)
         {
-            // 자폭 (이게 실행되면 OnDead 이벤트가 발생해서 엔딩으로 넘어감)
+            isExiting = true;
+        }
+    }
+
+    private void KillSelf()
+    {
+        if (stats != null && stats.CurrentHealth > 0)
+        {
             stats.TakeDamage(stats.MaxHealth);
         }
     }
