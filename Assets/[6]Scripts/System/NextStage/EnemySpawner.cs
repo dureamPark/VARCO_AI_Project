@@ -45,4 +45,34 @@ public class EnemySpawner : MonoBehaviour
 
         return newEnemy;
     }
+
+    public GameObject SpawnDirectly(GameObject prefab)
+    {
+        if (prefab == null) return null;
+        return ProcessSpawn(prefab);
+    }
+    private GameObject ProcessSpawn(GameObject targetPrefab)
+    {
+        if (targetPrefab == null)
+        {
+            return null;
+        }
+
+        // 1. 화면 밖(spawnPoint)에서 생성
+        GameObject newEnemy = Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);
+
+        // 2. 등장 연출 스크립트(EnemyEntry) 찾기
+        EnemyEntry entryScript = newEnemy.GetComponent<EnemyEntry>();
+
+        if (entryScript != null)
+        {
+            entryScript.StartEntry(startPoint.position);
+        }
+        else
+        {
+            newEnemy.transform.position = startPoint.position;
+        }
+
+        return newEnemy;
+    }
 }
