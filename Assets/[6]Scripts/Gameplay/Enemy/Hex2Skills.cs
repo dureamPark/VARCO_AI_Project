@@ -99,48 +99,10 @@ public class Hex2Skills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
-    private IEnumerator Skill_TrustOfBelief()
-    {
-        Debug.Log("1페이즈: 믿음의 신뢰");
-        int explosionCount = 4;
-        for (int i = 0; i < explosionCount; i++)
-        {
-            Vector2 origin = GetRandomScreenPos();
-            ShowWarning(origin, 0.5f, 2.0f);
-
-            yield return new WaitForSeconds(0.5f);
-            FireNWay(commonBulletPrefab, origin, 12, 4f);
-        }
-        yield return new WaitForSeconds(skillCoolDown);
-        onSkillEndCallback?.Invoke();
-    }
-
-    private IEnumerator Skill_PrisonOfFreedom()
-    {
-        Debug.Log("1페이즈: 자유의 감옥");
-        for (int k = 0; k < 4; k++)
-        {
-            if (playerTransform == null) break;
-            Vector2 targetPos = playerTransform.position;
-
-            // 플레이어를 둘러싸는 원형 배치
-            int count = 16;
-            float step = 360f / count;
-            for (int i = 0; i < count; i++)
-            {
-                Vector2 spawnPos = targetPos + (Vector2)(Quaternion.Euler(0, 0, i * step) * Vector2.right * 4f);
-                Vector2 dir = (targetPos - spawnPos).normalized;
-                CreateBullet(commonBulletPrefab, spawnPos, dir, 3f, 0f, BulletShape.Circle);
-            }
-            yield return new WaitForSeconds(2.0f);
-        }
-        yield return new WaitForSeconds(skillCoolDown);
-        onSkillEndCallback?.Invoke();
-    }
-
     private IEnumerator Skill_GraceOfGod()
     {
         Debug.Log("2페이즈: 신의 은총");
+        AnnounceSkill("GraceOfGod");
 
         // 병렬 실행: 거친 미래 패턴을 시작하고, 동시에 추가 공격을 수행
         StartCoroutine(Skill_RoughFuture());
@@ -178,6 +140,7 @@ public class Hex2Skills : EnemySkillBase
     private IEnumerator Skill_DistortedShape()
     {
         Debug.Log("2페이즈: 왜곡된 도형");
+        AnnounceSkill("DistortedShape");
 
         float duration = 3.0f; // 지속시간 임의 설정
         float endTime = Time.time + duration;
@@ -204,6 +167,7 @@ public class Hex2Skills : EnemySkillBase
     private IEnumerator Skill_ChaosPolygon()
     {
         Debug.Log("2페이즈: 카오스 폴리곤");
+        AnnounceSkill("ChaosPolygon");
 
         List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
 
@@ -269,6 +233,7 @@ public class Hex2Skills : EnemySkillBase
     private IEnumerator Skill_ErodingWave()
     {
         Debug.Log("2페이즈: 침식하는 파동");
+        AnnounceSkill("ErodingWave");
 
         for (int wave = 0; wave < 5; wave++)
         {
@@ -297,6 +262,7 @@ public class Hex2Skills : EnemySkillBase
     private IEnumerator Skill_CoveredFuture()
     {
         Debug.Log("2페이즈: 덮인 미래");
+        AnnounceSkill("CoveredFuture");
 
         sr.color = Color.red;
         stats.SetInvincible(true);

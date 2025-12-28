@@ -126,6 +126,62 @@ public class EnemySkills : EnemySkillBase
         onSkillEndCallback?.Invoke();
     }
 
+    private IEnumerator Skill_RoughFuture2()
+    {
+
+        List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
+        Vector2 centerPos = new Vector2(0, 0);
+
+        // ================= 크기를 조절 =================
+        int rowCount = 7;      // 가로 줄 개수 (높이 결정)
+        int colCount = 7;      // 세로 줄 개수 (너비 결정)
+
+        float gapX = 1.4f;     // 가로 간격 (넓을수록 뚱뚱해짐)
+        float gapY = 1.4f;     // 세로 간격 (넓을수록 길어짐)
+
+        float drawSpeed = 0.1f; // 그려지는 속도
+        // ====================================================================
+
+        float startY = ((rowCount - 1) * gapY) / 2f;
+        float startX = ((colCount - 1) * gapX) / 2f;
+        for (int i = 0; i < rowCount; i++)
+        {
+
+            float currentY = startY - (i * gapY);
+
+            for (int j = 0; j < colCount; j++)
+            {
+                float currentX = -startX + (j * gapX);
+
+                Vector2 spawnPos = centerPos + new Vector2(currentX, currentY);
+                Vector2 dir = spawnPos.normalized;
+                if (dir == Vector2.zero) dir = Vector2.up;
+
+                EnemyPojectile p = CreateBulletAndReturn(spawnPos, dir, 0f, 0f, BulletShape.Triangle);
+                if (p != null) spawnedBullets.Add(p);
+
+                yield return new WaitForSeconds(drawSpeed);
+            }
+        }
+
+
+        yield return new WaitForSeconds(0.5f);
+
+        foreach (var bullet in spawnedBullets)
+        {
+            if (bullet != null && bullet.gameObject.activeSelf)
+            {
+                Vector2 currentDir = bullet.transform.position.normalized;
+                if (currentDir == Vector2.zero) currentDir = Vector2.up;
+                bullet.Launch(currentDir, 7f);
+            }
+        }
+
+        spawnedBullets.Clear();
+        yield return new WaitForSeconds(skillCoolDown);
+        onSkillEndCallback?.Invoke();
+    }
+
     // 2. 믿음의 신뢰
     private IEnumerator Skill_TrustOfBelief()
     {
@@ -178,7 +234,7 @@ public class EnemySkills : EnemySkillBase
         AnnounceSkill("GraceOfGod");
 
         // 병렬 실행: 거친 미래 패턴을 시작하고, 동시에 추가 공격을 수행
-        StartCoroutine(Skill_RoughFuture());
+        StartCoroutine(Skill_RoughFuture2());
 
         float duration = 3.0f;
         float timer = 0f;

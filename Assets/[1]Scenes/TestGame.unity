@@ -658,6 +658,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4611310456634857990, guid: 8f48346de8ca2404cba30bc7ba52f1ea, type: 3}
   m_PrefabInstance: {fileID: 705510682}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1415035242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5466384010550752006, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+  m_PrefabInstance: {fileID: 7559016431269905007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1510534473 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1606757575381747551, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+  m_PrefabInstance: {fileID: 7559016431269905007}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &1798631972
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -719,6 +735,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3aa815e858b2a94787d7ea150d55bbe, type: 3}
+--- !u!114 &2001211191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3845972620852054595, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+  m_PrefabInstance: {fileID: 7559016431269905007}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &2090111636
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,6 +833,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 912098800566960886, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+      propertyPath: contentText
+      value: 
+      objectReference: {fileID: 2001211191}
+    - target: {fileID: 912098800566960886, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+      propertyPath: dialogPanel
+      value: 
+      objectReference: {fileID: 1415035242}
+    - target: {fileID: 912098800566960886, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
+      propertyPath: speakerText
+      value: 
+      objectReference: {fileID: 1510534473}
     - target: {fileID: 1248735716337820933, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
       propertyPath: m_Name
       value: Canvas_Game
