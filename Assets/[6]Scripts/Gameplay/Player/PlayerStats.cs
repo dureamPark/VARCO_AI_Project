@@ -67,6 +67,8 @@ public class PlayerStats : MonoBehaviour
         // OnStatsChanged?.Invoke();
 
         Debug.Log("피격! 목숨 차감");
+        AudioEvents.TriggerPlaySFX("PlayerHit");
+        AudioEvents.TriggerPlaySFX("PlayerHitVoice");
         LoseLife();
     }
 
@@ -88,6 +90,7 @@ public class PlayerStats : MonoBehaviour
         }
         else
         {
+            AudioEvents.TriggerPlaySFX("PlayerDeath");
             Die();
         }
         OnStatsChanged?.Invoke(); 
