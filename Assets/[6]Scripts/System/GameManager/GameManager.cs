@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         if (Instance.timeManager != null)
         {
             Instance.timeManager.StopTimer();
-            RetryGame();
+            //RetryGame();
         }
         else
         {

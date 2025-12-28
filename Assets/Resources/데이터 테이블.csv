@@ -1,0 +1,61 @@
+,,,,,,,,,,,,,,,
+,다이얼로그 챕터 그룹 테이블,,,,,다이얼로그 테이블,,,,,,,텍스트 테이블,,
+,다이얼로그 챕터 그룹 ID,카테고리,,,,다이얼로그 ID,다이얼로그 챕터 그룹,재생 순번,말하는 사람,대사 스트링,형식,,대사 스트링,내용,형식
+,Dialog_Start_1,Story_1,,,,Dialog_Start_1_01,Dialog_Start_1,1,동그라미,Text_1_1,Wav,,Text_1_1,갑자기 무슨 일이야? 마을이 흔들리고 있어!,Wav
+,Dialog_Start_2,Story_2,,,,Dialog_Start_1_02,Dialog_Start_1,2,네모,Text_1_2,Wav,,Text_1_2,마을에 이상한 형태의 물질이 나타났어!,Wav
+,Dialog_Start_3,Story_3,,,,Dialog_Start_1_03,Dialog_Start_1,3,세모,Text_1_3,Wav,,Text_1_3,잠시만 내 주머니에서 굉장한 진동이 느껴져!,Wav
+,Dialog_Start_4,Story_4,,,,Dialog_Start_1_04,Dialog_Start_1,4,오르비스,Text_1_4,Wav,,Text_1_4,<System Online> 권한을 활성화 합니다.,Wav
+,Dialog_Start_5,Story_5,,,,Dialog_Start_1_05,Dialog_Start_1,5,오르비스,Text_1_5,Wav,,Text_1_5,반갑습니다. 당신들을 마지막까지 데려다 줄 네비게이터 <오르비스>입니다.,Wav
+,Dialog_End_1,Story_1,,,,Dialog_Start_1_06,Dialog_Start_1,6,오르비스,Text_1_6,Wav,,Text_1_6,이 세계는 신의 이벤트에 의해 `재창조`될 위기에 처했습니다.,Wav
+,Dialog_End_2,Story_2,,,,Dialog_Start_1_07,Dialog_Start_1,7,오르비스,Text_1_7,Wav,,Text_1_7,일단 바로 앞에 무언가 있으니 대비하세요. 어떻게 하는지는… 해보면 알겁니다.,Wav
+,Dialog_End_3,Story_3,,,,Dialog_Start_1_08,Dialog_Start_1,8,세모,Text_1_8,Wav,,Text_1_8,신의 이벤트? 싸우라고?,Wav
+,Dialog_End_4,Story_4,,,,,,,,,,,,,
+,Dialog_End_5,Story_5,,,,Dialog_End_1_01,Dialog_End_1,1,세모,Text_1_21,Wav,,Text_1_21,그래서 쟤네는 뭔데 여기를 파괴하는거야? 아름다운 건물들이 다 이상한 모양으로 바뀌었잖아,Wav
+,,,,,,Dialog_End_1_02,Dialog_End_1,2,오르비스,Text_1_22,Wav,,Text_1_22,해답. 단순한 증오심 때문입니다. 한마디로 여기가 꼴보기 싫어서.,Wav
+,,,,,,Dialog_End_1_03,Dialog_End_1,3,세모,Text_1_23,Wav,,Text_1_23,대체 왜...?,Wav
+,,,,,,,,,,,,,,,
+,,,,,,Dialog_Start_2_01,Dialog_Start_2,1,육각형,Text_2_1,Wav,,Text_2_1,"난 이 세계가 너무 싫어. 왜 다 동그라미, 세모, 네모로 이루어져 있는거야. 우리도 존중해달란 말이다",Wav
+,,,,,,Dialog_Start_2_02,Dialog_Start_2,2,세모,Text_2_2,Wav,,Text_2_2,그게 지금 우리 동네를 부서도 된다는 소리야?,Wav
+,,,,,,Dialog_Start_2_03,Dialog_Start_2,3,육각형,Text_2_3,Wav,,Text_2_3,너넨... 좀.. 맞아야..한다고..생각해..,Wav
+,,,,,,Dialog_Start_2_04,Dialog_Start_2,4,세모,Text_2_4,Wav,,Text_2_4,이런 젠장!,Wav
+,,,,,,,,,,,,,,,
+,,,,,,Dialog_End_2_01,Dialog_End_2,1,오르비스,Text_2_21,Wav,,Text_2_21,<System Message> 적의 소실 확인되었습니다.,Wav
+,,,,,,Dialog_End_2_02,Dialog_End_2,2,오르비스,Text_2_22,Wav,,Text_2_22,적은 소실되었지만 아직 무언가가 있을 것 같으니 대비하세요,Wav
+,,,,,,Dialog_End_2_03,Dialog_End_2,3,세모,Text_2_23,Wav,,Text_2_23,또 뭐가 있단 말이야? 1년 중 하루밖에 없는 이 기념일을 이런 식으로 보내야한다니 슬프네...,Wav
+,,,,,,Dialog_End_2_04,Dialog_End_2,4,오르비스,Text_2_24,Wav,,Text_2_24,<System Message> 적 반응! 전투 준비!,Wav
+,,,,,,,,,,,,,,,
+,,,,,,Dialog_Start_3_01,Dialog_Start_3,1,오각형,Text_3_1,Wav,,Text_3_1,.....,Wav
+,,,,,,Dialog_Start_3_02,Dialog_Start_3,2,세모,Text_3_2,Wav,,Text_3_2,넌 또 뭐야? 대체 우리한테 뭐가 불만인데?,Wav
+,,,,,,Dialog_Start_3_03,Dialog_Start_3,3,오각형,Text_3_3,Wav,,Text_3_3,너희에게는 불만이 없어. 하지만 이 세계에는 불만이 참 많아,Wav
+,,,,,,Dialog_Start_3_04,Dialog_Start_3,4,오각형,Text_3_4,Wav,,Text_3_4,"왜 세상은 동그라미, 세모, 네모는 잘 쓰면서 다른 다각형들은 안쓰는 거지?",Wav
+,,,,,,Dialog_Start_3_05,Dialog_Start_3,5,세모,Text_3_5,Wav,,Text_3_5,그건 다 써보고 못 써먹겠으니ㄲ...,Wav
+,,,,,,Dialog_Start_3_06,Dialog_Start_3,6,오각형,Text_3_6,Wav,,Text_3_6,"닥쳐! ""노력""이 부족한걸 그딴 허접한 말로 버무리지마",Wav
+,,,,,,Dialog_Start_3_07,Dialog_Start_3,7,세모,Text_3_7,Wav,,Text_3_7,말이 안통할 것 같다...,Wav
+,,,,,,,,,,,,,,,
+,,,,,,Dialog_End_3_01,Dialog_End_3,1,오각형,Text_3_21,Wav,,Text_3_21,너네를 위해서 익숙한 친구를 데려왔어,Wav
+,,,,,,Dialog_End_3_02,Dialog_End_3,2,육각형,Text_3_22,Wav,,Text_3_22,크.. 힘이 솟는다!!!!,Wav
+,,,,,,Dialog_End_3_03,Dialog_End_3,3,세모,Text_3_23,Wav,,Text_3_23,쟤는 또 왜 살아있는거야???,Wav
+,,,,,,,,,,,,,,,
+,,,,,,Dialog_Start_4_01,Dialog_Start_4,1,세모,Text_4_1,Wav,,Text_4_1,오르비스! 쟤 아까 소실 확인되었다 하지 않았어???????,Wav
+,,,,,,Dialog_Start_4_02,Dialog_Start_4,2,오르비스,Text_4_2,Wav,,Text_4_2,긍정. 하지만 지금 앞에 있는 개체는 육각형이 확실합니다.,Wav
+,,,,,,Dialog_Start_4_03,Dialog_Start_4,3,오르비스,Text_4_3,Wav,,Text_4_3,외부의 무언가가 개입했다고 판단. 전투에 준비해주십시오.,Wav
+,,,,,,Dialog_Start_4_04,Dialog_Start_4,4,세모,Text_4_4,Wav,,Text_4_4,아아아!!!!! 진짜 되는게 없네!!,Wav
+,,,,,,,,,,,,,,,
+,,,,,,Dialog_End_4_01,Dialog_End_4,1,세모,Text_4_21,Wav,,Text_4_21,진짜 드럽게 힘드네..,Wav
+,,,,,,Dialog_End_4_02,Dialog_End_4,2,오각형,Text_4_22,Wav,,Text_4_22,끈질기네. 좀 같이 지내면 안되는거야? 왜 너희들만 하하호호 잘사는거지?,Wav
+,,,,,,Dialog_End_4_03,Dialog_End_4,3,오각형,Text_4_23,Wav,,Text_4_23,"우리가 ""외부인""이라 그런건가?",Wav
+,,,,,,Dialog_End_4_04,Dialog_End_4,4,세모,Text_4_24,Wav,,Text_4_24,아니.. 갑자기 너네가 마을을 부수는데 가만히 있냐?,Wav
+,,,,,,Dialog_End_4_05,Dialog_End_4,5,오각형,Text_4_25,Wav,,Text_4_25,부수는 게 아니야. 재창조 하는거지,Wav
+,,,,,,Dialog_End_4_06,Dialog_End_4,6,세모,Text_4_26,Wav,,Text_4_26,그렇다고 그 행동이 정당화 되지는 않아!,Wav
+,,,,,,,,,,,,,,,
+,,,,,,Dialog_Start_5_01,Dialog_Start_5,1,오각형,Text_5_1,Wav,,Text_5_1,힘으로 증명하겠어. 그리고 모두가 화합해서 지낼 수 있는 세계를 만들겠어,Wav
+,,,,,,Dialog_Start_5_02,Dialog_Start_5,2,세모,Text_5_2,Wav,,Text_5_2,갑자기 스케일이 너무 커지지 않았어?? 그리고 화합은 폭력으로 해결되는게 아니야!,Wav
+,,,,,,,,,,,,,,,
+,,,,,,Dialog_End_5_01,Dialog_End_5,1,오르비스,Text_5_21,Wav,,Text_5_21,<System> 개체의 소실이 확인되었습니다.,Wav
+,,,,,,Dialog_End_5_02,Dialog_End_5,2,세모,Text_5_22,Wav,,Text_5_22,후... 드디어 끝난건가?,Wav
+,,,,,,Dialog_End_5_03,Dialog_End_5,3,세모,Text_5_23,Wav,,Text_5_23,대체 뭐였던거지?,Wav
+,,,,,,Dialog_End_5_04,Dialog_End_5,4,오르비스,Text_5_24,Wav,,Text_5_24,누군가에 의한 의도적인 장난이라고 생각할 수 밖에 없네요,Wav
+,,,,,,Dialog_End_5_05,Dialog_End_5,5,세모,Text_5_25,Wav,,Text_5_25,그런데.. 궁금한게 있어. 넌 대체 어디서 온거야? 쟤네랑 한패 아니지?,Wav
+,,,,,,Dialog_End_5_06,Dialog_End_5,6,오르비스,Text_5_26,Wav,,Text_5_26,글쎄요... 아직 이야기는 끝나지 않았으니 조금 더 지켜봐도 되지 않을까요?,Wav
+,,,,,,,,,,,,,,,
+ ?  ?    ,,,,,,,,,,,,,,,

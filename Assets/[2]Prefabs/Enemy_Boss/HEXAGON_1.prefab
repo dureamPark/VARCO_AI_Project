@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54aea0b05740e6a4f89722fea5af9413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHealth: 7500
+  maxHealth: 1
   currentHealth: 0
   maxShield: 3750
   currentShield: 0
@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyFSM
   currentState: 0
+  MoveRate: 0.2
   idleTime: 1
   moveTime: 2
 --- !u!114 &8772997117788466168
@@ -259,6 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   moveSpeed: 7
   paddingX: 7
+  paddingRightX: 4.3
   paddingY: 0.8
   paddingUpperY: 7
 --- !u!114 &-7212672210299042464
