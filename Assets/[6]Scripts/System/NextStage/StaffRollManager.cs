@@ -8,40 +8,61 @@ public class StaffRollManager : MonoBehaviour
     [System.Serializable]
     public struct StaffWave
     {
-        public GameObject enemyPrefab; // 스탭롤 적 (이름표 등)
-        public float nextSpawnDelay;   // 다음 녀석 나올 때까지 대기 시간
+        public GameObject enemyPrefab;
+        public float nextSpawnDelay;
     }
 
-    [Header("References")]
-    public EnemySpawner spawner; // [필수] EnemySpawner 연결!
-
     [Header("Settings")]
+    [SerializeField] private float startDelay = 2.0f;
+    [SerializeField] private Transform spawnPoint; // 화면 상단 (스폰 위치)
     [SerializeField] private List<StaffWave> staffWaves;
     [SerializeField] private GameObject finalBossPrefab;
     [SerializeField] private GameObject endPanel;
 
+    // [추가] 타이틀 씬 이름 (틀리면 이동 안함)
+    [SerializeField] private string titleSceneName = "Title";
+    [SerializeField] private SceneFader sceneFader; // 아까 만든 페이더
+
     private int activeEnemyCount = 0;
+    private List<StaffRollMovement> spawnedStaffList = new List<StaffRollMovement>();
 
     private void Start()
     {
         if (endPanel != null) endPanel.SetActive(false);
-        AudioEvents.TriggerPlayBGM("VortexStance");
+        AudioEvents.TriggerPlayBGM("VortexStance"); // 엔딩곡
 
         StartCoroutine(StaffRollRoutine());
     }
 
     IEnumerator StaffRollRoutine()
     {
-        // 1. 스탭롤 순차 소환 (EnemySpawner 이용)
+        yield return new WaitForSeconds(startDelay);
+
+        // 1. 스탭롤 순차 소환
         foreach (var wave in staffWaves)
         {
-            SpawnStaff(wave.enemyPrefab); // 함수 호출
+            SpawnStaff(wave.enemyPrefab);
             yield return new WaitForSeconds(wave.nextSpawnDelay);
         }
 
-        Debug.Log("모든 스탭롤 소환 완료. 전멸 대기 중...");
+        Debug.Log("5명 소환 완료. 마지막 스탭이 자리잡을 때까지 잠시 대기...");
 
-        // 2. 남은 적이 0이 될 때까지 대기
+        // (옵션) 마지막 5번째 스탭이 내려와서 멈출 때까지 시간을 좀 줍니다.
+        yield return new WaitForSeconds(2.0f);
+
+        Debug.Log("모든 스탭롤 타이머 동시 시작!");
+
+        // 2. [핵심] 기억해둔 모든 스탭에게 타이머 시작 명령 내리기
+        foreach (var staff in spawnedStaffList)
+        {
+            // 플레이어가 기다리는 동안 죽였을 수도 있으니 null 체크 필수
+            if (staff != null)
+            {
+                staff.BeginSelfDestructTimer();
+            }
+        }
+
+        // 3. 전멸 대기 (기존과 동일)
         while (activeEnemyCount > 0)
         {
             yield return new WaitForSeconds(0.5f);
@@ -50,46 +71,33 @@ public class StaffRollManager : MonoBehaviour
         Debug.Log("최종 보스 소환");
         yield return new WaitForSeconds(1.0f);
 
-        // 3. 최종 보스 소환
-        SpawnFinalBoss();
+        SpawnFinalBoss(); // (이전 답변의 함수 구현 참고)
     }
 
-    // 일반 스탭 적 소환
-    void SpawnStaff(GameObject prefab)
+    // 통합 스폰 함수
+    void SpawnStaff(GameObject prefab, bool isFinalBoss = false)
     {
-        if (spawner == null || prefab == null) return;
+        if (prefab == null) return;
 
-        // [핵심] 스포너에게 프리팹을 주고 생성을 위임함
-        // (그러면 스포너가 알아서 SpawnPoint에 만들고 StartPoint로 이동시켜 줌)
-        GameObject enemy = spawner.SpawnDirectly(prefab);
+        GameObject obj = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
 
-        if (enemy != null)
+        activeEnemyCount++;
+
+        StaffRollMovement movement = obj.GetComponent<StaffRollMovement>();
+        if (movement != null)
         {
-            activeEnemyCount++;
-            EnemyStats stats = enemy.GetComponent<EnemyStats>();
-            if (stats != null)
-            {
-                // 적이 죽으면 카운트 감소
-                stats.OnDead += () => { activeEnemyCount--; };
-            }
+            spawnedStaffList.Add(movement);
+            Debug.Log($"리스트 추가됨: {obj.name}. 현재 리스트 크기: {spawnedStaffList.Count}");
         }
-    }
-
-    // 최종 보스 소환
-    void SpawnFinalBoss()
-    {
-        if (spawner == null || finalBossPrefab == null) return;
-
-        // 보스도 스포너를 통해 등장 (연출 필요하면)
-        GameObject boss = spawner.SpawnDirectly(finalBossPrefab);
-
-        if (boss != null)
+        else
         {
-            EnemyStats stats = boss.GetComponent<EnemyStats>();
-            if (stats != null)
-            {
-                stats.OnDead += OnBossDead;
-            }
+            Debug.LogError($"[오류] {obj.name} 프리팹에 StaffRollMovement 스크립트가 없습니다!");
+        }
+
+        EnemyStats stats = obj.GetComponent<EnemyStats>();
+        if (stats != null)
+        {
+            stats.OnDead += () => { activeEnemyCount--; };
         }
     }
 
@@ -100,9 +108,44 @@ public class StaffRollManager : MonoBehaviour
 
     IEnumerator EndGameRoutine()
     {
-        yield return new WaitForSeconds(2.0f);
-        if (endPanel != null) endPanel.SetActive(true);
+        // 펑 터지는 거 감상 시간
         yield return new WaitForSeconds(3.0f);
-        SceneManager.LoadScene("Title");
+
+        // 패널 짠!
+        if (endPanel != null) endPanel.SetActive(true);
+
+        // 패널 보여주는 시간
+        yield return new WaitForSeconds(4.0f);
+
+        // 페이드 아웃 하며 타이틀로
+        if (sceneFader != null)
+            sceneFader.FadeOutAndLoadScene(titleSceneName);
+        else
+            SceneManager.LoadScene(titleSceneName);
+    }
+
+    void SpawnFinalBoss()
+    {
+        if (finalBossPrefab == null) return;
+
+        // 1. 보스 생성 (화면 상단)
+        GameObject boss = Instantiate(finalBossPrefab, spawnPoint.position, Quaternion.identity);
+
+        StaffRollMovement movement = boss.GetComponent<StaffRollMovement>();
+        if (movement != null)
+        {
+            movement.autoStartTimer = true;
+        }
+        else
+        {
+            Debug.LogWarning("보스 프리팹에 StaffRollMovement가 없습니다!");
+        }
+
+        EnemyStats stats = boss.GetComponent<EnemyStats>();
+        if (stats != null)
+        {
+            // 자폭하든 맞아 죽든, 죽으면 OnBossDead 실행 -> 엔딩
+            stats.OnDead += OnBossDead;
+        }
     }
 }

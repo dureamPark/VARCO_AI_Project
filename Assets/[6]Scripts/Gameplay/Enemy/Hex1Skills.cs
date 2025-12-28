@@ -38,6 +38,7 @@ public class Hex1Skills : EnemySkillBase
     private IEnumerator Skill_RoughFuture()
     {
         Debug.Log("스킬: 거친 미래 (사이즈 조절 가능)");
+        AnnounceSkill("RoughFuture");
 
         List<EnemyPojectile> spawnedBullets = new List<EnemyPojectile>();
         Vector2 centerPos = new Vector2(0, 0);
@@ -96,6 +97,7 @@ public class Hex1Skills : EnemySkillBase
 
     private IEnumerator Skill_TrustOfBelief()
     {
+        AnnounceSkill("TrustOfBelief");
         Debug.Log("1페이즈: 믿음의 신뢰");
         int explosionCount = 4;
         for (int i = 0; i < explosionCount; i++)
@@ -113,6 +115,7 @@ public class Hex1Skills : EnemySkillBase
     private IEnumerator Skill_PrisonOfFreedom()
     {
         Debug.Log("1페이즈: 자유의 감옥");
+        AnnounceSkill("PrisonOfFreedom");
         for (int k = 0; k < 4; k++)
         {
             if (playerTransform == null) break;

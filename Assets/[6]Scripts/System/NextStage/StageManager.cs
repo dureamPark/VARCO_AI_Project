@@ -1,202 +1,143 @@
 using System.Collections;
-using System.Diagnostics;
-using UnityEngine.InputSystem;
-//using System.Reflection.PortableExecutable;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class StageManager : MonoBehaviour
 {
-    public static StageManager Instance; // StageManager 싱글톤 근데 이게 필요한가?
+    public static StageManager Instance;
 
     [Header("References")]
     public EnemySpawner spawner;
 
+    // 0:실드까기, 1:헥사1킬, 2:버티기, 3:헥사2킬, 4:펜타킬
     [Header("Status")]
-    public int currentStage = 0; // 현재 스테이지 (0부터 시작)
-
+    public int currentStage = 0; 
+    
     private GameObject currentEnemy;
-    private Coroutine survivalTimerCoroutine;
+    private bool isStageClearConditionMet = false;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() { Instance = this; }
 
     private void Start()
     {
-        // 저장된 스테이지가 있다면 불러오기 (없으면 0 반환)
         currentStage = PlayerPrefs.GetInt("SavedStage", 0);
-
-        UnityEngine.Debug.Log($"스테이지 {currentStage} 부터 시작");
-
-        // 게임 시작 시 적 소환 (StartNextStage의 인자는 delay 시간임)
-        StartCoroutine(StartNextStage(0.5f));
+        StartCoroutine(ProcessStageFlow()); 
         AudioEvents.TriggerPlayBGM("ArenaCall");
     }
 
-    // 적이 죽었을 때 호출될 함수
-    public void OnEnemyDead()
+    IEnumerator ProcessStageFlow()
     {
-        UnityEngine.Debug.Log($"스테이지 {currentStage + 1} 클리어!");
-        
-        // 다음 스테이지 준비 5초 뒤 스테이지 시작.
-        // 만약 대화창 같은게 있고 그 뒤에 다음 스테이지로 넘어간다면
-        // 해당 대화가 끝나고선 StartCoroutine(StartNextStage(5.0f)); 호출하도록 설정해야 함.
-
-        if (currentEnemy != null)
+        while (true)
         {
-            EnemyStats stats = currentEnemy.GetComponent<EnemyStats>();
-            if (stats != null)
+            Debug.Log($"🎬 스테이지 {currentStage + 1} 시작");
+            isStageClearConditionMet = false;
+
+            // 1. 적 소환
+            if (currentStage != 1) 
             {
-                stats.OnDead -= OnEnemyDead; // 구독 해제
-            }
-        }
-
-        currentStage++;
-        StartCoroutine(StartNextStage(5.0f));
-    }
-
-    public void SurvivalStageEnd()
-    {
-        if (survivalTimerCoroutine != null)
-        {
-            StopCoroutine(survivalTimerCoroutine);
-            survivalTimerCoroutine = null;
-        }
-
-        UnityEngine.Debug.Log("생존 시간 종료! 퇴장 시퀀스 시작.");
-        StartCoroutine(ExitPentaAndNextStage());
-    }
-
-    IEnumerator SurvivalTimer(float time)
-    {
-        UnityEngine.Debug.Log($"생존 타이머 시작: {time}초");
-        
-        // 60초 대기 (나중에 UI 남은 시간 표시가 필요하면 while문으로 변경 가능)
-        yield return new WaitForSeconds(time);
-
-        // 시간이 다 되면 종료 함수 호출
-        SurvivalStageEnd();
-    }
-
-    private IEnumerator ExitPentaAndNextStage()
-    {
-        // 현재 적이 존재하는지 확인
-        if (currentEnemy != null)
-        {
-            // 죽음 이벤트 구독 해제
-            EnemyStats stats = currentEnemy.GetComponent<EnemyStats>();
-            if (stats != null)
-            {
-                stats.OnDead -= OnEnemyDead;
-                stats.SetInvincible(true); // 퇴장 중 무적 설정 
+                if (spawner != null) currentEnemy = spawner.SpawnEnemy(currentStage);
+                yield return new WaitForSeconds(2.0f);
             }
 
-            // AI 끄기 
-            EnemyFSM fsm = currentEnemy.GetComponent<EnemyFSM>();
-            if (fsm != null)
-            {
-                fsm.enabled = false;
-            }
+            // =============================================================
+            // [수정 1] 시작 대화 ID를 엑셀 이름(Dialog_Start_X)과 똑같이 맞춤
+            // =============================================================
+            string startID = $"Dialog_Start_{currentStage + 1}"; 
+            yield return StartCoroutine(PlayDialogueAndWait(startID));
 
-            // 이동 로직(EnemyMovement) 끄기
-            EnemyMovement moveScript = currentEnemy.GetComponent<EnemyMovement>();
-            if (moveScript != null)
-            {
-                moveScript.StopMove(); // 속도 0으로 초기화
-                moveScript.enabled = false; // 스크립트 비활성화
-            }
 
-            // 물리 충돌 끄기 
-            Collider2D col = currentEnemy.GetComponent<Collider2D>();
-            if (col != null)
-            {
-                col.enabled = false;
-            }
+            // 3. 전투 및 조건 감시
+            yield return StartCoroutine(MonitorClearCondition());
 
-            // 위쪽 화면 밖으로 이동 연출
-            Vector3 startPos = currentEnemy.transform.position;
-            Vector3 endPos = new Vector3(0, 6.5f, 0);
-            float duration = 2.0f; // 2초 동안 이동
-            float elapsed = 0f;
 
-            while (elapsed < duration)
-            {
-                if (currentEnemy == null)
-                {
-                    break;
-                }
-                
-                // 부드럽게 위로 이동
-                currentEnemy.transform.position = Vector3.Lerp(startPos, endPos, elapsed / duration);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
+            // =============================================================
+            // [수정 2] 종료 대화 ID를 엑셀 이름(Dialog_End_X)과 똑같이 맞춤
+            // =============================================================
+            string endID = $"Dialog_End_{currentStage + 1}";
+            yield return StartCoroutine(PlayDialogueAndWait(endID));
 
-            // 완전히 사라지게 파괴
-            if (currentEnemy != null)
-            {
-                Destroy(currentEnemy);
-            }
-        }
 
-        // 스토리 대화 진행 
-        UnityEngine.Debug.Log("스토리 대화 진행 중... (Dialog)");
-        yield return new WaitForSeconds(2.0f); 
+            // 5. 정리 및 저장
+            if (currentStage == 2) yield return StartCoroutine(ExitPentaSequence());
 
-        currentStage++;
-        
-        // 육각형 소환
-        StartCoroutine(StartNextStage(0.5f));
-    }
+            currentStage++;
+            PlayerPrefs.SetInt("SavedStage", currentStage);
+            PlayerPrefs.Save();
 
-    private void Update()
-    {
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-        {
-            UnityEngine.Debug.Log("[TEST] P키 입력: 서바이벌 모드 강제 종료 시도");
-
-            if (StageManager.Instance != null)
-            {
-                SurvivalStageEnd();
-            }
+            yield return new WaitForSeconds(1.0f);
         }
     }
 
-    IEnumerator StartNextStage(float delay)
+    IEnumerator MonitorClearCondition()
     {
-        yield return new WaitForSeconds(delay);
-        UnityEngine.Debug.Log("");
+        EnemyStats stats = null;
+        if (currentEnemy != null) stats = currentEnemy.GetComponent<EnemyStats>();
 
-        if(spawner != null)
+        switch (currentStage)
         {
-            currentEnemy = spawner.SpawnEnemy(currentStage);
-
-            // [추가됨] 3번째 스테이지(Index 2)라면 60초 타이머 가동!
-            if (currentStage == 1)
-            {
-                UnityEngine.Debug.Log("생존 스테이지 시작! 7초 동안 버티세요!");
-                // 기존 타이머가 있다면 정리
-                if (survivalTimerCoroutine != null) StopCoroutine(survivalTimerCoroutine);
-                
-                // 60초 타이머 시작
-                survivalTimerCoroutine = StartCoroutine(SurvivalTimer(7f));
-            }
-
-            if (currentEnemy != null)
-            {
-
-                EnemyStats stats = currentEnemy.GetComponent<EnemyStats>();
+            case 0: // 실드 까기
                 if (stats != null)
                 {
-                    // 생존 스테이지가 아닐 때만 죽음 이벤트 구독 (버티기 스테이지는 죽여서 깨는게 아니므로)
-                    // 만약 펜타도 죽일 수 있다면 이 조건문은 빼셔도 됩니다.
-                    if (currentStage != 1) 
-                    {
-                        stats.OnDead += OnEnemyDead;
-                    }
+                    stats.OnShieldBroken += OnConditionMet;
+                    yield return new WaitUntil(() => isStageClearConditionMet);
+                    stats.OnShieldBroken -= OnConditionMet;
                 }
-            }
+                else isStageClearConditionMet = true;
+                break;
+
+            case 1: // 헥사1 죽이기
+                if (stats != null)
+                {
+                    stats.OnDead += OnConditionMet;
+                    yield return new WaitUntil(() => isStageClearConditionMet);
+                    stats.OnDead -= OnConditionMet;
+                }
+                break;
+
+            case 2: // 버티기
+                float timer = 60f;
+                while (timer > 0)
+                {
+                    timer -= Time.deltaTime;
+                    yield return null;
+                }
+                break;
+
+            case 3: // 헥사2 죽이기
+            case 4: // 펜타 죽이기
+                if (stats != null)
+                {
+                    stats.OnDead += OnConditionMet;
+                    yield return new WaitUntil(() => isStageClearConditionMet);
+                    stats.OnDead -= OnConditionMet;
+                }
+                break;
         }
+    }
+
+    void OnConditionMet() => isStageClearConditionMet = true;
+
+    IEnumerator PlayDialogueAndWait(string dialogID)
+    {
+        bool isFinished = false;
+        if (StoryManager.Instance != null)
+        {
+            StoryManager.Instance.StartScenario(dialogID, () => { isFinished = true; });
+            yield return new WaitUntil(() => isFinished);
+        }
+        else yield return new WaitForSeconds(0.5f);
+    }
+
+    IEnumerator ExitPentaSequence()
+    {
+        if (currentEnemy != null)
+        {
+            var stats = currentEnemy.GetComponent<EnemyStats>();
+            if(stats) stats.SetInvincible(true);
+            
+            // AI 끄기 등 추가 가능
+            Destroy(currentEnemy, 2.0f);
+        }
+        yield return new WaitForSeconds(2.0f);
     }
 }
