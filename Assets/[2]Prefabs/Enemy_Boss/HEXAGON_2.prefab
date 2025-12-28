@@ -258,8 +258,8 @@ MonoBehaviour:
   - itemName: AttackUpItem
     itemPrefab: {fileID: 798958552226082942, guid: 71e9b2f40c9a8b840a4ec64eb624da6b, type: 3}
     dropPercent: 5
-  - itemName: ScoreUpItem
-    itemPrefab: {fileID: 8173543119184262810, guid: bf443292c038cf84e9f44d404f69fe37, type: 3}
+  - itemName: BombUpItem
+    itemPrefab: {fileID: 2278117067738813397, guid: bf443292c038cf84e9f44d404f69fe37, type: 3}
     dropPercent: 10
 --- !u!114 &-1286533605381968270
 MonoBehaviour:
