@@ -17,6 +17,10 @@ public class PlayerSkill : MonoBehaviour
     [SerializeField] private GameObject overwriteBulletPrefab;
     [SerializeField] private GameObject bombEffectPrefab; // 필살기 이펙트 (나중에 연결)
 
+    [Header("Audio")]
+    public AudioClip barrierSound; 
+    private AudioSource audioSource; 
+
 
     public float CurrentBarrierEnergy => currentBarrierEnergy; //Ui에서 땡겨쓸라고 여따 추가했습니다 두사부
     public float MaxBarrierEnergy => maxBarrierEnergy;
@@ -31,6 +35,7 @@ public class PlayerSkill : MonoBehaviour
     {
         shooter = GetComponent<PlayerShooter>();
         stats = GetComponent<PlayerStats>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -106,7 +111,10 @@ public class PlayerSkill : MonoBehaviour
             if (!barrierObject.activeSelf)
             {
                 barrierObject.SetActive(true);
-                AudioEvents.TriggerPlaySFX("PlayerSkillC");
+                if (audioSource != null && barrierSound != null)
+                {
+                    audioSource.PlayOneShot(barrierSound, 0.15f);
+                }
             }
 
             currentBarrierEnergy -= Time.deltaTime; 
