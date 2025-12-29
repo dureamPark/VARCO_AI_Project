@@ -43,6 +43,12 @@ public class StageManager : MonoBehaviour
             // 아직 스테이지를 클리어하지 못한 상황에서 false로 초기화
             isStageClearConditionMet = false;
 
+            if(currentStage >= 5)
+            {
+                UnityEngine.Debug.Log("모든 스테이지 클리어!");
+                yield break; // 코루틴 종료
+            }
+
             // enemy 소환
             // 헥사 hp 깎는 스테이지가 아니라면 if문 안으로
             if (currentStage != 1)
