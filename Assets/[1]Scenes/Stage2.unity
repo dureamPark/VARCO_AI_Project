@@ -735,6 +735,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FadeCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3087343965374533932, guid: 92b82675d500b2347a562bcf8b075c10, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7186692116322675328, guid: 92b82675d500b2347a562bcf8b075c10, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1131,18 +1135,6 @@ PrefabInstance:
     - target: {fileID: 5770381597760479857, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
       propertyPath: m_Name
       value: Canvas_Game
-      objectReference: {fileID: 0}
-    - target: {fileID: 9098113205085424175, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: f75256231b131344995470c8f4706169, type: 2}
-    - target: {fileID: 9098113205085424175, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -3009069477746827242, guid: f75256231b131344995470c8f4706169, type: 2}
-    - target: {fileID: 9098113205085424175, guid: 77ddee651cd874b4b866b5bc28e22001, type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
