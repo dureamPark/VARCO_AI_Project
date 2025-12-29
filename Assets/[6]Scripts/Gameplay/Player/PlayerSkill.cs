@@ -107,7 +107,6 @@ public class PlayerSkill : MonoBehaviour
             {
                 barrierObject.SetActive(true);
                 AudioEvents.TriggerPlaySFX("PlayerSkillC");
-                AudioEvents.TriggerPlaySFX("PlayerSkillCVoice");
             }
 
             currentBarrierEnergy -= Time.deltaTime; 
