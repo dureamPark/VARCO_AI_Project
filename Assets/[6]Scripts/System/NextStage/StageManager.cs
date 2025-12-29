@@ -15,6 +15,12 @@ public class StageManager : MonoBehaviour
 
     [SerializeField]
     private float timer = 20.0f;
+
+    [SerializeField]
+    private float shakeTime = 1.0f;
+    
+    [SerializeField]
+    private float shakeMagnitude = 0.3f;
     
     private GameObject currentEnemy;
 
@@ -44,6 +50,15 @@ public class StageManager : MonoBehaviour
                 if (spawner != null)
                 {
                     currentEnemy = spawner.SpawnEnemy(currentStage);
+                }
+
+                if (currentStage == 0) 
+                {
+                    // 1초 동안, 강도 0.3 정도로 흔들기
+                    if (CameraShake.Instance != null)
+                    {
+                        StartCoroutine(CameraShake.Instance.Shake(shakeTime, shakeMagnitude));
+                    }
                 }
                 yield return new WaitForSeconds(2.0f);
             }

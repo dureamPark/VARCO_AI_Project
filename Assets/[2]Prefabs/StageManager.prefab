@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageManager
   spawner: {fileID: 8023334295506614287}
   currentStage: 0
+  timer: 20
 --- !u!114 &8023334295506614287
 MonoBehaviour:
   m_ObjectHideFlags: 0
