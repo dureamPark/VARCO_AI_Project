@@ -7,7 +7,7 @@ public class TitleUI : MonoBehaviour
     public void StartGame()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Stage2");
     }
 
     public void ExitGame()
