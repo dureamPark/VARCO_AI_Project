@@ -77,10 +77,7 @@ public class PlayerStats : MonoBehaviour
         currentLives--;
         Debug.Log($"남은 목숨: {currentLives}");
         
-        if (attackPower - 1 > 0)
-        {
-            attackPower -= 1;
-        }
+        attackPower = Mathf.Max(1, (int)(attackPower * 0.9f));
 
         if (currentLives > 0)
         {
