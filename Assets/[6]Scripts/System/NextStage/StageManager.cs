@@ -1,7 +1,8 @@
 using System.Collections;
-using UnityEngine.SceneManagement;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
@@ -29,6 +30,22 @@ public class StageManager : MonoBehaviour
     private bool isStageClearConditionMet = false;
 
     [SerializeField] private SceneFader sceneFader;
+
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI stageInfoText;
+
+    // [추가됨] 인스펙터에서 수정 가능한 스테이지별 목표 멘트 목록
+    [Header("Stage Settings")]
+    [TextArea] // 인스펙터에서 여러 줄 입력이 가능하게 함
+    public string[] stageObjectives = new string[]
+    {
+        "육각형의 쉴드를 파괴하라!",          // Stage 1
+        "육각형을 처치하라!",                // Stage 2
+        "오각형의 공격으로부터 버텨라!",      // Stage 3
+        "다시 등장한 육각형을 처치하라!",     // Stage 4
+        "최종보스인 오각형을 처치하라!"       // Stage 5
+    };
+
     private void Awake() { Instance = this; }
 
     private void Start()
@@ -43,6 +60,7 @@ public class StageManager : MonoBehaviour
         while (true)
         {
             // 아직 스테이지를 클리어하지 못한 상황에서 false로 초기화
+            UpdateStageInfoUI(currentStage);
             isStageClearConditionMet = false;
 
             if(currentStage >= 5)
@@ -250,5 +268,22 @@ public class StageManager : MonoBehaviour
 
         // 스토리 대화 등을 위한 대기
         yield return new WaitForSeconds(2.0f); 
+    }
+
+    private void UpdateStageInfoUI(int stageIndex)
+    {
+        if (stageInfoText == null) return;
+
+        
+        string objective = "";
+        if (stageIndex >= 0 && stageIndex < stageObjectives.Length)
+        {
+            objective = stageObjectives[stageIndex];
+        }
+        else
+        {
+            objective = "목표를 확인하세요.";
+        }
+        stageInfoText.text = $"Stage {stageIndex + 1}\n\n{objective}";
     }
 }
