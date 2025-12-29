@@ -20,7 +20,10 @@ public class StoryManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        if (storyPanel != null) storyPanel.gameObject.SetActive(false);
+        if (storyPanel != null)
+        {
+            storyPanel.gameObject.SetActive(false);
+        }
     }
 
     public void StartScenario(string groupID, Action onFinished = null)
@@ -35,13 +38,19 @@ public class StoryManager : MonoBehaviour
             return;
         }
 
-        if (storyPanel != null) storyPanel.gameObject.SetActive(true);
+        if (storyPanel != null)
+        {
+            storyPanel.gameObject.SetActive(true);
+        }
 
         isDialogueActive = true;
         onDialogueFinished = onFinished;
         
         dialogQueue.Clear();
-        foreach (var data in dataList) dialogQueue.Enqueue(data);
+        foreach (var data in dataList)
+        {
+            dialogQueue.Enqueue(data);
+        }
 
         ShowNextLine();
     }
@@ -64,12 +73,11 @@ public class StoryManager : MonoBehaviour
             StartCoroutine(TypeWriterEffect(currentData.content));
         }
 
-        // ★ [수정됨] 오디오 재생 (audioName 사용)
+        // 오디오 재생 
         if (audioSource != null && !string.IsNullOrEmpty(currentData.audioName))
         {
             audioSource.Stop();
-            
-            // "Resources/Voice/Text_1_1" 파일을 찾음s
+
             AudioClip clip = Resources.Load<AudioClip>($"Voice/{currentData.audioName}");
             
             if (clip != null) 
@@ -78,8 +86,7 @@ public class StoryManager : MonoBehaviour
             }
             else
             {
-                // 파일이 없을 경우 로그 (디버깅용)
-                Debug.LogWarning($"오디오 파일 없음: Assets/[3]Resources/Voice/{currentData.audioName}");
+                Debug.LogWarning($"오디오 파일 없음: Assets/Resources/Voice/{currentData.audioName}");
             }
         }
     }
@@ -100,26 +107,27 @@ public class StoryManager : MonoBehaviour
     void EndScenario()
     {
         isDialogueActive = false;
-        if (storyPanel != null) storyPanel.gameObject.SetActive(false);
+
+        if (storyPanel != null)
+        {
+            storyPanel.gameObject.SetActive(false);
+        }
+
         onDialogueFinished?.Invoke();
     }
 
     private void Update()
     {
-        // 1. 대화 중이 아니라면 입력 무시
-        if (!isDialogueActive) return;
-
-        // 2. 스페이스바(Space) 입력 체크
-        // (키보드가 연결되어 있고, 스페이스바를 이번 프레임에 눌렀는지 확인)
+        // 대화 중이 아니라면 입력 무시
+        if (!isDialogueActive)
+        {
+            return;
+        }
+        
+        // 스페이스바 입력
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             ShowNextLine(); // 다음 대사로 넘기기
-        }
-        
-        // 3. (옵션) 마우스 왼쪽 클릭으로도 넘기기 싶다면 추가
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            ShowNextLine();
         }
     }
 }
