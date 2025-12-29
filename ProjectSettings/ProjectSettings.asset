@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: GNTN
-  productName: Decode's Fatal End
+  productName: 'Decode: Fatal End'
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -298,7 +298,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: efd1bf4a97b6ae5439d23f4ac054fdbc, type: 3}
+      m_Icon: {fileID: 2800000, guid: 79583f9662fc43d4487aec698db9faab, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
