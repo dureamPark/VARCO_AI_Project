@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,6 +46,7 @@ public class StageManager : MonoBehaviour
 
             if(currentStage >= 5)
             {
+                SceneManager.LoadScene("StaffRoll");
                 UnityEngine.Debug.Log("모든 스테이지 클리어!");
                 yield break; // 코루틴 종료
             }
