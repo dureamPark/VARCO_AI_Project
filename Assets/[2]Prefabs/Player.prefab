@@ -257,7 +257,8 @@ MonoBehaviour:
   currentBarrierEnergy: 0
   overwriteBulletPrefab: {fileID: 3465996132055146368, guid: 0c2bad8b251c0354bacd63b02bc0a3c1, type: 3}
   bombEffectPrefab: {fileID: 0}
-  barrierSound: {fileID: 8300000, guid: b757b32142f139d4caf53129c1072202, type: 3}
+  barrierSound: {fileID: 8300000, guid: 4e1d5e8302587a74db643ddf89107ccf, type: 3}
+  BombSound: {fileID: 8300000, guid: b757b32142f139d4caf53129c1072202, type: 3}
 --- !u!82 &8043589904783591614
 AudioSource:
   m_ObjectHideFlags: 0

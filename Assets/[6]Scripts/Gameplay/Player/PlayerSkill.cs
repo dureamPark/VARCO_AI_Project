@@ -18,7 +18,8 @@ public class PlayerSkill : MonoBehaviour
     [SerializeField] private GameObject bombEffectPrefab; // 필살기 이펙트 (나중에 연결)
 
     [Header("Audio")]
-    public AudioClip barrierSound; 
+    public AudioClip barrierSound;
+    public AudioClip BombSound;
     private AudioSource audioSource; 
 
 
@@ -80,8 +81,11 @@ public class PlayerSkill : MonoBehaviour
         if (isOverWriteDown)
         {
             TryUseBomb();
-            AudioEvents.TriggerPlaySFX("PlayerSkillCtrl");
             AudioEvents.TriggerPlaySFX("PlayerSkillCVoice");
+            if (audioSource != null && BombSound != null)
+            {
+                audioSource.PlayOneShot(BombSound, 0.2f);
+            }
         }
     }
 
@@ -113,7 +117,7 @@ public class PlayerSkill : MonoBehaviour
                 barrierObject.SetActive(true);
                 if (audioSource != null && barrierSound != null)
                 {
-                    audioSource.PlayOneShot(barrierSound, 0.15f);
+                    audioSource.PlayOneShot(barrierSound, 0.35f);
                 }
             }
 
