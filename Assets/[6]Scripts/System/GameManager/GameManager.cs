@@ -11,15 +11,12 @@ public class GameManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField]
     private GameTimeManager timeManager;
-    [SerializeField]
-    private Score score;
 
     // 상태 변수
     private bool isPaused = false;      // 현재 일시정지 상태인가?
     private bool isGameActive = false;  // 게임이 플레이 중인가?
 
     public GameTimeManager TimeManager => timeManager;
-    public Score scoreManager => score;
 
     private void Awake()
     {
