@@ -28,6 +28,7 @@ public class StageManager : MonoBehaviour
     // 스테이지 클리어 조건 충족 플래그
     private bool isStageClearConditionMet = false;
 
+    [SerializeField] private SceneFader sceneFader;
     private void Awake() { Instance = this; }
 
     private void Start()
@@ -46,7 +47,10 @@ public class StageManager : MonoBehaviour
 
             if(currentStage >= 5)
             {
-                SceneManager.LoadScene("StaffRoll");
+                if (sceneFader != null)
+                    sceneFader.FadeOutAndLoadScene("StaffRoll");
+                else
+                    SceneManager.LoadScene("StaffRoll");
                 UnityEngine.Debug.Log("모든 스테이지 클리어!");
                 yield break; // 코루틴 종료
             }
