@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyFSM
   currentState: 0
+  MoveRate: 0.2
   idleTime: 1
   moveTime: 2
 --- !u!114 &4472978668552403877
@@ -224,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   moveSpeed: 7
   paddingX: 7
+  paddingRightX: 4.3
   paddingY: 0.8
   paddingUpperY: 7
 --- !u!114 &1272583656505204447
@@ -260,7 +262,7 @@ MonoBehaviour:
     dropPercent: 5
   - itemName: BombUpItem
     itemPrefab: {fileID: 2278117067738813397, guid: bf443292c038cf84e9f44d404f69fe37, type: 3}
-    dropPercent: 10
+    dropPercent: 2
 --- !u!114 &-1286533605381968270
 MonoBehaviour:
   m_ObjectHideFlags: 0
