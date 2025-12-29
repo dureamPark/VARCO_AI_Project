@@ -65,7 +65,7 @@ public class PlayerSkill : MonoBehaviour
     // PlayerController에서 호출하는 함수
     public void HandleSkills(bool isFlowStyleDown, bool isBarrierPressed, bool isOverWriteDown)
     {
-        // 유도탄 모드 (X키) - 토글
+        // 유도탄 모드 - 토글
         if (isFlowStyleDown)
         {
             TryToggleHoming();
@@ -73,15 +73,15 @@ public class PlayerSkill : MonoBehaviour
             AudioEvents.TriggerPlaySFX("PlayerSkillXVoice");
         }
 
-        // 차원 방벽 (C키) - 키다운
+        // 차원 방벽 - 키다운
         HandleBarrier(isBarrierPressed);
 
-        // 필살기 (Ctrl키) - 즉발
+        // 필살기 - 즉발
         if (isOverWriteDown)
         {
             TryUseBomb();
             AudioEvents.TriggerPlaySFX("PlayerSkillCtrl");
-            AudioEvents.TriggerPlaySFX("PlayerSkillCtrlVoice");
+            AudioEvents.TriggerPlaySFX("PlayerSkillCVoice");
         }
     }
 
