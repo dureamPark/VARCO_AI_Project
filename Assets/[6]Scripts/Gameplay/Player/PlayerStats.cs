@@ -112,6 +112,11 @@ public class PlayerStats : MonoBehaviour
             Debug.LogError("GameManager가 씬에 없습니다!");
         }
         Debug.Log("�÷��̾� ���...");
+
+        if (PlayerStatsUI.Instance != null)
+        {
+            PlayerStatsUI.Instance.ShowGameOverPanel();
+        }
     }
 
     // continue 누를 시 호출할 부활 함수
@@ -126,7 +131,9 @@ public class PlayerStats : MonoBehaviour
         isInvincible = false;
         if (spriteRenderer != null) spriteRenderer.color = originalColor;
 
-        // 체력 3으로 UI 업뎃 해주시면 됩니다
+        OnStatsChanged?.Invoke();
+
+        StartCoroutine(HitFlashRoutine()); // 부활 시 무적 효과
 
         Debug.Log($"플레이어 부활! HP: {currentLives}");
     }

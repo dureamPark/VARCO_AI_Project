@@ -12,6 +12,8 @@ public class PlayerStatsUI : MonoBehaviour
     private PlayerStats playerStats; //다른데서 가져다 쓸일 없으니 private으로 수정완료(두사부 피드백)
     private PlayerSkill playerSkill;
 
+    private Vector3 initialPlayerPos;
+
     [Header("Life UI (Hearts)")]  // 체력
     public Image[] lifeIcons;
 
@@ -28,6 +30,10 @@ public class PlayerStatsUI : MonoBehaviour
     public Image weaponModeIconImage;   
     public Sprite normalModeSprite;     //토글
     public Sprite homingModeSprite;     //유도탄
+
+
+    [Header("Game Over UI")] // [추가됨] 인스펙터에서 패널을 연결해야 합니다.
+    public GameObject gameOverPanel;
 
     private void Awake()
     {
@@ -79,6 +85,7 @@ public class PlayerStatsUI : MonoBehaviour
 
         if (playerStats != null)
         {
+            initialPlayerPos = playerStats.transform.position; //부활할 위치 기억하기
             playerStats.OnStatsChanged += UpdateUI;
             UpdateUI();
             playerSkill = player.GetComponent<PlayerSkill>();
@@ -134,5 +141,35 @@ public class PlayerStatsUI : MonoBehaviour
             attackText.text = $"POWER: {playerStats.AttackPower}";
         }
     }
-    
+    public void ShowGameOverPanel()
+    {
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+            Time.timeScale = 0f; // 게임 일시정지
+        }
+    }
+
+    public void OnRetryBtnClicked()
+    {
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+
+        if (playerStats != null)
+        {
+            // 기억해둔 위치로 지정
+            playerStats.transform.position = initialPlayerPos;
+
+            // PlayerStats의 부활 로직 실행
+            playerStats.Revive();
+        }
+        Time.timeScale = 1f; //게임 재개
+
+        //이미 생성되있던 적 공격 제거할수있는 메서드 있으면 호출하는게 좋음.
+
+        Debug.Log("게임 재시작!");
+    }
 }
+
