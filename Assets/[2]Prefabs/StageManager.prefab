@@ -48,6 +48,17 @@ MonoBehaviour:
   spawner: {fileID: 8023334295506614287}
   currentStage: 0
   timer: 20
+  shakeTime: 1
+  shakeMagnitude: 0.3
+  sceneFader: {fileID: 0}
+  stageInfoText: {fileID: 0}
+  stageObjectives:
+  - "\uC721\uAC01\uD615\uC758 \uC274\uB4DC\uB97C \uD30C\uAD34\uD558\uB77C!"
+  - "\uC721\uAC01\uD615\uC744 \uCC98\uCE58\uD558\uB77C!"
+  - "\uC624\uAC01\uD615\uC758 \uACF5\uACA9\uC73C\uB85C\uBD80\uD130 \uBC84\uD168\uB77C!"
+  - "\uB2E4\uC2DC \uB4F1\uC7A5\uD55C \uC721\uAC01\uD615\uC744 \uCC98\uCE58\uD558\uB77C!"
+  - "\uCD5C\uC885\uBCF4\uC2A4\uC778 \uC624\uAC01\uD615\uC744 \uCC98\uCE58\uD558\uB77C!"
+  - "\uC564\uB529"
 --- !u!114 &8023334295506614287
 MonoBehaviour:
   m_ObjectHideFlags: 0

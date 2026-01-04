@@ -216,7 +216,7 @@ MonoBehaviour:
     dropPercent: 5
   - itemName: BombUpItem
     itemPrefab: {fileID: 2278117067738813397, guid: bf443292c038cf84e9f44d404f69fe37, type: 3}
-    dropPercent: 10
+    dropPercent: 2
 --- !u!114 &4116734961127022531
 MonoBehaviour:
   m_ObjectHideFlags: 0

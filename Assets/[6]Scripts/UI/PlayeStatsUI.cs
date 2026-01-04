@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class PlayerStatsUI : MonoBehaviour
@@ -32,9 +33,13 @@ public class PlayerStatsUI : MonoBehaviour
     public Sprite homingModeSprite;     //유도탄
 
 
+
     [Header("Game Over UI")] // [추가됨] 인스펙터에서 패널을 연결해야 합니다.
     public GameObject gameOverPanel;
+    public GameObject retryBtn;
+    public GameObject gotoTitleBtn;
 
+    private bool hasUsedRevive = false;
     private void Awake()
     {
         //게임 시작 시 전광판(Instance) 켜기
@@ -143,6 +148,14 @@ public class PlayerStatsUI : MonoBehaviour
     }
     public void ShowGameOverPanel()
     {
+        if (hasUsedRevive)
+        {
+            gameOverPanel.SetActive(true);
+            Time.timeScale = 0f; // 게임 일시정지
+            retryBtn.SetActive(false);
+            gotoTitleBtn.SetActive(true);
+            return;
+        }
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
@@ -152,6 +165,7 @@ public class PlayerStatsUI : MonoBehaviour
 
     public void OnRetryBtnClicked()
     {
+        
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(false);
@@ -166,10 +180,17 @@ public class PlayerStatsUI : MonoBehaviour
             playerStats.Revive();
         }
         Time.timeScale = 1f; //게임 재개
+        hasUsedRevive = true;
 
         //이미 생성되있던 적 공격 제거할수있는 메서드 있으면 호출하는게 좋음.
 
         Debug.Log("게임 재시작!");
+    }
+    public void OnGotoTitleBtnClicked()
+    {
+        Time.timeScale = 1f; // 게임 재개
+        SceneManager.LoadScene("Title");
+        Debug.Log("타이틀 화면으로 이동!");
     }
 }
 

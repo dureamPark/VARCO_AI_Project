@@ -1,4 +1,4 @@
-,,,,,,,,,,,,,,,
+ ,,,,,,,,,,,,,,,
 ,다이얼로그 챕터 그룹 테이블,,,,,다이얼로그 테이블,,,,,,,텍스트 테이블,,
 ,다이얼로그 챕터 그룹 ID,카테고리,,,,다이얼로그 ID,다이얼로그 챕터 그룹,재생 순번,말하는 사람,대사 스트링,형식,,대사 스트링,내용,형식
 ,Dialog_Start_1,Story_1,,,,Dialog_Start_1_01,Dialog_Start_1,1,동그라미,Text_1_1,Wav,,Text_1_1,갑자기 무슨 일이야? 마을이 흔들리고 있어!,Wav
@@ -14,7 +14,7 @@
 ,,,,,,Dialog_End_1_02,Dialog_End_1,2,오르비스,Text_1_22,Wav,,Text_1_22,해답. 단순한 증오심 때문입니다. 한마디로 여기가 꼴보기 싫어서.,Wav
 ,,,,,,Dialog_End_1_03,Dialog_End_1,3,세모,Text_1_23,Wav,,Text_1_23,대체 왜...?,Wav
 ,,,,,,,,,,,,,,,
-,,,,,,Dialog_Start_2_01,Dialog_Start_2,1,육각형,Text_2_1,Wav,,Text_2_1,"난 이 세계가 너무 싫어. 왜 다 동그라미, 세모, 네모로 이루어져 있는거야. 우리도 존중해달란 말이다",Wav
+,,,,,,Dialog_Start_2_01,Dialog_Start_2,1,육각형,Text_2_1,Wav,,Text_2_1,"난 이 세계가 너무 싫어. 왜 다 동그라미 세모 네모로 이루어져 있는거야. 우리도 존중해달란 말이다",Wav
 ,,,,,,Dialog_Start_2_02,Dialog_Start_2,2,세모,Text_2_2,Wav,,Text_2_2,그게 지금 우리 동네를 부서도 된다는 소리야?,Wav
 ,,,,,,Dialog_Start_2_03,Dialog_Start_2,3,육각형,Text_2_3,Wav,,Text_2_3,너넨... 좀.. 맞아야..한다고..생각해..,Wav
 ,,,,,,Dialog_Start_2_04,Dialog_Start_2,4,세모,Text_2_4,Wav,,Text_2_4,이런 젠장!,Wav
@@ -27,7 +27,7 @@
 ,,,,,,Dialog_Start_3_01,Dialog_Start_3,1,오각형,Text_3_1,Wav,,Text_3_1,.....,Wav
 ,,,,,,Dialog_Start_3_02,Dialog_Start_3,2,세모,Text_3_2,Wav,,Text_3_2,넌 또 뭐야? 대체 우리한테 뭐가 불만인데?,Wav
 ,,,,,,Dialog_Start_3_03,Dialog_Start_3,3,오각형,Text_3_3,Wav,,Text_3_3,너희에게는 불만이 없어. 하지만 이 세계에는 불만이 참 많아,Wav
-,,,,,,Dialog_Start_3_04,Dialog_Start_3,4,오각형,Text_3_4,Wav,,Text_3_4,"왜 세상은 동그라미, 세모, 네모는 잘 쓰면서 다른 다각형들은 안쓰는 거지?",Wav
+,,,,,,Dialog_Start_3_04,Dialog_Start_3,4,오각형,Text_3_4,Wav,,Text_3_4,"왜 세상은 동그라미 세모 네모는 잘 쓰면서 다른 다각형들은 안쓰는 거지?",Wav
 ,,,,,,Dialog_Start_3_05,Dialog_Start_3,5,세모,Text_3_5,Wav,,Text_3_5,그건 다 써보고 못 써먹겠으니ㄲ...,Wav
 ,,,,,,Dialog_Start_3_06,Dialog_Start_3,6,오각형,Text_3_6,Wav,,Text_3_6,"닥쳐! ""노력""이 부족한걸 그딴 허접한 말로 버무리지마",Wav
 ,,,,,,Dialog_Start_3_07,Dialog_Start_3,7,세모,Text_3_7,Wav,,Text_3_7,말이 안통할 것 같다...,Wav

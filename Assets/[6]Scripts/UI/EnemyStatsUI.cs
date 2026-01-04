@@ -11,7 +11,7 @@ public class EnemyStatsUI : MonoBehaviour
 
     [Header("Color Settings")] // [추가] 색상 설정
     public Color healthColor = Color.red;   // 체력일 때 (빨강)
-    public Color shieldColor = Color.cyan;  // 실드일 때 (하늘색)
+    public Color shieldColor = Color.cyan;  // 실드일 때 (하늘색) Cyan
 
     private EnemyStats currentBoss;
     private bool isShieldMode = false; 
